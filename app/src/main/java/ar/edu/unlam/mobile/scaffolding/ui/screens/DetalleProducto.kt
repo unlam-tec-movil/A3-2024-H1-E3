@@ -77,7 +77,7 @@ fun DetalleProducto(){
                 )
             }
 
-        }//CIERRA CARD PATA ATRAS
+        }//CIERRA CARD PARA ATRAS
 
 
         Column(modifier = Modifier) {
