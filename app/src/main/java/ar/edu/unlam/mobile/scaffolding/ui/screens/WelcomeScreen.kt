@@ -1,6 +1,7 @@
 package ar.edu.unlam.mobile.scaffolding.ui.screens
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -38,6 +39,8 @@ fun WelcomeScreen() {
             business = it.last()
         }
     }
+
+    // TODO: Navegar a Home con los datos
 }
 
 @Composable
@@ -69,19 +72,19 @@ private fun WelcomeAnimated() {
 
 @Composable
 private fun InputAnimated(callback: (List<String>) -> Unit) {
-    var nameIsVisible by remember { mutableStateOf(false) }
-    var businessIsVisible by remember { mutableStateOf(false) }
+    var currentPage by remember { mutableStateOf("A") }
+    var visible by remember { mutableStateOf(false) }
 
     var name by remember { mutableStateOf(TextFieldValue("")) }
     var business by remember { mutableStateOf(TextFieldValue("")) }
 
-    LaunchedEffect(nameIsVisible) {
+    LaunchedEffect(visible) {
         delay(4000)
-        nameIsVisible = !businessIsVisible
+        visible = true
     }
 
     AnimatedVisibility(
-        visible = nameIsVisible,
+        visible = visible,
         enter =
             fadeIn(
                 // Overwrites the initial value of alpha to 0.4f for fade in, 0 by default
@@ -94,62 +97,52 @@ private fun InputAnimated(callback: (List<String>) -> Unit) {
                 animationSpec = tween(durationMillis = 1500),
             ),
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Text(text = "Ingrese su nombre")
-            TextField(
-                value = name,
-                onValueChange = {
-                    name = it
-                },
-            )
-            Button(onClick = {
-                nameIsVisible = false
-                businessIsVisible = true
-            }) {
-                Text(text = "Continuar")
-            }
-        }
-    }
-
-    AnimatedVisibility(
-        visible = businessIsVisible,
-        enter =
-            fadeIn(
-                // Overwrites the initial value of alpha to 0.4f for fade in, 0 by default
-                initialAlpha = 0.4f,
-                animationSpec = tween(durationMillis = 2000),
-            ),
-        exit =
-            fadeOut(
-                // Overwrites the default animation with tween
-                animationSpec = tween(durationMillis = 1500),
-            ),
-    ) {
-        val texto =
-            "Hola ${name.text}!\n" +
-                "Por favor, ingrese el nombre de su negocio"
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Text(text = texto)
-            TextField(
-                value = business,
-                onValueChange = {
-                    business = it
-                },
-            )
-            Button(onClick = {
-                businessIsVisible = false
-                val dataValues: List<String> = listOf(name.text, business.text)
-                callback(dataValues)
-            }) {
-                Text(text = "Continuar")
+        Crossfade(targetState = currentPage, label = "") { screen ->
+            when (screen) {
+                "A" -> {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        Text(text = "Ingrese su nombre")
+                        TextField(
+                            value = name,
+                            onValueChange = {
+                                name = it
+                            },
+                        )
+                        Button(onClick = {
+                            currentPage = "B"
+                        }) {
+                            Text(text = "Continuar")
+                        }
+                    }
+                }
+                "B" -> {
+                    val texto =
+                        "Hola ${name.text}!\n" +
+                            "Por favor, ingrese el nombre de su negocio"
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        Text(text = texto)
+                        TextField(
+                            value = business,
+                            onValueChange = {
+                                business = it
+                            },
+                        )
+                        Button(onClick = {
+                            val dataValues: List<String> = listOf(name.text, business.text)
+                            callback(dataValues)
+                        }) {
+                            Text(text = "Continuar")
+                        }
+                    }
+                }
             }
         }
     }
