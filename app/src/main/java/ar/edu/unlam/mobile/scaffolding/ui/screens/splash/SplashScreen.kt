@@ -19,17 +19,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ar.edu.unlam.mobile.scaffolding.R
 import kotlinx.coroutines.delay
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun SplashScreen() {
+fun SplashScreen(
+    onNavigateToWelcomeScreen: () -> Unit,
+    onNavigateToHomeScreen: () -> Unit,
+) {
     LaunchedEffect(key1 = true) {
-        delay(5000)
-        // TODO: navegar a siguiente pantalla
+        delay(1000)
+        onNavigateToWelcomeScreen()
     }
 
     Scaffold {
@@ -61,10 +63,4 @@ fun BodycontentSplash() {
             )
         }
     }
-}
-
-@Preview(showSystemUi = true)
-@Composable
-private fun previewSplash() {
-    SplashScreen()
 }
