@@ -18,11 +18,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import ar.edu.unlam.mobile.scaffolding.ui.screens.HomeScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.splash.SplashScreen
+import ar.edu.unlam.mobile.scaffolding.ui.screens.welcome.WelcomeScreen
 import ar.edu.unlam.mobile.scaffolding.ui.theme.ScaffoldingV2Theme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,10 +39,34 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,
                 ) {
-                    SplashScreen()
+                    val startDestination = "splash-screen"
+                    MyAppNavHost(startDestination = startDestination)
                 }
             }
         }
+    }
+}
+
+@Composable
+fun MyAppNavHost(
+    navController: NavHostController = rememberNavController(),
+    startDestination: String,
+) {
+    NavHost(navController = navController, startDestination = startDestination) {
+        composable("splash-screen") { SplashScreen(
+            onNavigateToWelcomeScreen = {
+                navController.navigate("welcome-screen")
+            },
+            onNavigateToHomeScreen = {
+                navController.navigate("main-screen")
+            }
+        ) }
+        composable("welcome-screen") { WelcomeScreen(
+            onNavigateToHomeScreen = {
+                navController.navigate("main-screen")
+            }
+        ) }
+        composable("main-screen") { MainScreen() }
     }
 }
 
@@ -74,3 +100,5 @@ fun MainScreen() {
         }
     }
 }
+
+
