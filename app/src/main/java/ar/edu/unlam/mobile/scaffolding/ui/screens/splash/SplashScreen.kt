@@ -1,4 +1,4 @@
-package ar.edu.unlam.mobile.scaffolding.ui.screens
+package ar.edu.unlam.mobile.scaffolding.ui.screens.splash
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
