@@ -54,6 +54,9 @@ android {
 }
 
 dependencies {
+    // Room
+    implementation(libs.androidx.room.runtime)
+    annotationProcessor(libs.androidx.room.compiler)
 
     // Base
     implementation(libs.androidx.core.ktx)
