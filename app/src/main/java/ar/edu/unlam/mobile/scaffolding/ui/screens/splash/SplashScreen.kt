@@ -1,6 +1,7 @@
 package ar.edu.unlam.mobile.scaffolding.ui.screens.splash
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.scaleIn
@@ -37,13 +38,17 @@ fun SplashScreen(
 ) {
     val coroutineScope = rememberCoroutineScope()
 
-    LaunchedEffect(key1 = true) {
-        delay(1000)
-        var cantidadUsuarios = 0
+    var cantidadUsuarios = 0
+    LaunchedEffect(cantidadUsuarios) {
         coroutineScope.launch {
             cantidadUsuarios = viewModel.getCantidadUsuarios()
         }
-        if (cantidadUsuarios != 0) {
+    }
+
+    LaunchedEffect(key1 = true) {
+        delay(1000)
+        Log.i("Cantidad usuarios", "$cantidadUsuarios")
+        if (cantidadUsuarios == 0) {
             onNavigateToWelcomeScreen()
         } else {
             onNavigateToHomeScreen()
