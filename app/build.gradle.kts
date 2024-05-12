@@ -54,9 +54,15 @@ android {
 }
 
 dependencies {
+    // Viewmodel
+
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
     // Room
-    implementation(libs.androidx.room.runtime)
-    annotationProcessor(libs.androidx.room.compiler)
+    val room_version = "2.6.1"
+    implementation("androidx.room:room-runtime:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
 
     // Base
     implementation(libs.androidx.core.ktx)

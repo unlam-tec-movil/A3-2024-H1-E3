@@ -15,23 +15,39 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import ar.edu.unlam.mobile.scaffolding.R
+import ar.edu.unlam.mobile.scaffolding.ui.components.usuario.viewmodel.UsuarioViewModel
+import ar.edu.unlam.mobile.scaffolding.ui.components.usuario.viewmodel.UsuarioViewModelProvider
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun SplashScreen(
     onNavigateToWelcomeScreen: () -> Unit,
     onNavigateToHomeScreen: () -> Unit,
+    viewModel: UsuarioViewModel = viewModel(factory = UsuarioViewModelProvider.Factory),
 ) {
+    val coroutineScope = rememberCoroutineScope()
+
     LaunchedEffect(key1 = true) {
         delay(1000)
-        onNavigateToWelcomeScreen()
+        var cantidadUsuarios = 0
+        coroutineScope.launch {
+            cantidadUsuarios = viewModel.getCantidadUsuarios()
+        }
+        if (cantidadUsuarios != 0) {
+            onNavigateToWelcomeScreen()
+        } else {
+            onNavigateToHomeScreen()
+        }
     }
 
     Scaffold {
