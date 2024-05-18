@@ -19,7 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import ar.edu.unlam.mobile.scaffolding.ui.components.BottomBar
 import ar.edu.unlam.mobile.scaffolding.ui.screens.HomeScreen
-import ar.edu.unlam.mobile.scaffolding.ui.screens.WelcomeScreen
+import ar.edu.unlam.mobile.scaffolding.ui.screens.welcome.WelcomeScreen
 import ar.edu.unlam.mobile.scaffolding.ui.theme.ScaffoldingV2Theme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Home(){
+fun Home()  {
     WelcomeScreen()
 }
 
