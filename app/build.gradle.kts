@@ -54,6 +54,19 @@ android {
 }
 
 dependencies {
+    // Camera X
+    implementation("com.google.accompanist:accompanist-permissions:0.28.0")
+
+    val camerax_version = "1.3.0-rc01"
+    implementation("androidx.camera:camera-camera2:$camerax_version")
+    implementation("androidx.camera:camera-lifecycle:$camerax_version")
+    implementation("androidx.camera:camera-view:$camerax_version")
+
+    // Map
+    implementation("com.google.maps.android:maps-compose:2.11.4")
+    implementation("com.google.android.gms:play-services-maps:18.1.0")
+    // Location
+    implementation("com.google.android.gms:play-services-location:18.0.0")
 
     // Base
     implementation(libs.androidx.core.ktx)
