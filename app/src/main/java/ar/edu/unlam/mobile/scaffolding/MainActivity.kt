@@ -22,6 +22,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import ar.edu.unlam.mobile.scaffolding.ui.screens.CrearProducto.CrearProducto
 import ar.edu.unlam.mobile.scaffolding.ui.screens.HomeScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.splash.SplashScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.welcome.WelcomeScreen
@@ -53,19 +54,23 @@ fun MyAppNavHost(
     startDestination: String,
 ) {
     NavHost(navController = navController, startDestination = startDestination) {
-        composable("splash-screen") { SplashScreen(
-            onNavigateToWelcomeScreen = {
-                navController.navigate("welcome-screen")
-            },
-            onNavigateToHomeScreen = {
-                navController.navigate("main-screen")
-            }
-        ) }
-        composable("welcome-screen") { WelcomeScreen(
-            onNavigateToHomeScreen = {
-                navController.navigate("main-screen")
-            }
-        ) }
+        composable("splash-screen") {
+            SplashScreen(
+                onNavigateToWelcomeScreen = {
+                    navController.navigate("welcome-screen")
+                },
+                onNavigateToHomeScreen = {
+                    navController.navigate("main-screen")
+                },
+            )
+        }
+        composable("welcome-screen") {
+            WelcomeScreen(
+                onNavigateToHomeScreen = {
+                    navController.navigate("main-screen")
+                },
+            )
+        }
         composable("main-screen") { MainScreen() }
     }
 }
@@ -79,12 +84,12 @@ fun MainScreen() {
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { controller.navigate("home") },
+                onClick = { controller.navigate("add") },
                 modifier = Modifier.size(64.dp),
                 shape = RoundedCornerShape(percent = 50),
                 Color.DarkGray,
             ) {
-                Icon(Icons.Filled.Add, contentDescription = "Home")
+                Icon(Icons.Filled.Add, contentDescription = "add")
             }
         },
     ) { paddingValue ->
@@ -97,8 +102,10 @@ fun MainScreen() {
                 // Home es el componente en sí que es el destino de navegación.
                 HomeScreen(modifier = Modifier.padding(paddingValue))
             }
+            composable("add") {
+                // Home es el componente en sí que es el destino de navegación.
+                CrearProducto(controller)
+            }
         }
     }
 }
-
-
