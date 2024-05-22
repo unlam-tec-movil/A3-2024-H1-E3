@@ -23,6 +23,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
@@ -34,6 +38,12 @@ import androidx.navigation.NavHostController
 
 @Composable
 fun CrearProducto(controller: NavHostController) {
+    var nombre by remember { mutableStateOf("") }
+    var precio by remember { mutableStateOf("") }
+    var stock by remember { mutableStateOf("") }
+    var categoria by remember { mutableStateOf("") }
+    var nombreProvedor by remember { mutableStateOf("") }
+    var qr by remember { mutableStateOf("") }
     Column(
         modifier = Modifier
             // .background(color = Color.White)
@@ -99,8 +109,8 @@ fun CrearProducto(controller: NavHostController) {
                     .padding(10.dp)
                     .fillMaxWidth(),
                 // .background(Color.White),
-                value = "",
-                onValueChange = {},
+                value = nombre,
+                onValueChange = {nombre = it},
             )
             Spacer(modifier = Modifier.height(15.dp))
             Text(
