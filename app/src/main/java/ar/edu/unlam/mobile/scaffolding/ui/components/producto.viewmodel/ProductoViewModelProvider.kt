@@ -12,7 +12,7 @@ object UsuarioViewModelProvider {
             // Other Initializers
             // Initializer for ItemEntryViewModel
             initializer {
-                UsuarioViewModel(productoApplication().container.usuarioRepository)
+                UsuarioViewModel(productoApplication().container.productoRepository)
             }
             // ...
         }
