@@ -167,7 +167,7 @@ fun CrearProducto(controller: NavHostController) {
                             .fillMaxWidth(),
                         // .background(Color.White),
                         value = categoria,
-                        onValueChange = {categoria = it},
+                        onValueChange = { categoria = it },
                         placeholder = { Text(text = "Categoria") },
                     )
 
@@ -178,7 +178,7 @@ fun CrearProducto(controller: NavHostController) {
                             .fillMaxWidth(),
                         // .background(Color.White),
                         value = nombreProvedor,
-                        onValueChange = {nombreProvedor = it},
+                        onValueChange = { nombreProvedor = it },
                         placeholder = { Text(text = "Nombre del Proovedor") },
                     )
                     Spacer(modifier = Modifier.height(15.dp))
@@ -199,7 +199,7 @@ fun CrearProducto(controller: NavHostController) {
                         .fillMaxWidth(),
                     //  .background(Color.White),
                     value = qr,
-                    onValueChange = {qr = it},
+                    onValueChange = { qr = it },
                     placeholder = { Text(text = "Generar GR") },
                 )
                 Icon(
