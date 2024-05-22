@@ -12,11 +12,11 @@ object UsuarioViewModelProvider {
             // Other Initializers
             // Initializer for ItemEntryViewModel
             initializer {
-                UsuarioViewModel(usuarioApplication().container.usuarioRepository)
+                UsuarioViewModel(productoApplication().container.usuarioRepository)
             }
             // ...
         }
 }
 
-fun CreationExtras.usuarioApplication(): ScaffoldingApplication =
+fun CreationExtras.productoApplication(): ScaffoldingApplication =
     (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as ScaffoldingApplication)
