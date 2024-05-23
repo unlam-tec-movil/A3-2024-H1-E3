@@ -6,13 +6,13 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import ar.edu.unlam.mobile.scaffolding.ScaffoldingApplication
 
-object UsuarioViewModelProvider {
+object ProductoViewModelProvider {
     val Factory =
         viewModelFactory {
             // Other Initializers
             // Initializer for ItemEntryViewModel
             initializer {
-                UsuarioViewModel(productoApplication().container.productoRepository)
+                ProductoViewModel(productoApplication().container.productoRepository)
             }
             // ...
         }
