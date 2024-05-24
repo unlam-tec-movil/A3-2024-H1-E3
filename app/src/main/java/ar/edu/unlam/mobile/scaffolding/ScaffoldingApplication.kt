@@ -1,8 +1,8 @@
 package ar.edu.unlam.mobile.scaffolding
 
 import android.app.Application
-import ar.edu.unlam.mobile.scaffolding.data.local.usuario.ProductoContainer
-import ar.edu.unlam.mobile.scaffolding.data.local.usuario.ProductoDataContainer
+import ar.edu.unlam.mobile.scaffolding.data.local.producto.ProductoContainer
+import ar.edu.unlam.mobile.scaffolding.data.local.producto.ProductoDataContainer
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp

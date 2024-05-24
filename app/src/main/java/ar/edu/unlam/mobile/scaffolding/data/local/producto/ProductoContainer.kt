@@ -1,4 +1,4 @@
-package ar.edu.unlam.mobile.scaffolding.data.local.usuario
+package ar.edu.unlam.mobile.scaffolding.data.local.producto
 
 import android.content.Context
 import ar.edu.unlam.mobile.scaffolding.data.local.database.InventoryDatabase

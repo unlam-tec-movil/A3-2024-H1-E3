@@ -1,6 +1,6 @@
 package ar.edu.unlam.mobile.scaffolding.data.repository.producto
 
-import ar.edu.unlam.mobile.scaffolding.data.local.usuario.entity.Producto
+import ar.edu.unlam.mobile.scaffolding.data.local.producto.entity.Producto
 
 interface ProductoRepository {
     suspend fun getCantidadProducto(): Int
@@ -9,6 +9,10 @@ interface ProductoRepository {
 
     suspend fun guardarProducto(
         nombre: String,
-        negocio: String,
+        precio: Double,
+        stock: Int,
+        categoria: String,
+        nombreProvedor: String,
+        qr: String,
     )
 }

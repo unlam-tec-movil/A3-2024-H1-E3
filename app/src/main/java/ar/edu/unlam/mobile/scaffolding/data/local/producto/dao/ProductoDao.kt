@@ -1,10 +1,10 @@
-package ar.edu.unlam.mobile.scaffolding.data.local.usuario.dao
+package ar.edu.unlam.mobile.scaffolding.data.local.producto.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import ar.edu.unlam.mobile.scaffolding.data.local.usuario.entity.Producto
+import ar.edu.unlam.mobile.scaffolding.data.local.producto.entity.Producto
 
 @Dao
 interface ProductoDao {

@@ -10,8 +10,12 @@ class ProductoViewModel(private val productoRepository: ProductoRepository) : Vi
 
     suspend fun guardarProducto(
         nombre: String,
-        negocio: String,
+        precio: Double,
+        stock: Int,
+        categoria: String,
+        nombreProvedor: String,
+        qr: String,
     ) {
-        productoRepository.guardarProducto(nombre = nombre, negocio = negocio)
+        productoRepository.guardarProducto(nombre = nombre, precio = precio, stock = stock, categoria = categoria, nombreProvedor = nombreProvedor, qr = qr)
     }
 }
