@@ -10,7 +10,7 @@ class OfflineProductoRepository(private val productoDao: ProductoDao) : Producto
         stock: Int,
         categoria: String,
         nombreProvedor: String,
-        qr: String
+        qr: String,
     ) {
         val u =
             Producto(
@@ -19,14 +19,14 @@ class OfflineProductoRepository(private val productoDao: ProductoDao) : Producto
                 stock = stock,
                 categoria = categoria,
                 nombreProvedor = nombreProvedor,
-                qr = qr
+                qr = qr,
             )
         productoDao.guardarProducto(u)
     }
 
     override suspend fun getCantidadProducto(): Int = productoDao.getCantidadProductos()
 
-    override fun getProducto(): Producto {
-        return productoDao.getProducto().first()
+    override fun getProducto(): List<Producto> {
+        return productoDao.getProducto()
     }
 }

@@ -5,7 +5,7 @@ import ar.edu.unlam.mobile.scaffolding.data.local.producto.entity.Producto
 interface ProductoRepository {
     suspend fun getCantidadProducto(): Int
 
-    fun getProducto(): Producto
+    fun getProducto(): List<Producto>
 
     suspend fun guardarProducto(
         nombre: String,
