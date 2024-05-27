@@ -4,15 +4,15 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import ar.edu.unlam.mobile.scaffolding.data.local.producto.entity.Producto
+import ar.edu.unlam.mobile.scaffolding.data.local.producto.entity.ProductoEntity
 
 @Dao
 interface ProductoDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun guardarProducto(producto: Producto)
+    fun guardarProducto(productoEntity: ProductoEntity)
 
     @Query("SELECT * FROM producto")
-    fun getProducto(): List<Producto>
+    fun getProducto(): List<ProductoEntity>
 
     @Query("SELECT COUNT(*) FROM producto")
     suspend fun getCantidadProductos(): Int

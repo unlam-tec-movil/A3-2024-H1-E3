@@ -1,6 +1,12 @@
 package ar.edu.unlam.mobile.scaffolding.data.local.producto.entity
 
-data class Producto(
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "producto")
+data class ProductoEntity(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     val nombre: String,
     val precio: Double,
     val stock: Int,

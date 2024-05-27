@@ -3,7 +3,6 @@ package ar.edu.unlam.mobile.scaffolding
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -25,7 +24,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
 import ar.edu.unlam.mobile.scaffolding.data.local.database.InventoryDatabase
-import ar.edu.unlam.mobile.scaffolding.data.local.producto.entity.Producto
+import ar.edu.unlam.mobile.scaffolding.data.repository.producto.OfflineProductoRepository
 import ar.edu.unlam.mobile.scaffolding.ui.components.usuario.viewmodel.ProductoViewModel
 import ar.edu.unlam.mobile.scaffolding.ui.screens.CrearProducto.CrearProducto
 import ar.edu.unlam.mobile.scaffolding.ui.screens.HomeScreen
@@ -38,7 +37,10 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val db = Room.databaseBuilder(this,InventoryDatabase::class.java,"producto_db").build()
+        val db = Room.databaseBuilder(this, InventoryDatabase::class.java, "producto_db").build()
+        val dao = db.producotDao()
+        val repository = OfflineProductoRepository(dao)
+        val viewModel = ProductoViewModel(repository)
         setContent {
             ScaffoldingV2Theme {
                 // A surface container using the 'background' color from the theme
@@ -47,7 +49,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background,
                 ) {
                     val startDestination = "splash-screen"
-                    MyAppNavHost(startDestination = startDestination, db.)
+                    MyAppNavHost(startDestination = startDestination, viewModel)
                 }
             }
         }
@@ -57,7 +59,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MyAppNavHost(
     startDestination: String,
-    productos: ProductoViewModel,
+    viewModel: ProductoViewModel,
     navController: NavHostController = rememberNavController(),
 ) {
     NavHost(navController = navController, startDestination = startDestination) {
@@ -78,16 +80,15 @@ fun MyAppNavHost(
                 },
             )
         }
-        composable("main-screen") { MainScreen(productos.getProducto()) }
+        composable("main-screen") { MainScreen(viewModel) }
     }
 }
 
 @Composable
-fun MainScreen(productos: List<Producto>) {
+fun MainScreen(viewModel: ProductoViewModel) {
     // Controller es el elemento que nos permite navegar entre pantallas. Tiene las acciones
     // para navegar como naviegate y también la información de en dónde se "encuentra" el usuario
     // a través del back stack
-
     val controller = rememberNavController()
     Scaffold(
         floatingActionButton = {
@@ -108,11 +109,11 @@ fun MainScreen(productos: List<Producto>) {
             // Por parámetro recibe la ruta que se utilizará para navegar a dicho destino.
             composable("home") {
                 // Home es el componente en sí que es el destino de navegación.
-                HomeScreen(modifier = Modifier.padding(paddingValue), productos)
+                HomeScreen(modifier = Modifier.padding(paddingValue), viewModel.getProducto())
             }
             composable("add") {
                 // Home es el componente en sí que es el destino de navegación.
-                CrearProducto(controller)
+                CrearProducto(controller, viewModel)
             }
         }
     }

@@ -34,14 +34,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import ar.edu.unlam.mobile.scaffolding.data.local.producto.entity.Producto
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    productos: List<Producto>,
+    productoEntities: List<Producto>,
     viewModel: HomeViewModel = hiltViewModel(),
 
 ) {
@@ -58,7 +57,7 @@ fun HomeScreen(
         is HelloMessageUIState.Success -> {
             Scaffold(
                 topBar = { TopBar() },
-                content = { Contenido(productos) },
+                content = { Contenido(productoEntities) },
             )
         }
 
@@ -87,7 +86,7 @@ fun TopBar() {
 }
 
 @Composable
-fun Contenido(productos: List<Producto>) {
+fun Contenido(productoEntities: List<Producto>) {
     BarraDeBusqueda(
         modifier = Modifier
             .fillMaxWidth()
@@ -102,8 +101,8 @@ fun Contenido(productos: List<Producto>) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        if (productos.size != null) {
-            ProductoList(productos)
+        if (productoEntities.first().nombre != null) {
+            ProductoList(productoEntities)
         } else {
             Text(
                 text = "No hay items",
@@ -127,16 +126,16 @@ fun BarraDeBusqueda(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ProductoList(productos: List<Producto>) {
+fun ProductoList(productoEntities: List<Producto>) {
     LazyColumn {
-        items(productos) { producto ->
+        items(productoEntities) { producto ->
             ProductoCard(producto)
         }
     }
 }
 
 @Composable
-fun ProductoCard(producto: Producto) {
+fun ProductoCard(productoEntity: Producto) {
     Card(
         modifier = Modifier
             .padding(8.dp)
@@ -146,11 +145,11 @@ fun ProductoCard(producto: Producto) {
             modifier = Modifier
                 .padding(16.dp),
         ) {
-            Text(text = producto.nombre, style = MaterialTheme.typography.titleMedium)
+            Text(text = productoEntity.nombre, style = MaterialTheme.typography.titleMedium)
             Spacer(modifier = Modifier.height(4.dp))
-            Text(text = producto.categoria, style = MaterialTheme.typography.bodyLarge)
+            Text(text = productoEntity.categoria, style = MaterialTheme.typography.bodyLarge)
             Spacer(modifier = Modifier.height(4.dp))
-            Text(text = "Precio: $${producto.precio}", style = MaterialTheme.typography.bodyLarge)
+            Text(text = "Precio: $${productoEntity.precio}", style = MaterialTheme.typography.bodyLarge)
         }
     }
 }

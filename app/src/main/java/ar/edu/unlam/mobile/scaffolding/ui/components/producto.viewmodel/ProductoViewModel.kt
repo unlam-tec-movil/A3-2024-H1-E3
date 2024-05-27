@@ -1,10 +1,13 @@
 package ar.edu.unlam.mobile.scaffolding.ui.components.usuario.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import ar.edu.unlam.mobile.scaffolding.data.local.producto.entity.Producto
-import ar.edu.unlam.mobile.scaffolding.data.repository.producto.ProductoRepository
+import ar.edu.unlam.mobile.scaffolding.data.repository.producto.OfflineProductoRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class ProductoViewModel(private val productoRepository: ProductoRepository) : ViewModel() {
+class ProductoViewModel(private val productoRepository: OfflineProductoRepository) : ViewModel() {
     suspend fun getCantidadProducto(): Int {
         return productoRepository.getCantidadProducto()
     }
@@ -13,14 +16,19 @@ class ProductoViewModel(private val productoRepository: ProductoRepository) : Vi
         return productoRepository.getProducto()
     }
 
-    suspend fun guardarProducto(
+    fun guardarProducto(
         nombre: String,
         precio: Double,
         stock: Int,
         categoria: String,
         nombreProvedor: String,
         qr: String,
-    ) {
-        productoRepository.guardarProducto(nombre = nombre, precio = precio, stock = stock, categoria = categoria, nombreProvedor = nombreProvedor, qr = qr)
+    ) { viewModelScope.launch(Dispatchers.IO) {
+        try {
+            productoRepository.guardarProducto(nombre = nombre, precio = precio, stock = stock, categoria = categoria, nombreProvedor = nombreProvedor, qr = qr)
+        } catch (e: Exception) {
+            System.out.println("NO ANDA")
+        }
+    }
     }
 }

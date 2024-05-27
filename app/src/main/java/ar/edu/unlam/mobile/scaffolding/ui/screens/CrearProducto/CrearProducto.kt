@@ -37,14 +37,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import ar.edu.unlam.mobile.scaffolding.ui.components.usuario.viewmodel.ProductoViewModel
-import ar.edu.unlam.mobile.scaffolding.ui.components.usuario.viewmodel.ProductoViewModelProvider
 import kotlinx.coroutines.launch
 
 @Composable
-fun CrearProducto(controller: NavHostController, viewModel: ProductoViewModel = viewModel(factory = ProductoViewModelProvider.Factory)) {
+fun CrearProducto(controller: NavHostController, viewModel: ProductoViewModel) {
     val coroutineScope = rememberCoroutineScope()
     var nombre by remember { mutableStateOf("") }
     var textP by remember { mutableStateOf("") }

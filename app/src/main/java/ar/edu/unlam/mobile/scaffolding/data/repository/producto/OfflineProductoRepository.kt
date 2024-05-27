@@ -2,9 +2,10 @@ package ar.edu.unlam.mobile.scaffolding.data.repository.producto
 
 import ar.edu.unlam.mobile.scaffolding.data.local.producto.dao.ProductoDao
 import ar.edu.unlam.mobile.scaffolding.data.local.producto.entity.Producto
+import ar.edu.unlam.mobile.scaffolding.data.local.producto.entity.ProductoEntity
 
-class OfflineProductoRepository(private val productoDao: ProductoDao) : ProductoRepository {
-    override suspend fun guardarProducto(
+class OfflineProductoRepository(private val productoDao: ProductoDao) {
+    fun guardarProducto(
         nombre: String,
         precio: Double,
         stock: Int,
@@ -13,7 +14,7 @@ class OfflineProductoRepository(private val productoDao: ProductoDao) : Producto
         qr: String,
     ) {
         val u =
-            Producto(
+            ProductoEntity(
                 nombre = nombre,
                 precio = precio,
                 stock = stock,
@@ -24,9 +25,19 @@ class OfflineProductoRepository(private val productoDao: ProductoDao) : Producto
         productoDao.guardarProducto(u)
     }
 
-    override suspend fun getCantidadProducto(): Int = productoDao.getCantidadProductos()
+    suspend fun getCantidadProducto(): Int = productoDao.getCantidadProductos()
 
-    override fun getProducto(): List<Producto> {
-        return productoDao.getProducto()
+    fun getProducto(): List<Producto> {
+        val entities = productoDao.getProducto()
+        return entities.map {
+            Producto(
+                nombre = it.nombre,
+                precio = it.precio,
+                stock = it.stock,
+                categoria = it.categoria,
+                nombreProvedor = it.nombreProvedor,
+                qr = it.qr,
+            )
+        }
     }
 }
