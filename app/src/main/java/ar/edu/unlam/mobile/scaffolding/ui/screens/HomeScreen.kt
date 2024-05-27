@@ -41,7 +41,9 @@ import ar.edu.unlam.mobile.scaffolding.data.local.producto.entity.Producto
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
+    productos: List<Producto>,
     viewModel: HomeViewModel = hiltViewModel(),
+
 ) {
     // La información que obtenemos desde el view model la consumimos a través de un estado de
     // "tres vías": Loading, Success y Error. Esto nos permite mostrar un estado de carga,
@@ -56,7 +58,7 @@ fun HomeScreen(
         is HelloMessageUIState.Success -> {
             Scaffold(
                 topBar = { TopBar() },
-                content = { Contenido() },
+                content = { Contenido(productos) },
             )
         }
 
@@ -85,7 +87,7 @@ fun TopBar() {
 }
 
 @Composable
-fun Contenido() {
+fun Contenido(productos: List<Producto>) {
     BarraDeBusqueda(
         modifier = Modifier
             .fillMaxWidth()
@@ -100,11 +102,15 @@ fun Contenido() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(
-            text = "No hay items",
-            color = Color.Gray,
-            modifier = Modifier.padding(bottom = 16.dp),
-        )
+        if (productos.size != null) {
+            ProductoList(productos)
+        } else {
+            Text(
+                text = "No hay items",
+                color = Color.Gray,
+                modifier = Modifier.padding(bottom = 16.dp),
+            )
+        }
     }
 }
 
