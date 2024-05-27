@@ -1,5 +1,6 @@
 package ar.edu.unlam.mobile.scaffolding
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -32,7 +33,6 @@ import ar.edu.unlam.mobile.scaffolding.ui.screens.splash.SplashScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.welcome.WelcomeScreen
 import ar.edu.unlam.mobile.scaffolding.ui.theme.ScaffoldingV2Theme
 import dagger.hilt.android.AndroidEntryPoint
-
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,11 +84,13 @@ fun MyAppNavHost(
     }
 }
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun MainScreen(viewModel: ProductoViewModel) {
     // Controller es el elemento que nos permite navegar entre pantallas. Tiene las acciones
     // para navegar como naviegate y también la información de en dónde se "encuentra" el usuario
     // a través del back stack
+
     val controller = rememberNavController()
     Scaffold(
         floatingActionButton = {
@@ -109,7 +111,7 @@ fun MainScreen(viewModel: ProductoViewModel) {
             // Por parámetro recibe la ruta que se utilizará para navegar a dicho destino.
             composable("home") {
                 // Home es el componente en sí que es el destino de navegación.
-                HomeScreen(modifier = Modifier.padding(paddingValue), viewModel.getProducto())
+                HomeScreen(modifier = Modifier.padding(paddingValue), viewModel)
             }
             composable("add") {
                 // Home es el componente en sí que es el destino de navegación.

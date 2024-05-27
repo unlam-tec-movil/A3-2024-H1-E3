@@ -5,16 +5,18 @@ import androidx.lifecycle.viewModelScope
 import ar.edu.unlam.mobile.scaffolding.data.local.producto.entity.Producto
 import ar.edu.unlam.mobile.scaffolding.data.repository.producto.OfflineProductoRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class ProductoViewModel(private val productoRepository: OfflineProductoRepository) : ViewModel() {
-    suspend fun getCantidadProducto(): Int {
-        return productoRepository.getCantidadProducto()
-    }
-
-    fun getProducto(): List<Producto> {
-        return productoRepository.getProducto()
-    }
+    val productos: StateFlow<List<Producto>> = productoRepository.getProductos()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList(),
+        )
 
     fun guardarProducto(
         nombre: String,

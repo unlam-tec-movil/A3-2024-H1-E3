@@ -35,18 +35,16 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ar.edu.unlam.mobile.scaffolding.data.local.producto.entity.Producto
+import ar.edu.unlam.mobile.scaffolding.ui.components.usuario.viewmodel.ProductoViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    productoEntities: List<Producto>,
+    viewModelP: ProductoViewModel,
     viewModel: HomeViewModel = hiltViewModel(),
-
 ) {
-    // La información que obtenemos desde el view model la consumimos a través de un estado de
-    // "tres vías": Loading, Success y Error. Esto nos permite mostrar un estado de carga,
-    // un estado de éxito y un mensaje de error.
+    val productos by viewModelP.productos.collectAsState()
     val uiState: HomeUIState by viewModel.uiState.collectAsState()
 
     when (val helloState = uiState.helloMessageState) {
@@ -57,7 +55,7 @@ fun HomeScreen(
         is HelloMessageUIState.Success -> {
             Scaffold(
                 topBar = { TopBar() },
-                content = { Contenido(productoEntities) },
+                content = { Contenido(productos) },
             )
         }
 
@@ -92,7 +90,6 @@ fun Contenido(productoEntities: List<Producto>) {
             .fillMaxWidth()
             .padding(vertical = 56.dp)
             .padding(16.dp),
-
     )
     Column(
         modifier = Modifier
@@ -101,7 +98,7 @@ fun Contenido(productoEntities: List<Producto>) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        if (productoEntities.first().nombre != null) {
+        if (productoEntities.isNotEmpty()) {
             ProductoList(productoEntities)
         } else {
             Text(

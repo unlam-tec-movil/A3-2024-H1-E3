@@ -3,6 +3,8 @@ package ar.edu.unlam.mobile.scaffolding.data.repository.producto
 import ar.edu.unlam.mobile.scaffolding.data.local.producto.dao.ProductoDao
 import ar.edu.unlam.mobile.scaffolding.data.local.producto.entity.Producto
 import ar.edu.unlam.mobile.scaffolding.data.local.producto.entity.ProductoEntity
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class OfflineProductoRepository(private val productoDao: ProductoDao) {
     fun guardarProducto(
@@ -27,17 +29,18 @@ class OfflineProductoRepository(private val productoDao: ProductoDao) {
 
     suspend fun getCantidadProducto(): Int = productoDao.getCantidadProductos()
 
-    fun getProducto(): List<Producto> {
-        val entities = productoDao.getProducto()
-        return entities.map {
-            Producto(
-                nombre = it.nombre,
-                precio = it.precio,
-                stock = it.stock,
-                categoria = it.categoria,
-                nombreProvedor = it.nombreProvedor,
-                qr = it.qr,
-            )
+    fun getProductos(): Flow<List<Producto>> {
+        return productoDao.getProductos().map { entities ->
+            entities.map { entity ->
+                Producto(
+                    nombre = entity.nombre,
+                    precio = entity.precio,
+                    stock = entity.stock,
+                    categoria = entity.categoria,
+                    nombreProvedor = entity.nombreProvedor,
+                    qr = entity.qr,
+                )
+            }
         }
     }
 }

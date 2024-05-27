@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import ar.edu.unlam.mobile.scaffolding.data.local.producto.entity.ProductoEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ProductoDao {
@@ -12,7 +13,7 @@ interface ProductoDao {
     fun guardarProducto(productoEntity: ProductoEntity)
 
     @Query("SELECT * FROM producto")
-    fun getProducto(): List<ProductoEntity>
+    fun getProductos(): Flow<List<ProductoEntity>>
 
     @Query("SELECT COUNT(*) FROM producto")
     suspend fun getCantidadProductos(): Int
