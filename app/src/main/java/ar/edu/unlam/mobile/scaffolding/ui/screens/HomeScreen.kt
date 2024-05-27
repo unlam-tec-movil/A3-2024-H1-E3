@@ -170,10 +170,6 @@ fun ProductoItem(producto: Producto, onClick: () -> Unit) {
             Text(text = "Precio: ${producto.precio}")
             Spacer(modifier = Modifier.height(4.dp))
             Text(text = "Stock: ${producto.stock}")
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(text = "Categoría: ${producto.categoria}")
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(text = "Proveedor: ${producto.nombreProvedor}")
         }
     }
 }

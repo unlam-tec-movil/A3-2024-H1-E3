@@ -173,6 +173,9 @@ fun CrearProducto(controller: NavHostController, viewModel: ProductoViewModel) {
                             textS = it
                             stock = it.toIntOrNull() ?: 0
                         },
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            keyboardType = KeyboardType.Number,
+                        ),
                         placeholder = { Text(text = "Stock") },
                     )
 
