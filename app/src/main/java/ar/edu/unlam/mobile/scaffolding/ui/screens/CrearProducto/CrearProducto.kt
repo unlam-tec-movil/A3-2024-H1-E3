@@ -1,4 +1,5 @@
 package ar.edu.unlam.mobile.scaffolding.ui.screens.CrearProducto // ktlint-disable package-name
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -31,6 +32,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -281,21 +283,26 @@ fun CrearProducto(controller: NavHostController, viewModel: ProductoViewModel) {
                     .fillMaxWidth(),
                 contentAlignment = Alignment.Center,
             ) {
+                val context = LocalContext.current
                 Button(
                     shape = RoundedCornerShape(0.dp),
                     modifier = Modifier.fillMaxWidth(),
                     // colors = ButtonDefaults.buttonColors(Color(39, 40, 41)),
                     onClick = {
                         coroutineScope.launch {
-                            viewModel.guardarProducto(
-                                nombre = nombre,
-                                precio = precio,
-                                stock = stock,
-                                categoria = categoria,
-                                nombreProvedor = nombreProvedor,
-                                qr = qr,
-                            )
-                            controller.navigate("home")
+                            if (nombre.equals("") || precio == 0.0 || stock == 0 || categoria.equals("") || nombreProvedor.equals("") || qr.equals("")) {
+                                Toast.makeText(context, "Campos vacios, llenarlos", Toast.LENGTH_SHORT).show()
+                            } else {
+                                viewModel.guardarProducto(
+                                    nombre = nombre,
+                                    precio = precio,
+                                    stock = stock,
+                                    categoria = categoria,
+                                    nombreProvedor = nombreProvedor,
+                                    qr = qr,
+                                )
+                                controller.navigate("home")
+                            }
                         }
                     },
                 ) {

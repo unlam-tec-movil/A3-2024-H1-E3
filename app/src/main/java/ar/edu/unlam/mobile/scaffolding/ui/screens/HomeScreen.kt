@@ -38,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ar.edu.unlam.mobile.scaffolding.data.local.producto.entity.Producto
@@ -113,6 +114,7 @@ fun Contenido(productoEntities: List<Producto>, onProductoClick: (Producto) -> U
                 text = "No hay items",
                 color = Color.Gray,
                 modifier = Modifier.padding(bottom = 16.dp),
+                textAlign = TextAlign.Center,
             )
         }
     }
