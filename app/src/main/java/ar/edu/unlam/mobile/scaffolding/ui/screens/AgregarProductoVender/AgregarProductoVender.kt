@@ -1,4 +1,4 @@
-package ar.edu.unlam.mobile.scaffolding.ui.screens.AgregarProductoVender
+package ar.edu.unlam.mobile.scaffolding.ui.screens.AgregarProductoVender // ktlint-disable package-name
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -14,7 +14,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -46,46 +45,40 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ar.edu.unlam.mobile.scaffolding.R
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
-fun AgregarProductoVender(){
-
+fun AgregarProductoVender() {
     Column(
         modifier = Modifier
             .background(color = Color.White)
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-    )
-    {
+            .verticalScroll(rememberScrollState()),
+    ) {
         Card(
             colors = CardDefaults.cardColors(containerColor = Color.White),
             shape = RoundedCornerShape(0.dp),
             modifier = Modifier
                 .fillMaxWidth(),
 
-            elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
+            elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
         ) {
             IconButton(
                 modifier = Modifier
                     .padding(5.dp),
                 onClick = {
                     /* navController.navigate(route = ScreenNav.Home.route)*/
-                }
-            )
-            {
+                },
+            ) {
                 Icon(
                     Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = null,
                     tint = Color.Black,
                     modifier = Modifier
-                        .size(45.dp)
+                        .size(45.dp),
                 )
             }
-
-        }//CIERRA CARD PARA ATRAS
-
+        } // CIERRA CARD PARA ATRAS
 
         Column(modifier = Modifier) {
             Text(
@@ -106,9 +99,10 @@ fun AgregarProductoVender(){
             Text(
                 text = "Información:",
                 fontSize = 20.sp,
-                modifier = Modifier.padding(10.dp), style = MaterialTheme.typography.labelLarge
+                modifier = Modifier.padding(10.dp),
+                style = MaterialTheme.typography.labelLarge,
             )
-            //EMPIEZA LA LISTA DE PRODUCTOS
+            // EMPIEZA LA LISTA DE PRODUCTOS
             val list = listOf("producto1", "producto2", "producto3")
 
             var isExpanded by remember {
@@ -122,31 +116,32 @@ fun AgregarProductoVender(){
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(10.dp)
+                    .padding(10.dp),
             ) {
                 ExposedDropdownMenuBox(
                     expanded = isExpanded,
-                    onExpandedChange ={ isExpanded = !isExpanded
-
-                    } ) {
+                    onExpandedChange = {
+                        isExpanded = !isExpanded
+                    },
+                ) {
                     TextField(
                         modifier = Modifier.fillMaxWidth(),
                         value = selectedText,
-                        onValueChange ={},
+                        onValueChange = {},
                         readOnly = true,
                         trailingIcon = {
                             ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded)
-                        }
+                        },
                     )
-                    ExposedDropdownMenu(expanded = isExpanded , onDismissRequest = { isExpanded = false }) {
-                        list.forEachIndexed{ index, text ->
+                    ExposedDropdownMenu(expanded = isExpanded, onDismissRequest = { isExpanded = false }) {
+                        list.forEachIndexed { index, text ->
                             DropdownMenuItem(
                                 text = { Text(text = text) },
                                 onClick = {
                                     selectedText = list[index]
                                     isExpanded = false
                                 },
-                                contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                                contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
                             )
                         }
                     }
@@ -154,18 +149,20 @@ fun AgregarProductoVender(){
             }
 
             Spacer(modifier = Modifier.height(15.dp))
-            Text(color = Color.Black,
+            Text(
+                color = Color.Black,
                 text = "Cantidad:",
                 style = MaterialTheme.typography.titleMedium,
                 overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.padding(10.dp)
+                modifier = Modifier.padding(10.dp),
             )
-            TextField(modifier = Modifier
-                .padding(10.dp)
-                .fillMaxWidth()
-                .background(Color.White),
+            TextField(
+                modifier = Modifier
+                    .padding(10.dp)
+                    .fillMaxWidth()
+                    .background(Color.White),
                 value = "",
-                onValueChange ={},
+                onValueChange = {},
             )
             Spacer(modifier = Modifier.height(15.dp))
             Card(
@@ -174,17 +171,17 @@ fun AgregarProductoVender(){
                     .background(color = Color.White)
                     .padding(10.dp)
                     .fillMaxWidth(),
-                elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
+                elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
             ) {
-
-                Text(color = Color.Black,
+                Text(
+                    color = Color.Black,
                     text = "Escanear",
                     style = MaterialTheme.typography.titleMedium,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier
                         .padding(10.dp)
-                        .align(Alignment.CenterHorizontally)
+                        .align(Alignment.CenterHorizontally),
                 )
                 IconButton(
                     modifier = Modifier
@@ -193,48 +190,42 @@ fun AgregarProductoVender(){
                         .background(Color.DarkGray)
                         .padding(3.dp),
                     onClick = {
-                        //logica para escanear
-
-                    }
-                )
-                {
+                        // logica para escanear
+                    },
+                ) {
                     Icon(
                         painter = painterResource(id = R.drawable.baseline_qr_code_scanner_24),
                         contentDescription = null,
                         tint = Color.White,
                         modifier = Modifier
                             .size(45.dp)
-                            .padding(10.dp)
+                            .padding(10.dp),
                     )
-
                 }
                 Spacer(modifier = Modifier.height(15.dp))
             }
             Spacer(modifier = Modifier.height(15.dp))
-            Box(modifier = Modifier
-                .padding(5.dp)
-                .fillMaxWidth(),
-                contentAlignment = Alignment.Center) {
-
-                Button(shape = RoundedCornerShape(0.dp),
-                    modifier = Modifier   .fillMaxWidth(),
+            Box(
+                modifier = Modifier
+                    .padding(5.dp)
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.Center,
+            ) {
+                Button(
+                    shape = RoundedCornerShape(0.dp),
+                    modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(Color(39, 40, 41)),
                     onClick = {
                         /* navController.navigate(route = ScreenNav.Home.route)*/
-                    }) {
-                    Text("AGREGAR",
+                    },
+                ) {
+                    Text(
+                        "AGREGAR",
                         fontSize = 17.sp,
                         color = Color.White,
                     )
-
                 }
             }
-
         }
-    }//CIERRA EL PRIMER COLUMN
-
-
-
-}//CIERRA LA FUNCION
-
-
+    } // CIERRA EL PRIMER COLUMN
+} // CIERRA LA FUNCION
