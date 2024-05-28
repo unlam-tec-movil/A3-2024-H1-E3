@@ -1,5 +1,6 @@
 package ar.edu.unlam.mobile.scaffolding
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -22,16 +23,24 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.room.Room
+import ar.edu.unlam.mobile.scaffolding.data.local.database.InventoryDatabase
+import ar.edu.unlam.mobile.scaffolding.data.repository.producto.OfflineProductoRepository
+import ar.edu.unlam.mobile.scaffolding.ui.components.usuario.viewmodel.ProductoViewModel
+import ar.edu.unlam.mobile.scaffolding.ui.screens.CrearProducto.CrearProducto
 import ar.edu.unlam.mobile.scaffolding.ui.screens.HomeScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.splash.SplashScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.welcome.WelcomeScreen
 import ar.edu.unlam.mobile.scaffolding.ui.theme.ScaffoldingV2Theme
 import dagger.hilt.android.AndroidEntryPoint
-
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val db = Room.databaseBuilder(this, InventoryDatabase::class.java, "producto_db").build()
+        val dao = db.producotDao()
+        val repository = OfflineProductoRepository(dao)
+        val viewModel = ProductoViewModel(repository)
         setContent {
             ScaffoldingV2Theme {
                 // A surface container using the 'background' color from the theme
@@ -40,7 +49,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background,
                 ) {
                     val startDestination = "splash-screen"
-                    MyAppNavHost(startDestination = startDestination)
+                    MyAppNavHost(startDestination = startDestination, viewModel)
                 }
             }
         }
@@ -49,42 +58,49 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MyAppNavHost(
-    navController: NavHostController = rememberNavController(),
     startDestination: String,
+    viewModel: ProductoViewModel,
+    navController: NavHostController = rememberNavController(),
 ) {
     NavHost(navController = navController, startDestination = startDestination) {
-        composable("splash-screen") { SplashScreen(
-            onNavigateToWelcomeScreen = {
-                navController.navigate("welcome-screen")
-            },
-            onNavigateToHomeScreen = {
-                navController.navigate("main-screen")
-            }
-        ) }
-        composable("welcome-screen") { WelcomeScreen(
-            onNavigateToHomeScreen = {
-                navController.navigate("main-screen")
-            }
-        ) }
-        composable("main-screen") { MainScreen() }
+        composable("splash-screen") {
+            SplashScreen(
+                onNavigateToWelcomeScreen = {
+                    navController.navigate("welcome-screen")
+                },
+                onNavigateToHomeScreen = {
+                    navController.navigate("main-screen")
+                },
+            )
+        }
+        composable("welcome-screen") {
+            WelcomeScreen(
+                onNavigateToHomeScreen = {
+                    navController.navigate("main-screen")
+                },
+            )
+        }
+        composable("main-screen") { MainScreen(viewModel) }
     }
 }
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-fun MainScreen() {
+fun MainScreen(viewModel: ProductoViewModel) {
     // Controller es el elemento que nos permite navegar entre pantallas. Tiene las acciones
     // para navegar como naviegate y también la información de en dónde se "encuentra" el usuario
     // a través del back stack
+
     val controller = rememberNavController()
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { controller.navigate("home") },
+                onClick = { controller.navigate("add") },
                 modifier = Modifier.size(64.dp),
                 shape = RoundedCornerShape(percent = 50),
                 Color.DarkGray,
             ) {
-                Icon(Icons.Filled.Add, contentDescription = "Home")
+                Icon(Icons.Filled.Add, contentDescription = "add")
             }
         },
     ) { paddingValue ->
@@ -95,10 +111,12 @@ fun MainScreen() {
             // Por parámetro recibe la ruta que se utilizará para navegar a dicho destino.
             composable("home") {
                 // Home es el componente en sí que es el destino de navegación.
-                HomeScreen(modifier = Modifier.padding(paddingValue))
+                HomeScreen(modifier = Modifier.padding(paddingValue), viewModel)
+            }
+            composable("add") {
+                // Home es el componente en sí que es el destino de navegación.
+                CrearProducto(controller, viewModel)
             }
         }
     }
 }
-
-
