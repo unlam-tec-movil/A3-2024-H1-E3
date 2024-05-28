@@ -22,34 +22,35 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import ar.edu.unlam.mobile.scaffolding.R
 import kotlinx.coroutines.delay
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun StockWarningScreen(){       //(navController: NavController){
+fun StockWarningScreen() { // (navController: NavController){
 
     Scaffold {
-        BodyContentWarning()   //(navController)
+        BodyContentWarning() // (navController)
     }
-
 }
 
 @Composable
-fun BodyContentWarning(){      //(navController: NavController){
+fun BodyContentWarning() { // (navController: NavController){
     var editable by remember { mutableStateOf(false) }
     LaunchedEffect(key1 = true) {
         delay(2000)
-        editable=true
+        editable = true
     }
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
-        Image(painter = painterResource(id = R.drawable.warning),
-            contentDescription = "Warning",Modifier.size(120.dp))
+        Image(
+            painter = painterResource(id = R.drawable.warning),
+            contentDescription = "Warning",
+            Modifier.size(120.dp),
+        )
         Text(text = "ATENCION", fontSize = 30.sp)
         Text(text = "Hay productos con poco stock", fontSize = 20.sp)
         AnimatedVisibility(visible = editable) {
@@ -59,13 +60,11 @@ fun BodyContentWarning(){      //(navController: NavController){
                 Text(text = "HOME")
             }
         }
-
     }
 }
 
-
 @Preview
 @Composable
-fun warningPreview(){
+fun warningPreview() {
     StockWarningScreen()
 }

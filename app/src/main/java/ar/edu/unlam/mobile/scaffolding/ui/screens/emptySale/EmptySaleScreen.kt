@@ -15,28 +15,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun EmptySaleScreen(){
+fun EmptySaleScreen() {
     Column(modifier = Modifier.padding(start = 8.dp)) {
         Text("<    Vender", fontSize = 20.sp)
         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.BottomEnd) {
-
             Button(onClick = { /*TODO*/ }) {
                 Text(text = "+")
             }
 
-        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Text("Agregue productos a la venta", fontSize = 20.sp)
+            }
         }
-
-        }
-
     }
 }
 
 @Preview(showSystemUi = true)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun PreviewEmptySaleScreen(){
-   EmptySaleScreen()
+fun PreviewEmptySaleScreen() {
+    EmptySaleScreen()
 }

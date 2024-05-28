@@ -22,31 +22,34 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun AddStockScreen(){
-    var selProduct by remember{ mutableStateOf("") }
-    var cantProduct by remember{ mutableStateOf("") }
+fun AddStockScreen() {
+    var selProduct by remember { mutableStateOf("") }
+    var cantProduct by remember { mutableStateOf("") }
     Column(modifier = Modifier.padding(start = 8.dp)) {
         Text("<    Agregar Stock", fontSize = 20.sp)
-         Spacer(modifier = Modifier.height(40.dp))
-        TextField(value = selProduct, onValueChange = {selProduct = it},
-            label = { Text(text = "Seleccione el producto")})
-         Spacer(modifier = Modifier.height(22.dp))
-        TextField(value = cantProduct, onValueChange = {cantProduct = it},
-            label = { Text(text = "Cantidad")})
+        Spacer(modifier = Modifier.height(40.dp))
+        TextField(
+            value = selProduct,
+            onValueChange = { selProduct = it },
+            label = { Text(text = "Seleccione el producto") },
+        )
+        Spacer(modifier = Modifier.height(22.dp))
+        TextField(
+            value = cantProduct,
+            onValueChange = { cantProduct = it },
+            label = { Text(text = "Cantidad") },
+        )
         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.BottomEnd) {
-
             Button(onClick = { /*TODO*/ }) {
                 Text(text = "Agregar")
             }
-             }
-
-         }
-
+        }
+    }
 }
 
 @Preview(showSystemUi = true)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun PreviewAddStockScreen(){
+fun PreviewAddStockScreen() {
     AddStockScreen()
 }
