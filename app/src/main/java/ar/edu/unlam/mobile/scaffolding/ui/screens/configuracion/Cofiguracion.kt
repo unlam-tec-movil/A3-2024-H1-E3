@@ -34,45 +34,39 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-
 @Preview
 @Composable
-fun Configuracion(){
-
+fun Configuracion() {
     Column(
         modifier = Modifier
             .background(color = Color.White)
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-    )
-    {
+            .verticalScroll(rememberScrollState()),
+    ) {
         Card(
             colors = CardDefaults.cardColors(containerColor = Color.White),
             shape = RoundedCornerShape(0.dp),
             modifier = Modifier
                 .fillMaxWidth(),
 
-            elevation = CardDefaults.cardElevation(defaultElevation = 6.dp,)
+            elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
         ) {
             IconButton(
                 modifier = Modifier
                     .padding(5.dp),
                 onClick = {
                     /* navController.navigate(route = ScreenNav.Home.route)*/
-                }
-            )
-            {
+                },
+            ) {
                 Icon(
                     Icons.Filled.ArrowBack,
                     contentDescription = null,
                     tint = Color.Black,
                     modifier = Modifier
-                        .size(45.dp)
+                        .size(45.dp),
                 )
             }
-
-        }//CIERRA CARD PARA ATRAS
-
+        } // CIERRA CARD PARA ATRAS
 
         Column(modifier = Modifier) {
             Text(
@@ -93,34 +87,39 @@ fun Configuracion(){
             Text(
                 text = "Personal:",
                 fontSize = 20.sp,
-                modifier = Modifier.padding(10.dp), style = MaterialTheme.typography.labelLarge
+                modifier = Modifier.padding(10.dp),
+                style = MaterialTheme.typography.labelLarge,
             )
-            Text(color = Color.Black,
+            Text(
+                color = Color.Black,
                 text = "Nombre:",
                 style = MaterialTheme.typography.titleMedium,
                 overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.padding(10.dp)
+                modifier = Modifier.padding(10.dp),
             )
-            TextField(modifier = Modifier
-                .padding(10.dp)
-                .fillMaxWidth()
-                .background(Color.White),
+            TextField(
+                modifier = Modifier
+                    .padding(10.dp)
+                    .fillMaxWidth()
+                    .background(Color.White),
                 value = "",
-                onValueChange ={},
+                onValueChange = {},
             )
             Spacer(modifier = Modifier.height(15.dp))
-            Text(color = Color.Black,
+            Text(
+                color = Color.Black,
                 text = "Tienda:",
                 style = MaterialTheme.typography.titleMedium,
                 overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.padding(10.dp)
+                modifier = Modifier.padding(10.dp),
             )
-            TextField(modifier = Modifier
-                .padding(10.dp)
-                .fillMaxWidth()
-                .background(Color.White),
+            TextField(
+                modifier = Modifier
+                    .padding(10.dp)
+                    .fillMaxWidth()
+                    .background(Color.White),
                 value = "",
-                onValueChange ={},
+                onValueChange = {},
             )
             Spacer(modifier = Modifier.height(15.dp))
 
@@ -130,17 +129,15 @@ fun Configuracion(){
                     .background(color = Color.White)
                     .padding(10.dp)
                     .fillMaxWidth(),
-                elevation = CardDefaults.cardElevation(defaultElevation = 6.dp,)
+                elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
             ) {
-
                 Spacer(modifier = Modifier.height(5.dp))
-                Column(modifier = Modifier.padding(10.dp))
-                {
-
+                Column(modifier = Modifier.padding(10.dp)) {
                     Text(
                         text = "Adicional:",
                         fontSize = 20.sp,
-                        modifier = Modifier.padding(10.dp), style = MaterialTheme.typography.labelLarge
+                        modifier = Modifier.padding(10.dp),
+                        style = MaterialTheme.typography.labelLarge,
                     )
 
                     Spacer(modifier = Modifier.height(15.dp))
@@ -150,41 +147,40 @@ fun Configuracion(){
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.padding(10.dp),
-                        color = Color.Black
+                        color = Color.Black,
                     )
-                    TextField(modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color.White),
+                    TextField(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color.White),
                         value = "",
-                        onValueChange ={},
+                        onValueChange = {},
                         placeholder = { Text(text = "Unidades") },
                     )
-
-
                 }
-
             }
             Spacer(modifier = Modifier.height(15.dp))
-            Box(modifier = Modifier
-                .padding(5.dp)
-                .fillMaxWidth(),
-                contentAlignment = Alignment.Center) {
-
-                Button(shape = RoundedCornerShape(0.dp),
-                    modifier = Modifier   .fillMaxWidth(),
+            Box(
+                modifier = Modifier
+                    .padding(5.dp)
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.Center,
+            ) {
+                Button(
+                    shape = RoundedCornerShape(0.dp),
+                    modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(Color(39, 40, 41)),
                     onClick = {
                         /* navController.navigate(route = ScreenNav.Home.route)*/
-                    }) {
-                    Text("GUARDAR",
+                    },
+                ) {
+                    Text(
+                        "GUARDAR",
                         fontSize = 17.sp,
                         color = Color.White,
                     )
-
                 }
             }
-
         }
-    }//CIERRA EL PRIMER COLUMN
-
-}//CIERRA LA FUNCION
+    } // CIERRA EL PRIMER COLUMN
+} // CIERRA LA FUNCION
