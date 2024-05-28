@@ -37,7 +37,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -53,7 +52,7 @@ fun HomeScreen(
 ) {
     val productos by viewModelP.productos.collectAsState()
     val uiState: HomeUIState by viewModel.uiState.collectAsState()
-
+    var searchText by remember { mutableStateOf("") }
     when (val helloState = uiState.helloMessageState) {
         is HelloMessageUIState.Loading -> {
             // Loading
@@ -72,8 +71,16 @@ fun HomeScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(16.dp),
+                            searchText = searchText,
+                            onSearchTextChange = { newText ->
+                                searchText = newText
+                            },
                         )
-                        Contenido(productos, onProductoClick = { producto ->
+                        // Filtrar productos según el texto de búsqueda
+                        val filteredProducts = productos.filter { producto ->
+                            producto.nombre.contains(searchText, ignoreCase = true)
+                        }
+                        Contenido(filteredProducts, onProductoClick = { producto ->
                             // Maneja el clic del producto aquí
                             println("Producto clickeado: ${producto.nombre}")
                         })
@@ -139,12 +146,14 @@ fun TopBar() {
 }
 
 @Composable
-fun BarraDeBusqueda(modifier: Modifier = Modifier) {
-    var text by remember { mutableStateOf(TextFieldValue()) }
-
+fun BarraDeBusqueda(
+    modifier: Modifier = Modifier,
+    searchText: String,
+    onSearchTextChange: (String) -> Unit,
+) {
     TextField(
-        value = text,
-        onValueChange = { text = it },
+        value = searchText,
+        onValueChange = { newText -> onSearchTextChange(newText) },
         placeholder = { Text("Buscar") },
         modifier = modifier,
     )
