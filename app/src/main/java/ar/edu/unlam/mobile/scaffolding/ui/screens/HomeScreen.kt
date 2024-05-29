@@ -49,6 +49,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import ar.edu.unlam.mobile.scaffolding.data.local.producto.entity.Producto
 import ar.edu.unlam.mobile.scaffolding.ui.components.usuario.viewmodel.ProductoViewModel
 import kotlinx.coroutines.launch
@@ -58,6 +59,7 @@ import kotlinx.coroutines.launch
 fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModelP: ProductoViewModel,
+    controller: NavHostController,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -77,6 +79,7 @@ fun HomeScreen(
                 drawerState = drawerState,
                 drawerContent = {
                     DrawerContent(
+                        controller,
                         onMenuItemClick = {
                             coroutineScope.launch {
                                 drawerState.close()
@@ -116,7 +119,7 @@ fun HomeScreen(
                                 }
                                 Contenido(filteredProducts, onProductoClick = { producto ->
                                     // Maneja el clic del producto aquí
-                                    println("Producto clickeado: ${producto.nombre}")
+                                    controller.navigate("detalle")
                                 })
                             }
                         },
@@ -182,7 +185,7 @@ fun ProductoItem(producto: Producto, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .aspectRatio(1f) // Asegura que cada tarjeta sea cuadrada
+            .aspectRatio(1f)
             .padding(8.dp)
             .clickable { onClick() },
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
@@ -222,12 +225,15 @@ fun TopBar(onMenuClick: () -> Unit) {
 }
 
 @Composable
-fun DrawerContent(onMenuItemClick: () -> Unit) {
+fun DrawerContent(
+    navController: NavHostController,
+    onMenuItemClick: () -> Unit,
+) {
     Surface(
         color = MaterialTheme.colorScheme.background,
         modifier = Modifier
             .fillMaxHeight()
-            .width(300.dp), // Asegura que el drawer ocupe solo la mitad izquierda
+            .width(300.dp),
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
@@ -238,15 +244,24 @@ fun DrawerContent(onMenuItemClick: () -> Unit) {
             )
             Divider(modifier = Modifier.padding(vertical = 8.dp))
 
-            val menuItems = listOf("Inicio", "Agragar stock", "vender", "Balance", "Configuracion")
+            val menuItems = listOf(
+                "Inicio" to "home",
+                "Agregar stock" to "agregarStock",
+                "Vender" to "vender",
+                "Balance" to "balance",
+                "Configuracion" to "configuracion",
+            )
 
-            menuItems.forEach { menuItem ->
+            menuItems.forEach { (menuItem, route) ->
                 Text(
                     text = menuItem,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 8.dp)
-                        .clickable(onClick = onMenuItemClick),
+                        .clickable {
+                            navController.navigate(route)
+                            onMenuItemClick()
+                        },
                     style = MaterialTheme.typography.bodyLarge,
                 )
             }

@@ -246,7 +246,7 @@ fun CrearProducto(controller: NavHostController, viewModel: ProductoViewModel) {
                     modifier = Modifier.fillMaxWidth(),
                     // colors = ButtonDefaults.buttonColors(Color(39, 40, 41)),
                     onClick = {
-                        /* navController.navigate(route = ScreenNav.Home.route)*/
+                        controller.navigate("indicarUbi")
                     },
                 ) {
                     Text(
@@ -267,7 +267,7 @@ fun CrearProducto(controller: NavHostController, viewModel: ProductoViewModel) {
                     modifier = Modifier.fillMaxWidth(),
                     // colors = ButtonDefaults.buttonColors(Color(39, 40, 41)),
                     onClick = {
-                        /* navController.navigate(route = ScreenNav.Home.route)*/
+                        controller.navigate("Camara")
                     },
                 ) {
                     Text(

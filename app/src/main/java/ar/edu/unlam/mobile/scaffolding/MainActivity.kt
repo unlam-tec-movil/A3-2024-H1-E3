@@ -27,8 +27,15 @@ import androidx.room.Room
 import ar.edu.unlam.mobile.scaffolding.data.local.database.InventoryDatabase
 import ar.edu.unlam.mobile.scaffolding.data.repository.producto.OfflineProductoRepository
 import ar.edu.unlam.mobile.scaffolding.ui.components.usuario.viewmodel.ProductoViewModel
+import ar.edu.unlam.mobile.scaffolding.ui.screens.AgregarProductoVender.AgregarProductoVender
 import ar.edu.unlam.mobile.scaffolding.ui.screens.CrearProducto.CrearProducto
+import ar.edu.unlam.mobile.scaffolding.ui.screens.DetalleProducto
 import ar.edu.unlam.mobile.scaffolding.ui.screens.HomeScreen
+import ar.edu.unlam.mobile.scaffolding.ui.screens.addStock.AddStockScreen
+import ar.edu.unlam.mobile.scaffolding.ui.screens.balance.BalanceScreen
+import ar.edu.unlam.mobile.scaffolding.ui.screens.camera.CameraScreen
+import ar.edu.unlam.mobile.scaffolding.ui.screens.configuracion.Configuracion
+import ar.edu.unlam.mobile.scaffolding.ui.screens.map.MapScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.splash.SplashScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.welcome.WelcomeScreen
 import ar.edu.unlam.mobile.scaffolding.ui.theme.ScaffoldingV2Theme
@@ -111,11 +118,32 @@ fun MainScreen(viewModel: ProductoViewModel) {
             // Por parámetro recibe la ruta que se utilizará para navegar a dicho destino.
             composable("home") {
                 // Home es el componente en sí que es el destino de navegación.
-                HomeScreen(modifier = Modifier.padding(paddingValue), viewModel)
+                HomeScreen(modifier = Modifier.padding(paddingValue), viewModel, controller)
             }
             composable("add") {
                 // Home es el componente en sí que es el destino de navegación.
                 CrearProducto(controller, viewModel)
+            }
+            composable("detalle") {
+                DetalleProducto(controller)
+            }
+            composable("Camara") {
+                CameraScreen()
+            }
+            composable("indicarUbi") {
+                MapScreen()
+            }
+            composable("agregarStock") {
+                AddStockScreen()
+            }
+            composable("vender") {
+                AgregarProductoVender()
+            }
+            composable("balance") {
+                BalanceScreen()
+            }
+            composable("configuracion") {
+                Configuracion()
             }
         }
     }

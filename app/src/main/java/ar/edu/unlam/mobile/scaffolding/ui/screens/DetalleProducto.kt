@@ -32,13 +32,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 
-@Preview
 @Composable
-fun DetalleProducto() {
+fun DetalleProducto(controller: NavHostController) {
     Column(
         modifier = Modifier
             .background(color = Color.White)
@@ -228,7 +227,7 @@ fun DetalleProducto() {
                     modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(Color(39, 40, 41)),
                     onClick = {
-                        /* navController.navigate(route = ScreenNav.Home.route)*/
+                        controller.navigate("indicarUbi")
                     },
                 ) {
                     Text(
