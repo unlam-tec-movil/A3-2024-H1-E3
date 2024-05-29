@@ -14,7 +14,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Button
@@ -30,55 +29,46 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ar.edu.unlam.mobile.scaffolding.R
 
 @Preview
 @Composable
-fun DetalleProducto(){
-
-
+fun DetalleProducto() {
     Column(
         modifier = Modifier
             .background(color = Color.White)
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-    )
-    {
+            .verticalScroll(rememberScrollState()),
+    ) {
         Card(
             colors = CardDefaults.cardColors(containerColor = Color.White),
             shape = RoundedCornerShape(0.dp),
             modifier = Modifier
                 .fillMaxWidth(),
 
-            elevation = CardDefaults.cardElevation(defaultElevation = 6.dp,)
+            elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
         ) {
             IconButton(
                 modifier = Modifier
                     .padding(5.dp),
                 onClick = {
                     /* navController.navigate(route = ScreenNav.Home.route)*/
-                }
-            )
-            {
+                },
+            ) {
                 Icon(
                     Icons.Filled.ArrowBack,
                     contentDescription = null,
                     tint = Color.Black,
                     modifier = Modifier
-                        .size(45.dp)
+                        .size(45.dp),
                 )
             }
-
-        }//CIERRA CARD PARA ATRAS
-
+        } // CIERRA CARD PARA ATRAS
 
         Column(modifier = Modifier) {
             Text(
@@ -93,18 +83,21 @@ fun DetalleProducto(){
             )
         }
 
-        Card( colors = CardDefaults.cardColors(
-            containerColor = Color.LightGray),
+        Card(
+            colors = CardDefaults.cardColors(
+                containerColor = Color.LightGray,
+            ),
             modifier = Modifier
                 .padding(10.dp)
-                .aspectRatio(3f)
+                .aspectRatio(3f),
 
-        ){
-            Text(text = "Imagen del producto",
-                modifier =  Modifier
+        ) {
+            Text(
+                text = "Imagen del producto",
+                modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(10.dp)
-                )
+                    .padding(10.dp),
+            )
         }
 
         Spacer(modifier = Modifier.height(5.dp))
@@ -114,7 +107,8 @@ fun DetalleProducto(){
                 text = "Especificaciones:",
 
                 fontSize = 20.sp,
-                modifier = Modifier.padding(10.dp), style = MaterialTheme.typography.labelLarge
+                modifier = Modifier.padding(10.dp),
+                style = MaterialTheme.typography.labelLarge,
             )
 
             Card(
@@ -123,14 +117,15 @@ fun DetalleProducto(){
                     .background(color = Color.White)
                     .padding(10.dp)
                     .fillMaxWidth(),
-                elevation = CardDefaults.cardElevation(defaultElevation = 6.dp,)
+                elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
             ) {
-                Text(color = Color.Black,
+                Text(
+                    color = Color.Black,
                     text = "Nombre:" /*poner la variable adentro, Nombre:${} */,
                     style = MaterialTheme.typography.titleMedium,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(10.dp)
+                    modifier = Modifier.padding(10.dp),
                 )
 
                 Spacer(modifier = Modifier.height(15.dp))
@@ -141,20 +136,17 @@ fun DetalleProducto(){
                     .background(color = Color.White)
                     .padding(10.dp)
                     .fillMaxWidth(),
-                elevation = CardDefaults.cardElevation(defaultElevation = 6.dp,)
+                elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
             ) {
-
                 Spacer(modifier = Modifier.height(5.dp))
-                Column(modifier = Modifier.padding(10.dp))
-                {
-
+                Column(modifier = Modifier.padding(10.dp)) {
                     Text(
                         text = "Precio:",
                         style = MaterialTheme.typography.titleMedium,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.padding(10.dp),
-                        color = Color.Black
+                        color = Color.Black,
                     )
 
                     Spacer(modifier = Modifier.height(15.dp))
@@ -166,7 +158,7 @@ fun DetalleProducto(){
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.padding(10.dp),
-                        color = Color.Black
+                        color = Color.Black,
                     )
 
                     Spacer(modifier = Modifier.height(15.dp))
@@ -178,7 +170,7 @@ fun DetalleProducto(){
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.padding(10.dp),
-                        color = Color.Black
+                        color = Color.Black,
                     )
 
                     Spacer(modifier = Modifier.height(15.dp))
@@ -189,13 +181,11 @@ fun DetalleProducto(){
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.padding(10.dp),
-                        color = Color.Black
+                        color = Color.Black,
                     )
                     Spacer(modifier = Modifier.height(15.dp))
                     Divider()
-
                 }
-
             }
 
             Card(
@@ -204,17 +194,17 @@ fun DetalleProducto(){
                     .background(color = Color.White)
                     .padding(10.dp)
                     .fillMaxWidth(),
-                elevation = CardDefaults.cardElevation(defaultElevation = 6.dp,)
+                elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
             ) {
-
-                Text(color = Color.Black,
+                Text(
+                    color = Color.Black,
                     text = "Código QR",
                     style = MaterialTheme.typography.titleMedium,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier
                         .padding(10.dp)
-                        .align(Alignment.CenterHorizontally)
+                        .align(Alignment.CenterHorizontally),
                 )
                 Icon(
                     Icons.Filled.Refresh,
@@ -222,32 +212,32 @@ fun DetalleProducto(){
                     tint = Color.Black,
                     modifier = Modifier
                         .size(45.dp)
-                        .align(Alignment.CenterHorizontally)
+                        .align(Alignment.CenterHorizontally),
                 )
 
                 Spacer(modifier = Modifier.height(5.dp))
             }
-            Box(modifier = Modifier
-                .padding(5.dp)
-                .fillMaxWidth(),
-                contentAlignment = Alignment.Center) {
-
-                Button(shape = RoundedCornerShape(0.dp),
-                    modifier = Modifier   .fillMaxWidth(),
+            Box(
+                modifier = Modifier
+                    .padding(5.dp)
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.Center,
+            ) {
+                Button(
+                    shape = RoundedCornerShape(0.dp),
+                    modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(Color(39, 40, 41)),
                     onClick = {
                         /* navController.navigate(route = ScreenNav.Home.route)*/
-                    }) {
-                    Text("Ver al proovedor en el Mapa",
+                    },
+                ) {
+                    Text(
+                        "Ver al proovedor en el Mapa",
                         fontSize = 17.sp,
                         color = Color.White,
                     )
-
                 }
             }
-
         }
-    }//CIERRA EL PRIMER COLUMN
-
-}//CIERRA LA FUNCION
-
+    } // CIERRA EL PRIMER COLUMN
+} // CIERRA LA FUNCION
