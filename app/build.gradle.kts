@@ -55,8 +55,11 @@ android {
 
 dependencies {
     // Viewmodel
-
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
     // Room
     val room_version = "2.6.1"
