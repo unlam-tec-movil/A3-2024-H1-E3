@@ -40,15 +40,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import ar.edu.unlam.mobile.scaffolding.R
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
-fun AgregarProductoVender() {
+fun AgregarProductoVender(controller: NavHostController) {
     Column(
         modifier = Modifier
             .background(color = Color.White)
@@ -190,7 +189,7 @@ fun AgregarProductoVender() {
                         .background(Color.DarkGray)
                         .padding(3.dp),
                     onClick = {
-                        // logica para escanear
+                        controller.navigate("qr")
                     },
                 ) {
                     Icon(

@@ -40,6 +40,7 @@ import ar.edu.unlam.mobile.scaffolding.ui.screens.camera.CameraScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.configuracion.Configuracion
 import ar.edu.unlam.mobile.scaffolding.ui.screens.emptySale.EmptySaleScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.map.MapScreen
+import ar.edu.unlam.mobile.scaffolding.ui.screens.qrScanner.QRScannerScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.splash.SplashScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.welcome.WelcomeScreen
 import ar.edu.unlam.mobile.scaffolding.ui.theme.ScaffoldingV2Theme
@@ -150,7 +151,7 @@ fun MainScreen(viewModel: ProductoViewModel) {
                 MapScreen()
             }
             composable("agregarStock") {
-                AddStockScreen()
+                AddStockScreen(controller)
             }
             composable("vender") {
                 EmptySaleScreen(controller)
@@ -162,7 +163,10 @@ fun MainScreen(viewModel: ProductoViewModel) {
                 Configuracion()
             }
             composable("AgregarVenta") {
-                AgregarProductoVender()
+                AgregarProductoVender(controller)
+            }
+            composable("qr") {
+                QRScannerScreen()
             }
         }
     }
