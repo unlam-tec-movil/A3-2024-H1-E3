@@ -1,7 +1,6 @@
 package ar.edu.unlam.mobile.scaffolding.ui.screens.welcome
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
@@ -18,30 +17,32 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.lifecycle.viewmodel.compose.viewModel
+import ar.edu.unlam.mobile.scaffolding.ui.components.usuario.viewmodel.UsuarioViewModel
+import ar.edu.unlam.mobile.scaffolding.ui.components.usuario.viewmodel.UsuarioViewModelProvider
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun WelcomeScreen(onNavigateToHomeScreen: () -> Unit) {
-    var name = ""
-    var business = ""
-
+    val coroutineScope = rememberCoroutineScope()
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         WelcomeAnimated()
-        InputAnimated(onNavigateToHomeScreen) {
-            name = it.first()
-            business = it.last()
-            Log.i("User data", "User data saved $name - $business")
-            // TODO() Guardar esa informacion en local
-        }
+        InputAnimated(
+            coroutineScope = coroutineScope,
+            onNavigateToHomeScreen = { onNavigateToHomeScreen() },
+        )
     }
 }
 
@@ -57,16 +58,16 @@ private fun WelcomeAnimated() {
     AnimatedVisibility(
         visible = visible,
         enter =
-            fadeIn(
-                // Overwrites the initial value of alpha to 0.4f for fade in, 0 by default
-                initialAlpha = 0.4f,
-                animationSpec = tween(durationMillis = 1000),
-            ),
+        fadeIn(
+            // Overwrites the initial value of alpha to 0.4f for fade in, 0 by default
+            initialAlpha = 0.4f,
+            animationSpec = tween(durationMillis = 1000),
+        ),
         exit =
-            fadeOut(
-                // Overwrites the default animation with tween
-                animationSpec = tween(durationMillis = 1000),
-            ),
+        fadeOut(
+            // Overwrites the default animation with tween
+            animationSpec = tween(durationMillis = 1000),
+        ),
     ) {
         Text(text = "Bienvenido!")
     }
@@ -74,14 +75,15 @@ private fun WelcomeAnimated() {
 
 @Composable
 private fun InputAnimated(
+    coroutineScope: CoroutineScope,
     onNavigateToHomeScreen: () -> Unit,
-    callback: (List<String>) -> Unit,
+    viewModel: UsuarioViewModel = viewModel(factory = UsuarioViewModelProvider.Factory),
 ) {
     var currentPage by remember { mutableStateOf("A") }
     var visible by remember { mutableStateOf(false) }
 
-    var name by remember { mutableStateOf(TextFieldValue("")) }
-    var business by remember { mutableStateOf(TextFieldValue("")) }
+    var nombre by remember { mutableStateOf(TextFieldValue("")) }
+    var negocio by remember { mutableStateOf(TextFieldValue("")) }
 
     LaunchedEffect(visible) {
         delay(4000)
@@ -91,16 +93,16 @@ private fun InputAnimated(
     AnimatedVisibility(
         visible = visible,
         enter =
-            fadeIn(
-                // Overwrites the initial value of alpha to 0.4f for fade in, 0 by default
-                initialAlpha = 0.4f,
-                animationSpec = tween(durationMillis = 1000),
-            ),
+        fadeIn(
+            // Overwrites the initial value of alpha to 0.4f for fade in, 0 by default
+            initialAlpha = 0.4f,
+            animationSpec = tween(durationMillis = 1000),
+        ),
         exit =
-            fadeOut(
-                // Overwrites the default animation with tween
-                animationSpec = tween(durationMillis = 1500),
-            ),
+        fadeOut(
+            // Overwrites the default animation with tween
+            animationSpec = tween(durationMillis = 1500),
+        ),
     ) {
         Crossfade(targetState = currentPage, label = "") { screen ->
             when (screen) {
@@ -112,9 +114,9 @@ private fun InputAnimated(
                     ) {
                         Text(text = "Ingrese su nombre")
                         TextField(
-                            value = name,
+                            value = nombre,
                             onValueChange = {
-                                name = it
+                                nombre = it
                             },
                         )
                         Button(onClick = {
@@ -126,7 +128,7 @@ private fun InputAnimated(
                 }
                 "B" -> {
                     val texto =
-                        "Hola ${name.text}!\n" +
+                        "Hola ${nombre.text}!\n" +
                             "Por favor, ingrese el nombre de su negocio"
                     Column(
                         modifier = Modifier.fillMaxSize(),
@@ -135,15 +137,16 @@ private fun InputAnimated(
                     ) {
                         Text(text = texto)
                         TextField(
-                            value = business,
+                            value = negocio,
                             onValueChange = {
-                                business = it
+                                negocio = it
                             },
                         )
                         Button(onClick = {
-                            val dataValues: List<String> = listOf(name.text, business.text)
-                            callback(dataValues)
-                            onNavigateToHomeScreen()
+                            coroutineScope.launch {
+                                viewModel.guardarUsuario(nombre = nombre.text, negocio = negocio.text)
+                                onNavigateToHomeScreen()
+                            }
                         }) {
                             Text(text = "Continuar")
                         }
