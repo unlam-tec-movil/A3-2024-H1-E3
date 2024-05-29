@@ -42,6 +42,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -159,8 +160,7 @@ fun Contenido(productoEntities: List<Producto>, onProductoClick: (Producto) -> U
             Text(
                 text = "No hay items",
                 color = Color.Gray,
-                modifier = Modifier.padding(bottom = 16.dp),
-                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(bottom = 16.dp).align(Alignment.CenterHorizontally),
             )
         }
     }
