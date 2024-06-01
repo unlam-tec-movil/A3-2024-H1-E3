@@ -39,6 +39,7 @@ import ar.edu.unlam.mobile.scaffolding.ui.screens.balance.BalanceScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.camera.CameraScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.configuracion.Configuracion
 import ar.edu.unlam.mobile.scaffolding.ui.screens.emptySale.EmptySaleScreen
+import ar.edu.unlam.mobile.scaffolding.ui.screens.map.MapProviderScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.map.MapScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.qrScanner.QRScannerScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.splash.SplashScreen
@@ -150,6 +151,12 @@ fun MainScreen(viewModel: ProductoViewModel) {
             }
             composable("indicarUbi") {
                 MapScreen(
+                    viewModel = viewModel,
+                    navController = controller,
+                )
+            }
+            composable("mostrarUbicacion") {
+                MapProviderScreen(
                     viewModel = viewModel,
                     navController = controller,
                 )

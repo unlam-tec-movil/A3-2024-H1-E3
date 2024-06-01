@@ -2,8 +2,6 @@ package ar.edu.unlam.mobile.scaffolding.ui.screens.map
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Looper
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,10 +25,6 @@ import ar.edu.unlam.mobile.scaffolding.ui.components.MyTopBar
 import ar.edu.unlam.mobile.scaffolding.ui.components.usuario.viewmodel.ProductoViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
@@ -40,7 +34,7 @@ import com.google.maps.android.compose.rememberCameraPositionState
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun MapScreen(
+fun MapProviderScreen(
     viewModel: ProductoViewModel,
     navController: NavHostController,
 ) {
@@ -68,7 +62,7 @@ fun MapScreen(
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnrememberedMutableState")
 @Composable
-fun MapBody(
+fun MapProviderBody(
     context: Context,
     lifecycleOwner: LifecycleOwner,
     viewModel: ProductoViewModel,
@@ -103,7 +97,7 @@ fun MapBody(
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun Map(
+fun ProviderMap(
     location: LatLng,
     viewModel: ProductoViewModel,
     callback: (Boolean) -> Unit,
@@ -137,7 +131,7 @@ fun Map(
 }
 
 @Composable
-fun MyMapBotomBar(
+private fun MyMapBotomBar(
     buttonEnabled: Boolean,
     navigateBack: NavHostController,
 ) {
@@ -157,46 +151,4 @@ fun MyMapBotomBar(
             Text(text = "Continuar")
         }
     }
-}
-
-@SuppressLint("MissingPermission")
-private fun getLocation(
-    context: Context,
-    lifecycleOwner: LifecycleOwner,
-    callback: (LatLng) -> Unit,
-) {
-    val locationRequest =
-        LocationRequest.create().apply {
-            interval = 10000
-            fastestInterval = 5000
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        }
-
-    val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
-    fusedLocationClient.lastLocation.addOnSuccessListener {
-        if (it != null) {
-            Log.d("First location info", "${it.latitude}, ${it.longitude}")
-            callback(LatLng(it.latitude, it.longitude))
-        } else {
-            callback(LatLng(1.35, 103.87))
-        }
-    }.addOnFailureListener {
-        Log.d("Error on location", it.toString())
-    }
-
-    val locationCallBack =
-        object : LocationCallback() {
-            override fun onLocationResult(result: LocationResult) {
-                for (it in result.locations) {
-                    Log.d("Location update", "${it.latitude}, ${it.longitude}")
-                    callback(LatLng(it.latitude, it.longitude))
-                }
-            }
-        }
-
-    fusedLocationClient.requestLocationUpdates(
-        locationRequest,
-        locationCallBack,
-        Looper.getMainLooper(),
-    )
 }

@@ -15,7 +15,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -39,32 +38,35 @@ import androidx.navigation.NavHostController
 @Composable
 fun DetalleProducto(controller: NavHostController) {
     Column(
-        modifier = Modifier
-            .background(color = Color.White)
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
+        modifier =
+            Modifier
+                .background(color = Color.White)
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
     ) {
         Card(
             colors = CardDefaults.cardColors(containerColor = Color.White),
             shape = RoundedCornerShape(0.dp),
-            modifier = Modifier
-                .fillMaxWidth(),
-
+            modifier =
+                Modifier
+                    .fillMaxWidth(),
             elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
         ) {
             IconButton(
-                modifier = Modifier
-                    .padding(5.dp),
+                modifier =
+                    Modifier
+                        .padding(5.dp),
                 onClick = {
-                    /* navController.navigate(route = ScreenNav.Home.route)*/
+                    // navController.navigate(route = ScreenNav.Home.route)
                 },
             ) {
                 Icon(
                     Icons.Filled.ArrowBack,
                     contentDescription = null,
                     tint = Color.Black,
-                    modifier = Modifier
-                        .size(45.dp),
+                    modifier =
+                        Modifier
+                            .size(45.dp),
                 )
             }
         } // CIERRA CARD PARA ATRAS
@@ -83,19 +85,21 @@ fun DetalleProducto(controller: NavHostController) {
         }
 
         Card(
-            colors = CardDefaults.cardColors(
-                containerColor = Color.LightGray,
-            ),
-            modifier = Modifier
-                .padding(10.dp)
-                .aspectRatio(3f),
-
+            colors =
+                CardDefaults.cardColors(
+                    containerColor = Color.LightGray,
+                ),
+            modifier =
+                Modifier
+                    .padding(10.dp)
+                    .aspectRatio(3f),
         ) {
             Text(
                 text = "Imagen del producto",
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(10.dp),
+                modifier =
+                    Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(10.dp),
             )
         }
 
@@ -104,7 +108,6 @@ fun DetalleProducto(controller: NavHostController) {
             Spacer(modifier = Modifier.height(15.dp))
             Text(
                 text = "Especificaciones:",
-
                 fontSize = 20.sp,
                 modifier = Modifier.padding(10.dp),
                 style = MaterialTheme.typography.labelLarge,
@@ -112,10 +115,11 @@ fun DetalleProducto(controller: NavHostController) {
 
             Card(
                 colors = CardDefaults.cardColors(containerColor = Color(216, 217, 218)),
-                modifier = Modifier
-                    .background(color = Color.White)
-                    .padding(10.dp)
-                    .fillMaxWidth(),
+                modifier =
+                    Modifier
+                        .background(color = Color.White)
+                        .padding(10.dp)
+                        .fillMaxWidth(),
                 elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
             ) {
                 Text(
@@ -131,10 +135,11 @@ fun DetalleProducto(controller: NavHostController) {
             }
             Card(
                 colors = CardDefaults.cardColors(containerColor = Color.White),
-                modifier = Modifier
-                    .background(color = Color.White)
-                    .padding(10.dp)
-                    .fillMaxWidth(),
+                modifier =
+                    Modifier
+                        .background(color = Color.White)
+                        .padding(10.dp)
+                        .fillMaxWidth(),
                 elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
             ) {
                 Spacer(modifier = Modifier.height(5.dp))
@@ -189,10 +194,11 @@ fun DetalleProducto(controller: NavHostController) {
 
             Card(
                 colors = CardDefaults.cardColors(containerColor = Color.White),
-                modifier = Modifier
-                    .background(color = Color.White)
-                    .padding(10.dp)
-                    .fillMaxWidth(),
+                modifier =
+                    Modifier
+                        .background(color = Color.White)
+                        .padding(10.dp)
+                        .fillMaxWidth(),
                 elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
             ) {
                 Text(
@@ -201,25 +207,18 @@ fun DetalleProducto(controller: NavHostController) {
                     style = MaterialTheme.typography.titleMedium,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier
-                        .padding(10.dp)
-                        .align(Alignment.CenterHorizontally),
+                    modifier =
+                        Modifier
+                            .padding(10.dp)
+                            .align(Alignment.CenterHorizontally),
                 )
-                Icon(
-                    Icons.Filled.Refresh,
-                    contentDescription = null,
-                    tint = Color.Black,
-                    modifier = Modifier
-                        .size(45.dp)
-                        .align(Alignment.CenterHorizontally),
-                )
-
                 Spacer(modifier = Modifier.height(5.dp))
             }
             Box(
-                modifier = Modifier
-                    .padding(5.dp)
-                    .fillMaxWidth(),
+                modifier =
+                    Modifier
+                        .padding(5.dp)
+                        .fillMaxWidth(),
                 contentAlignment = Alignment.Center,
             ) {
                 Button(
@@ -227,7 +226,7 @@ fun DetalleProducto(controller: NavHostController) {
                     modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(Color(39, 40, 41)),
                     onClick = {
-                        controller.navigate("indicarUbi")
+                        controller.navigate("mostrarUbicacion")
                     },
                 ) {
                     Text(
