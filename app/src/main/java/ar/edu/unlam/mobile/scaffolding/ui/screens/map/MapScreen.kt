@@ -200,7 +200,3 @@ private fun getLocation(
         Looper.getMainLooper(),
     )
 }
-
-private fun onMapClick() {
-    // TODO("Al hacer click en una parte el mapa, crear un marcaor y obtener las coordenadas")
-}
