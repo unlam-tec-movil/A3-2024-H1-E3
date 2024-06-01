@@ -14,7 +14,6 @@ object UsuarioViewModelProvider {
             initializer {
                 UsuarioViewModel(usuarioApplication().container.usuarioRepository)
             }
-            // ...
         }
 }
 

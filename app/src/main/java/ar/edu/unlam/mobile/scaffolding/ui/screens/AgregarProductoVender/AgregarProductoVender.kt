@@ -1,4 +1,6 @@
-package ar.edu.unlam.mobile.scaffolding.ui.screens.AgregarProductoVender // ktlint-disable package-name
+@file:Suppress("ktlint:standard:package-name")
+
+package ar.edu.unlam.mobile.scaffolding.ui.screens.AgregarProductoVender
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -49,32 +51,35 @@ import ar.edu.unlam.mobile.scaffolding.R
 @Composable
 fun AgregarProductoVender(controller: NavHostController) {
     Column(
-        modifier = Modifier
-            .background(color = Color.White)
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
+        modifier =
+            Modifier
+                .background(color = Color.White)
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
     ) {
         Card(
             colors = CardDefaults.cardColors(containerColor = Color.White),
             shape = RoundedCornerShape(0.dp),
-            modifier = Modifier
-                .fillMaxWidth(),
-
+            modifier =
+                Modifier
+                    .fillMaxWidth(),
             elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
         ) {
             IconButton(
-                modifier = Modifier
-                    .padding(5.dp),
+                modifier =
+                    Modifier
+                        .padding(5.dp),
                 onClick = {
-                    /* navController.navigate(route = ScreenNav.Home.route)*/
+                    // navController.navigate(route = ScreenNav.Home.route)
                 },
             ) {
                 Icon(
                     Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = null,
                     tint = Color.Black,
-                    modifier = Modifier
-                        .size(45.dp),
+                    modifier =
+                        Modifier
+                            .size(45.dp),
                 )
             }
         } // CIERRA CARD PARA ATRAS
@@ -113,9 +118,10 @@ fun AgregarProductoVender(controller: NavHostController) {
             }
 
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(10.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp),
             ) {
                 ExposedDropdownMenuBox(
                     expanded = isExpanded,
@@ -156,20 +162,22 @@ fun AgregarProductoVender(controller: NavHostController) {
                 modifier = Modifier.padding(10.dp),
             )
             TextField(
-                modifier = Modifier
-                    .padding(10.dp)
-                    .fillMaxWidth()
-                    .background(Color.White),
+                modifier =
+                    Modifier
+                        .padding(10.dp)
+                        .fillMaxWidth()
+                        .background(Color.White),
                 value = "",
                 onValueChange = {},
             )
             Spacer(modifier = Modifier.height(15.dp))
             Card(
                 colors = CardDefaults.cardColors(containerColor = Color.White),
-                modifier = Modifier
-                    .background(color = Color.White)
-                    .padding(10.dp)
-                    .fillMaxWidth(),
+                modifier =
+                    Modifier
+                        .background(color = Color.White)
+                        .padding(10.dp)
+                        .fillMaxWidth(),
                 elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
             ) {
                 Text(
@@ -178,16 +186,18 @@ fun AgregarProductoVender(controller: NavHostController) {
                     style = MaterialTheme.typography.titleMedium,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier
-                        .padding(10.dp)
-                        .align(Alignment.CenterHorizontally),
+                    modifier =
+                        Modifier
+                            .padding(10.dp)
+                            .align(Alignment.CenterHorizontally),
                 )
                 IconButton(
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .shadow(12.dp, CardDefaults.shape)
-                        .background(Color.DarkGray)
-                        .padding(3.dp),
+                    modifier =
+                        Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .shadow(12.dp, CardDefaults.shape)
+                            .background(Color.DarkGray)
+                            .padding(3.dp),
                     onClick = {
                         controller.navigate("qr")
                     },
@@ -196,18 +206,20 @@ fun AgregarProductoVender(controller: NavHostController) {
                         painter = painterResource(id = R.drawable.baseline_qr_code_scanner_24),
                         contentDescription = null,
                         tint = Color.White,
-                        modifier = Modifier
-                            .size(45.dp)
-                            .padding(10.dp),
+                        modifier =
+                            Modifier
+                                .size(45.dp)
+                                .padding(10.dp),
                     )
                 }
                 Spacer(modifier = Modifier.height(15.dp))
             }
             Spacer(modifier = Modifier.height(15.dp))
             Box(
-                modifier = Modifier
-                    .padding(5.dp)
-                    .fillMaxWidth(),
+                modifier =
+                    Modifier
+                        .padding(5.dp)
+                        .fillMaxWidth(),
                 contentAlignment = Alignment.Center,
             ) {
                 Button(
@@ -215,7 +227,7 @@ fun AgregarProductoVender(controller: NavHostController) {
                     modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(Color(39, 40, 41)),
                     onClick = {
-                        /* navController.navigate(route = ScreenNav.Home.route)*/
+                        // navController.navigate(route = ScreenNav.Home.route)
                     },
                 ) {
                     Text(

@@ -64,10 +64,10 @@ dependencies {
     implementation("androidx.camera:camera-view:$camerax_version")
 
     // Map
-    implementation("com.google.maps.android:maps-compose:2.11.4")
-    implementation("com.google.android.gms:play-services-maps:18.1.0")
+    implementation(libs.maps.compose)
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
     // Location
-    implementation("com.google.android.gms:play-services-location:18.0.0")
+    implementation("com.google.android.gms:play-services-location:21.3.0")
 
     // Viewmodel
     implementation(libs.androidx.lifecycle.viewmodel.ktx)

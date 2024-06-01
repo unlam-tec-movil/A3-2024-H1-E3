@@ -45,6 +45,7 @@ import ar.edu.unlam.mobile.scaffolding.ui.screens.splash.SplashScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.welcome.WelcomeScreen
 import ar.edu.unlam.mobile.scaffolding.ui.theme.ScaffoldingV2Theme
 import dagger.hilt.android.AndroidEntryPoint
+
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -148,7 +149,10 @@ fun MainScreen(viewModel: ProductoViewModel) {
                 CameraScreen()
             }
             composable("indicarUbi") {
-                MapScreen()
+                MapScreen(
+                    viewModel = viewModel,
+                    navController = controller,
+                )
             }
             composable("agregarStock") {
                 AddStockScreen(controller)
