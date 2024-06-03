@@ -1,4 +1,11 @@
 package ar.edu.unlam.mobile.scaffolding.ui.screens.CrearProducto
+import android.Manifest
+import android.graphics.Bitmap
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.launch
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -44,11 +51,29 @@ import ar.edu.unlam.mobile.scaffolding.R
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.text.input.TextFieldValue
 
 @Preview
 @Composable
 fun CrearProducto(){
+    val bitmap = remember { mutableStateOf<Bitmap?>(null) }
+    val cameraLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.TakePicturePreview(),
+        onResult = {
+            bitmap.value = it
+        })
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = {isGrated ->
+            if (isGrated){
+                cameraLauncher.launch()
+            }
+
+        }
+        )
 
     Column(
         modifier = Modifier
@@ -57,6 +82,20 @@ fun CrearProducto(){
             .verticalScroll(rememberScrollState())
     )
     {
+        bitmap?.value?.let {
+            Image(
+                bitmap = it.asImageBitmap(),
+                contentDescription = null
+            )
+        }
+
+        Button(onClick = {
+            permissionLauncher.launch(Manifest.permission.CAMERA)
+        }) {
+            Text(text = "Capurar imagen")
+
+        }
+        
         Card(
             colors = CardDefaults.cardColors(containerColor = Color.White),
             shape = RoundedCornerShape(0.dp),
