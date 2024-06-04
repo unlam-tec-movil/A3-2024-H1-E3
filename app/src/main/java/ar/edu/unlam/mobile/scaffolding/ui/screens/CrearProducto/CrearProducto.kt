@@ -82,19 +82,7 @@ fun CrearProducto(){
             .verticalScroll(rememberScrollState())
     )
     {
-        bitmap?.value?.let {
-            Image(
-                bitmap = it.asImageBitmap(),
-                contentDescription = null
-            )
-        }
 
-        Button(onClick = {
-            permissionLauncher.launch(Manifest.permission.CAMERA)
-        }) {
-            Text(text = "Capurar imagen")
-
-        }
         
         Card(
             colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -259,21 +247,34 @@ fun CrearProducto(){
 
                 Spacer(modifier = Modifier.height(5.dp))
             }
+            Spacer(modifier = Modifier.height(10.dp))
+
+            Box(modifier = Modifier
+                .padding(5.dp)
+                .fillMaxWidth(),
+                contentAlignment = Alignment.Center){
+            bitmap?.value?.let {
+                Image(
+                    bitmap = it.asImageBitmap(),
+                    contentDescription = null,
+                    alignment = Alignment.Center
+                )
+            }
+            }
             Box(modifier = Modifier
                 .padding(5.dp)
                 .fillMaxWidth(),
                 contentAlignment = Alignment.Center) {
-
-                Button(shape = RoundedCornerShape(0.dp),
+                Button(
+                    shape = RoundedCornerShape(0.dp),
                     modifier = Modifier   .fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(Color(39, 40, 41)),
                     onClick = {
-                        /* navController.navigate(route = ScreenNav.Home.route)*/
-                    }) {
-                    Text("Indicar ubicación del proveedor",
+                    permissionLauncher.launch(Manifest.permission.CAMERA)
+                }) {
+                    Text("Agregar foto",
                         fontSize = 17.sp,
-                        color = Color.White,
-                    )
+                        color = Color.White)
 
                 }
             }
@@ -288,7 +289,7 @@ fun CrearProducto(){
                     onClick = {
                         /* navController.navigate(route = ScreenNav.Home.route)*/
                     }) {
-                    Text("Agregar foto",
+                    Text("Indicar ubicación del proveedor",
                         fontSize = 17.sp,
                         color = Color.White,
                     )
