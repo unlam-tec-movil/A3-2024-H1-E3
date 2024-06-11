@@ -9,7 +9,9 @@ interface UsuarioContainer {
     val usuarioRepository: UsuarioRepository
 }
 
-class UsuarioDataContainer(private val contex: Context) : UsuarioContainer {
+class UsuarioDataContainer(
+    private val contex: Context,
+) : UsuarioContainer {
     override val usuarioRepository: UsuarioRepository by lazy {
         OfflineUsuarioRepository(InventoryDatabase.getDatabase(contex).usuarioDao())
     }

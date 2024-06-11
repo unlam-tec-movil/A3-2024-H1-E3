@@ -1,4 +1,6 @@
-package ar.edu.unlam.mobile.scaffolding.ui.screens.Warning // ktlint-disable package-name
+@file:Suppress("ktlint:standard:package-name")
+
+package ar.edu.unlam.mobile.scaffolding.ui.screens.Warning
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility

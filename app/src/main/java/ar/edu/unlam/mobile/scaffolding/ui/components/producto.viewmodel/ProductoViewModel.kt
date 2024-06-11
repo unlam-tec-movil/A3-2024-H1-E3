@@ -14,7 +14,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class ProductoViewModel(private val productoRepository: OfflineProductoRepository) : ViewModel() {
+class ProductoViewModel(
+    private val productoRepository: OfflineProductoRepository,
+) : ViewModel() {
     var nombre by mutableStateOf("")
     var textP by mutableStateOf("")
     var textS by mutableStateOf("")
@@ -27,16 +29,15 @@ class ProductoViewModel(private val productoRepository: OfflineProductoRepositor
     var detalle: Producto? = null
 
     val productos: StateFlow<List<Producto>> =
-        productoRepository.getProductos()
+        productoRepository
+            .getProductos()
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5000),
                 initialValue = emptyList(),
             )
 
-    fun productoDetalle(): Producto? {
-        return detalle
-    }
+    fun productoDetalle(): Producto? = detalle
 
     fun productoDetalleGuardar(producto: Producto) {
         detalle = producto

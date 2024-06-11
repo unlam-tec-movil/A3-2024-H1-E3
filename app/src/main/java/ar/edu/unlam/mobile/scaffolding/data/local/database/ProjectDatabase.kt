@@ -12,6 +12,7 @@ import ar.edu.unlam.mobile.scaffolding.data.local.usuario.entity.Usuario
 @Database(entities = [Usuario::class, ProductoEntity::class], version = 1, exportSchema = false)
 abstract class InventoryDatabase : RoomDatabase() {
     abstract fun producotDao(): ProductoDao
+
     abstract fun usuarioDao(): UsuarioDao
 
     companion object {
@@ -21,7 +22,8 @@ abstract class InventoryDatabase : RoomDatabase() {
         fun getDatabase(context: Context): InventoryDatabase {
             // if the Instance is not null, return it, otherwise create a new database instance.
             return instance ?: synchronized(this) {
-                Room.databaseBuilder(context, InventoryDatabase::class.java, "item_database")
+                Room
+                    .databaseBuilder(context, InventoryDatabase::class.java, "item_database")
                     .build()
                     .also { instance = it }
             }

@@ -53,14 +53,16 @@ fun AddStockScreen(controller: NavHostController) {
             style = MaterialTheme.typography.titleMedium,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
-            modifier = Modifier
-                .padding(10.dp),
+            modifier =
+                Modifier
+                    .padding(10.dp),
         )
         IconButton(
-            modifier = Modifier
-                .shadow(12.dp, CardDefaults.shape)
-                // .background(Color.DarkGray)
-                .padding(3.dp),
+            modifier =
+                Modifier
+                    .shadow(12.dp, CardDefaults.shape)
+                    // .background(Color.DarkGray)
+                    .padding(3.dp),
             onClick = {
                 controller.navigate("qr")
             },
@@ -69,9 +71,10 @@ fun AddStockScreen(controller: NavHostController) {
                 painter = painterResource(id = R.drawable.baseline_qr_code_scanner_24),
                 contentDescription = null,
                 tint = Color.White,
-                modifier = Modifier
-                    .size(45.dp)
-                    .padding(10.dp),
+                modifier =
+                    Modifier
+                        .size(45.dp)
+                        .padding(10.dp),
             )
         }
         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.BottomEnd) {

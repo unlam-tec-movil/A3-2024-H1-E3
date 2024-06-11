@@ -25,16 +25,17 @@ fun getLocation(
         }
 
     val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
-    fusedLocationClient.lastLocation.addOnSuccessListener {
-        if (it != null) {
-            Log.d("First location info", "${it.latitude}, ${it.longitude}")
-            callback(LatLng(it.latitude, it.longitude))
-        } else {
-            callback(LatLng(1.35, 103.87))
+    fusedLocationClient.lastLocation
+        .addOnSuccessListener {
+            if (it != null) {
+                Log.d("First location info", "${it.latitude}, ${it.longitude}")
+                callback(LatLng(it.latitude, it.longitude))
+            } else {
+                callback(LatLng(1.35, 103.87))
+            }
+        }.addOnFailureListener {
+            Log.d("Error on location", it.toString())
         }
-    }.addOnFailureListener {
-        Log.d("Error on location", it.toString())
-    }
 
     val locationCallBack =
         object : LocationCallback() {

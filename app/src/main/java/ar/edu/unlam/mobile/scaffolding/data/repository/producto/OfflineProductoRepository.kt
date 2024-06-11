@@ -7,7 +7,9 @@ import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class OfflineProductoRepository(private val productoDao: ProductoDao) {
+class OfflineProductoRepository(
+    private val productoDao: ProductoDao,
+) {
     fun guardarProducto(
         nombre: String,
         precio: Double,
@@ -33,8 +35,8 @@ class OfflineProductoRepository(private val productoDao: ProductoDao) {
 
     suspend fun getCantidadProducto(): Int = productoDao.getCantidadProductos()
 
-    fun getProductos(): Flow<List<Producto>> {
-        return productoDao.getProductos().map { entities ->
+    fun getProductos(): Flow<List<Producto>> =
+        productoDao.getProductos().map { entities ->
             entities.map { entity ->
                 Producto(
                     nombre = entity.nombre,
@@ -47,5 +49,4 @@ class OfflineProductoRepository(private val productoDao: ProductoDao) {
                 )
             }
         }
-    }
 }
