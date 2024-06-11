@@ -1,6 +1,6 @@
 @file:Suppress("ktlint:standard:package-name")
 
-package ar.edu.unlam.mobile.scaffolding.ui.screens.AgregarProductoVender
+package ar.edu.unlam.mobile.scaffolding.ui.screens.AgregarProductoVender // ktlint-disable package-name
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
