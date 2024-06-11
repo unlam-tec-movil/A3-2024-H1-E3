@@ -48,23 +48,23 @@ fun CrearProducto(
     val coroutineScope = rememberCoroutineScope()
     Column(
         modifier =
-            Modifier
-                // .background(color = Color.White)
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
+        Modifier
+            // .background(color = Color.White)
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
     ) {
         Card(
             // colors = CardDefaults.cardColors(containerColor = Color.White),
             // shape = RoundedCornerShape(0.dp),
             modifier =
-                Modifier
-                    .fillMaxWidth(),
+            Modifier
+                .fillMaxWidth(),
             elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
         ) {
             IconButton(
                 modifier =
-                    Modifier
-                        .padding(5.dp),
+                Modifier
+                    .padding(5.dp),
                 onClick = {
                     controller.navigate(route = "home")
                 },
@@ -74,8 +74,8 @@ fun CrearProducto(
                     contentDescription = null,
                     // tint = Color.Black,
                     modifier =
-                        Modifier
-                            .size(45.dp),
+                    Modifier
+                        .size(45.dp),
                 )
             }
         } // CIERRA CARD PARA ATRAS
@@ -111,9 +111,9 @@ fun CrearProducto(
             )
             TextField(
                 modifier =
-                    Modifier
-                        .padding(10.dp)
-                        .fillMaxWidth(),
+                Modifier
+                    .padding(10.dp)
+                    .fillMaxWidth(),
                 // .background(Color.White),
                 value = viewModel.nombre,
                 onValueChange = { viewModel.nombre = it },
@@ -128,9 +128,9 @@ fun CrearProducto(
             )
             TextField(
                 modifier =
-                    Modifier
-                        .padding(10.dp)
-                        .fillMaxWidth(),
+                Modifier
+                    .padding(10.dp)
+                    .fillMaxWidth(),
                 // .background(Color.White),
                 value = viewModel.textP,
                 onValueChange = {
@@ -138,19 +138,19 @@ fun CrearProducto(
                     viewModel.precio = it.toDoubleOrNull() ?: 0.0
                 },
                 keyboardOptions =
-                    KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Number,
-                    ),
+                KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Number,
+                ),
             )
             Spacer(modifier = Modifier.height(15.dp))
 
             Card(
                 // colors = CardDefaults.cardColors(containerColor = Color.White),
                 modifier =
-                    Modifier
-                        // .background(color = Color.White)
-                        .padding(10.dp)
-                        .fillMaxWidth(),
+                Modifier
+                    // .background(color = Color.White)
+                    .padding(10.dp)
+                    .fillMaxWidth(),
                 elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
             ) {
                 Spacer(modifier = Modifier.height(5.dp))
@@ -167,8 +167,8 @@ fun CrearProducto(
                     Spacer(modifier = Modifier.height(15.dp))
                     TextField(
                         modifier =
-                            Modifier
-                                .fillMaxWidth(),
+                        Modifier
+                            .fillMaxWidth(),
                         // .background(Color.White),
                         value = viewModel.textS,
                         onValueChange = {
@@ -176,9 +176,9 @@ fun CrearProducto(
                             viewModel.stock = it.toIntOrNull() ?: 0
                         },
                         keyboardOptions =
-                            KeyboardOptions.Default.copy(
-                                keyboardType = KeyboardType.Number,
-                            ),
+                        KeyboardOptions.Default.copy(
+                            keyboardType = KeyboardType.Number,
+                        ),
                         placeholder = { Text(text = "Stock") },
                     )
 
@@ -187,8 +187,8 @@ fun CrearProducto(
 
                     TextField(
                         modifier =
-                            Modifier
-                                .fillMaxWidth(),
+                        Modifier
+                            .fillMaxWidth(),
                         // .background(Color.White),
                         value = viewModel.categoria,
                         onValueChange = { viewModel.categoria = it },
@@ -199,8 +199,8 @@ fun CrearProducto(
                     Divider()
                     TextField(
                         modifier =
-                            Modifier
-                                .fillMaxWidth(),
+                        Modifier
+                            .fillMaxWidth(),
                         // .background(Color.White),
                         value = viewModel.nombreProvedor,
                         onValueChange = { viewModel.nombreProvedor = it },
@@ -214,16 +214,16 @@ fun CrearProducto(
             Card(
                 // colors = CardDefaults.cardColors(containerColor = Color.White),
                 modifier =
-                    Modifier
-                        // .background(color = Color.White)
-                        .padding(10.dp)
-                        .fillMaxWidth(),
+                Modifier
+                    // .background(color = Color.White)
+                    .padding(10.dp)
+                    .fillMaxWidth(),
                 elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
             ) {
                 TextField(
                     modifier =
-                        Modifier
-                            .fillMaxWidth(),
+                    Modifier
+                        .fillMaxWidth(),
                     //  .background(Color.White),
                     value = viewModel.qr,
                     onValueChange = { viewModel.qr = it },
@@ -233,9 +233,9 @@ fun CrearProducto(
             }
             Box(
                 modifier =
-                    Modifier
-                        .padding(5.dp)
-                        .fillMaxWidth(),
+                Modifier
+                    .padding(5.dp)
+                    .fillMaxWidth(),
                 contentAlignment = Alignment.Center,
             ) {
                 Button(
@@ -255,9 +255,9 @@ fun CrearProducto(
             }
             Box(
                 modifier =
-                    Modifier
-                        .padding(5.dp)
-                        .fillMaxWidth(),
+                Modifier
+                    .padding(5.dp)
+                    .fillMaxWidth(),
                 contentAlignment = Alignment.Center,
             ) {
                 Button(
@@ -277,9 +277,9 @@ fun CrearProducto(
             }
             Box(
                 modifier =
-                    Modifier
-                        .padding(5.dp)
-                        .fillMaxWidth(),
+                Modifier
+                    .padding(5.dp)
+                    .fillMaxWidth(),
                 contentAlignment = Alignment.Center,
             ) {
                 Button(
