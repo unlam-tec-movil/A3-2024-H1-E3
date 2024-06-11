@@ -144,7 +144,7 @@ fun MainScreen(viewModel: ProductoViewModel) {
                 CrearProducto(controller, viewModel)
             }
             composable("detalle") {
-                DetalleProducto(controller)
+                DetalleProducto(controller, viewModel.productoDetalle())
             }
             composable("Camara") {
                 CameraScreen()

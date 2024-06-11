@@ -24,6 +24,7 @@ class ProductoViewModel(private val productoRepository: OfflineProductoRepositor
     var nombreProvedor by mutableStateOf("")
     var ubicacionProveedor by mutableStateOf<LatLng?>(null)
     var qr by mutableStateOf("")
+    var detalle: Producto? = null
 
     val productos: StateFlow<List<Producto>> =
         productoRepository.getProductos()
@@ -32,6 +33,14 @@ class ProductoViewModel(private val productoRepository: OfflineProductoRepositor
                 started = SharingStarted.WhileSubscribed(5000),
                 initialValue = emptyList(),
             )
+
+    fun productoDetalle(): Producto? {
+        return detalle
+    }
+
+    fun productoDetalleGuardar(producto: Producto) {
+        detalle = producto
+    }
 
     fun guardarProducto(
         nombre: String = this.nombre,
