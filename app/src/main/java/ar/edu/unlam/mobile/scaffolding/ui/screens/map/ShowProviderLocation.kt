@@ -2,6 +2,8 @@ package ar.edu.unlam.mobile.scaffolding.ui.screens.map
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -43,20 +45,20 @@ fun MapProviderScreen(
     val permissionState =
         rememberMultiplePermissionsState(
             permissions =
-                listOf(
-                    android.Manifest.permission.ACCESS_FINE_LOCATION,
-                    android.Manifest.permission.ACCESS_COARSE_LOCATION,
-                ),
+            listOf(
+                android.Manifest.permission.ACCESS_FINE_LOCATION,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION,
+            ),
         )
     LaunchedEffect(Unit) {
         permissionState.launchMultiplePermissionRequest()
     }
     if (permissionState.allPermissionsGranted) {
-        MapBody(context, lifecycleOwner, viewModel, navController)
+        MapProviderBody(context, lifecycleOwner, viewModel, navController)
     } else if (permissionState.shouldShowRationale) {
         MyRational(context)
     } else {
-        // TODO("Viajar atras")
+        // TODO: Navegar hacia atrás o mostrar un mensaje de error
     }
 }
 
@@ -84,12 +86,17 @@ fun MapProviderBody(
             )
         },
         bottomBar = {
-            MyMapBotomBar(buttonEnabled.value, navigateBack)
+            locationState.value?.let { location ->
+                providerLocation.value?.let { providerLocation ->
+                    MyMapBotomBar(buttonEnabled.value, navigateBack, context, location, providerLocation)
+                }
+            }
         },
     ) {
         locationState.value?.let { location ->
-            Map(location = location, viewModel = viewModel) {
-                buttonEnabled.value = it
+            ProviderMap(location = location, viewModel = viewModel) { enabled ->
+                buttonEnabled.value = enabled
+                providerLocation.value = viewModel.ubicacionProveedor
             }
         }
     }
@@ -134,21 +141,32 @@ fun ProviderMap(
 private fun MyMapBotomBar(
     buttonEnabled: Boolean,
     navigateBack: NavHostController,
+    context: Context,
+    origin: LatLng,
+    destination: LatLng,
 ) {
     Box(
         contentAlignment = Alignment.BottomCenter,
         modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(10.dp),
+        Modifier
+            .fillMaxWidth()
+            .padding(10.dp),
     ) {
         Button(
             enabled = buttonEnabled,
             onClick = {
+                openGoogleMaps(context, origin, destination)
                 navigateBack.popBackStack()
             },
         ) {
             Text(text = "Continuar")
         }
     }
+}
+
+fun openGoogleMaps(context: Context, origin: LatLng, destination: LatLng) {
+    val uri = "http://maps.google.com/maps?saddr=${origin.latitude},${origin.longitude}&daddr=${destination.latitude},${destination.longitude}"
+    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+    intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity")
+    context.startActivity(intent)
 }
