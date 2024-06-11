@@ -107,18 +107,18 @@ fun MainScreen(viewModel: ProductoViewModel) {
 
     val controller = rememberNavController()
     // State to keep track of the current route
-    val currentRoute = remember { mutableStateOf("home") }
+    val currentroute = remember { mutableStateOf("home") }
 
     // Setup a listener to update the current route
     LaunchedEffect(controller) {
         controller.addOnDestinationChangedListener { _, destination, _ ->
-            currentRoute.value = destination.route ?: "home"
+            currentroute.value = destination.route ?: "home"
         }
     }
 
     Scaffold(
         floatingActionButton = {
-            if (currentRoute.value == "home") {
+            if (currentroute.value == "home") {
                 FloatingActionButton(
                     onClick = { controller.navigate("add") },
                     modifier = Modifier.size(64.dp),
