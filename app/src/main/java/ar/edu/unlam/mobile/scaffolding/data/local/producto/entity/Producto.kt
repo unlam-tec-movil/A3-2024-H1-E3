@@ -10,4 +10,5 @@ data class Producto(
     val nombreProvedor: String,
     val ubicacionProveedor: LatLng,
     val qr: String,
+    val fotoUri: String,
 )

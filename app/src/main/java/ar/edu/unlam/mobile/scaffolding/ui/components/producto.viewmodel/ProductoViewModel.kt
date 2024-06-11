@@ -24,6 +24,7 @@ class ProductoViewModel(private val productoRepository: OfflineProductoRepositor
     var nombreProvedor by mutableStateOf("")
     var ubicacionProveedor by mutableStateOf<LatLng?>(null)
     var qr by mutableStateOf("")
+    var fotoUri by mutableStateOf("")
     var detalle: Producto? = null
 
     val productos: StateFlow<List<Producto>> =
@@ -50,6 +51,7 @@ class ProductoViewModel(private val productoRepository: OfflineProductoRepositor
         nombreProvedor: String = this.nombreProvedor,
         ubicacionProveedor: LatLng = this.ubicacionProveedor!!,
         qr: String = this.qr,
+        fotoUri: String = this.fotoUri!!,
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -61,6 +63,7 @@ class ProductoViewModel(private val productoRepository: OfflineProductoRepositor
                     nombreProvedor = nombreProvedor,
                     ubicacionProveedor = ubicacionProveedor,
                     qr = qr,
+                    fotoUri = fotoUri,
                 )
             } catch (e: Exception) {
                 System.out.println("NO ANDA")
@@ -73,5 +76,6 @@ class ProductoViewModel(private val productoRepository: OfflineProductoRepositor
         this.nombreProvedor = ""
         this.ubicacionProveedor = null
         this.qr = ""
+        this.fotoUri = ""
     }
 }

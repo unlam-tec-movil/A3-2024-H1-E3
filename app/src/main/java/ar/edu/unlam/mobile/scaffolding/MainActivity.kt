@@ -147,7 +147,10 @@ fun MainScreen(viewModel: ProductoViewModel) {
                 DetalleProducto(controller, viewModel.productoDetalle())
             }
             composable("Camara") {
-                CameraScreen()
+                CameraScreen(
+                    viewModel = viewModel,
+                    navController = controller,
+                )
             }
             composable("indicarUbi") {
                 MapScreen(

@@ -59,7 +59,8 @@ fun MyComponent() { // funcion para ordenar uno al lado del otro
                 }
             }
         }
-    } }
+    }
+}
 
 @Preview(showSystemUi = true)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)

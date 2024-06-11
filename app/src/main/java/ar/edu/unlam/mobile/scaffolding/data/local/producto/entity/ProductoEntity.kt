@@ -15,4 +15,5 @@ data class ProductoEntity(
     val latitudProveedor: Double,
     val longitudProveedor: Double,
     val qr: String,
+    val fotoUri: String,
 )

@@ -43,10 +43,10 @@ fun MapScreen(
     val permissionState =
         rememberMultiplePermissionsState(
             permissions =
-            listOf(
-                android.Manifest.permission.ACCESS_FINE_LOCATION,
-                android.Manifest.permission.ACCESS_COARSE_LOCATION,
-            ),
+                listOf(
+                    android.Manifest.permission.ACCESS_FINE_LOCATION,
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                ),
         )
     LaunchedEffect(Unit) {
         permissionState.launchMultiplePermissionRequest()
@@ -56,7 +56,7 @@ fun MapScreen(
     } else if (permissionState.shouldShowRationale) {
         MyRational(context)
     } else {
-        // TODO("Viajar atras")
+        navController.popBackStack()
     }
 }
 
@@ -138,9 +138,9 @@ private fun MyMapBotomBar(
     Box(
         contentAlignment = Alignment.BottomCenter,
         modifier =
-        Modifier
-            .fillMaxWidth()
-            .padding(10.dp),
+            Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
     ) {
         Button(
             enabled = buttonEnabled,

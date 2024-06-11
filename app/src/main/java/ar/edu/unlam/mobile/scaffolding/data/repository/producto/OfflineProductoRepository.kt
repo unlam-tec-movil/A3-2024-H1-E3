@@ -16,6 +16,7 @@ class OfflineProductoRepository(private val productoDao: ProductoDao) {
         nombreProvedor: String,
         ubicacionProveedor: LatLng,
         qr: String,
+        fotoUri: String,
     ) {
         val u =
             ProductoEntity(
@@ -27,6 +28,7 @@ class OfflineProductoRepository(private val productoDao: ProductoDao) {
                 latitudProveedor = ubicacionProveedor.latitude,
                 longitudProveedor = ubicacionProveedor.longitude,
                 qr = qr,
+                fotoUri = fotoUri,
             )
         productoDao.guardarProducto(u)
     }
@@ -44,6 +46,7 @@ class OfflineProductoRepository(private val productoDao: ProductoDao) {
                     nombreProvedor = entity.nombreProvedor,
                     ubicacionProveedor = LatLng(entity.latitudProveedor, entity.longitudProveedor),
                     qr = entity.qr,
+                    fotoUri = entity.fotoUri,
                 )
             }
         }
