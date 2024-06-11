@@ -38,7 +38,6 @@ import ar.edu.unlam.mobile.scaffolding.data.local.producto.entity.Producto
 
 @Composable
 fun DetalleProducto(controller: NavHostController, Producto: Producto?) {
-
     val ubicacionProveedor = Producto?.ubicacionProveedor
 
     Column(
@@ -150,49 +149,57 @@ fun DetalleProducto(controller: NavHostController, Producto: Producto?) {
             ) {
                 Spacer(modifier = Modifier.height(5.dp))
                 Column(modifier = Modifier.padding(10.dp)) {
-                    Text(
-                        text = "Precio:",
-                        style = MaterialTheme.typography.titleMedium,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.padding(10.dp),
-                        color = Color.Black,
-                    )
+                    if (Producto != null) {
+                        Text(
+                            text = "Precio: ${Producto.precio}",
+                            style = MaterialTheme.typography.titleMedium,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.padding(10.dp),
+                            color = Color.Black,
+                        )
+                    }
 
                     Spacer(modifier = Modifier.height(15.dp))
                     Divider()
 
-                    Text(
-                        text = "Stock:",
-                        style = MaterialTheme.typography.titleMedium,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.padding(10.dp),
-                        color = Color.Black,
-                    )
+                    if (Producto != null) {
+                        Text(
+                            text = "Stock: ${Producto.stock}",
+                            style = MaterialTheme.typography.titleMedium,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.padding(10.dp),
+                            color = Color.Black,
+                        )
+                    }
 
                     Spacer(modifier = Modifier.height(15.dp))
                     Divider()
 
-                    Text(
-                        text = "Categoria:",
-                        style = MaterialTheme.typography.titleMedium,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.padding(10.dp),
-                        color = Color.Black,
-                    )
+                    if (Producto != null) {
+                        Text(
+                            text = "Categoria: ${Producto.categoria}",
+                            style = MaterialTheme.typography.titleMedium,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.padding(10.dp),
+                            color = Color.Black,
+                        )
+                    }
 
                     Spacer(modifier = Modifier.height(15.dp))
                     Divider()
-                    Text(
-                        text = "Nombre del Proovedor:",
-                        style = MaterialTheme.typography.titleMedium,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.padding(10.dp),
-                        color = Color.Black,
-                    )
+                    if (Producto != null) {
+                        Text(
+                            text = "Nombre del Proovedor: ${Producto.nombreProvedor}",
+                            style = MaterialTheme.typography.titleMedium,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.padding(10.dp),
+                            color = Color.Black,
+                        )
+                    }
                     Spacer(modifier = Modifier.height(15.dp))
                     Divider()
                 }
