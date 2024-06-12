@@ -15,18 +15,18 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
-private val DarkColorScheme =
+private val darkColorScheme =
     darkColorScheme(
         primary = purple80,
         secondary = purplegrey80,
-        tertiary = Pink80,
+        tertiary = pink80,
     )
 
-private val LightColorScheme =
+private val lightColorScheme =
     lightColorScheme(
-        primary = Purple40,
-        secondary = PurpleGrey40,
-        tertiary = Pink40,
+        primary = purple40,
+        secondary = purpleGrey40,
+        tertiary = pink40,
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
     surface = Color(0xFFFFFBFE),
@@ -52,8 +52,8 @@ fun ScaffoldingV2Theme(
                 if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
             }
 
-            darkTheme -> DarkColorScheme
-            else -> LightColorScheme
+            darkTheme -> darkColorScheme
+            else -> lightColorScheme
         }
     val view = LocalView.current
     if (!view.isInEditMode) {
@@ -66,7 +66,7 @@ fun ScaffoldingV2Theme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = typography,
         content = content,
     )
 }

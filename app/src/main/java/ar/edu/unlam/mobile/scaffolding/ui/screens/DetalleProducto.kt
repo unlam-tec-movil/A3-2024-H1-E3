@@ -39,9 +39,9 @@ import ar.edu.unlam.mobile.scaffolding.data.local.producto.entity.Producto
 @Composable
 fun DetalleProducto(
     controller: NavHostController,
-    Producto: Producto?,
+    producto: Producto?,
 ) {
-    val ubicacionProveedor = Producto?.ubicacionProveedor
+    val ubicacionProveedor = producto?.ubicacionProveedor
 
     Column(
         modifier =
@@ -128,10 +128,11 @@ fun DetalleProducto(
                         .fillMaxWidth(),
                 elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
             ) {
-                if (Producto != null) {
+                if (producto != null) {
+                    @Suppress("ktlint:standard:comment-wrapping")
                     Text(
                         color = Color.Black,
-                        text = "Nombre: ${Producto.nombre}" /*poner la variable adentro, Nombre:${} */,
+                        text = "Nombre: ${producto.nombre}" /*poner la variable adentro, Nombre:${} */,
                         style = MaterialTheme.typography.titleMedium,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
@@ -152,9 +153,9 @@ fun DetalleProducto(
             ) {
                 Spacer(modifier = Modifier.height(5.dp))
                 Column(modifier = Modifier.padding(10.dp)) {
-                    if (Producto != null) {
+                    if (producto != null) {
                         Text(
-                            text = "Precio: ${Producto.precio}",
+                            text = "Precio: ${producto.precio}",
                             style = MaterialTheme.typography.titleMedium,
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis,
@@ -166,9 +167,9 @@ fun DetalleProducto(
                     Spacer(modifier = Modifier.height(15.dp))
                     Divider()
 
-                    if (Producto != null) {
+                    if (producto != null) {
                         Text(
-                            text = "Stock: ${Producto.stock}",
+                            text = "Stock: ${producto.stock}",
                             style = MaterialTheme.typography.titleMedium,
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis,
@@ -180,9 +181,9 @@ fun DetalleProducto(
                     Spacer(modifier = Modifier.height(15.dp))
                     Divider()
 
-                    if (Producto != null) {
+                    if (producto != null) {
                         Text(
-                            text = "Categoria: ${Producto.categoria}",
+                            text = "Categoria: ${producto.categoria}",
                             style = MaterialTheme.typography.titleMedium,
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis,
@@ -193,9 +194,9 @@ fun DetalleProducto(
 
                     Spacer(modifier = Modifier.height(15.dp))
                     Divider()
-                    if (Producto != null) {
+                    if (producto != null) {
                         Text(
-                            text = "Nombre del Proovedor: ${Producto.nombreProvedor}",
+                            text = "Nombre del Proovedor: ${producto.nombreProvedor}",
                             style = MaterialTheme.typography.titleMedium,
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis,

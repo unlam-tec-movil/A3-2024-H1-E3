@@ -159,7 +159,9 @@ fun openGoogleMaps(
     origin: LatLng,
     destination: LatLng,
 ) {
-    val uri = "http://maps.google.com/maps?saddr=${origin.latitude},${origin.longitude}&daddr=${destination.latitude},${destination.longitude}"
+    val uri = "http://maps.google.com/maps?saddr=${origin.latitude}," +
+            "${origin.longitude}&daddr=${destination.latitude}," +
+            "${destination.longitude}"
     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
     intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity")
     context.startActivity(intent)
