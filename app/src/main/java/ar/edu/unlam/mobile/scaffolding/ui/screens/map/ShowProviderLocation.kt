@@ -24,7 +24,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavHostController
 import ar.edu.unlam.mobile.scaffolding.ui.components.MyTopBar
 import ar.edu.unlam.mobile.scaffolding.ui.components.usuario.viewmodel.ProductoViewModel
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
@@ -33,7 +32,6 @@ import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun MapProviderScreen(
     viewModel: ProductoViewModel,
@@ -159,7 +157,9 @@ fun openGoogleMaps(
     origin: LatLng,
     destination: LatLng,
 ) {
-    val uri = "http://maps.google.com/maps?saddr=${origin.latitude},${origin.longitude}&daddr=${destination.latitude},${destination.longitude}"
+    val uri =
+        "http://maps.google.com/maps?saddr=" +
+            "${origin.latitude},${origin.longitude}&daddr=${destination.latitude},${destination.longitude}"
     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
     intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity")
     context.startActivity(intent)

@@ -1,6 +1,4 @@
-@file:Suppress("ktlint:standard:package-name")
-
-package ar.edu.unlam.mobile.scaffolding.ui.screens.CrearProducto
+package ar.edu.unlam.mobile.scaffolding.ui.screens.crearProducto
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column

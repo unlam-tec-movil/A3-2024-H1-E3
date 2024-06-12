@@ -14,6 +14,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -72,7 +73,7 @@ fun DetalleProducto(
                 },
             ) {
                 Icon(
-                    Icons.Filled.ArrowBack,
+                    Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = null,
                     tint = Color.Black,
                     modifier =
@@ -139,7 +140,7 @@ fun DetalleProducto(
                 if (producto != null) {
                     Text(
                         color = Color.Black,
-                        text = "Nombre: ${producto.nombre}" /*poner la variable adentro, Nombre:${} */,
+                        text = "Nombre: ${producto.nombre}",
                         style = MaterialTheme.typography.titleMedium,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
