@@ -1,6 +1,8 @@
-package ar.edu.unlam.mobile.scaffolding.ui.components.usuario.viewmodel
+package ar.edu.unlam.mobile.scaffolding.ui.components.producto.viewmodel
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
@@ -18,8 +20,8 @@ class ProductoViewModel(private val productoRepository: OfflineProductoRepositor
     var nombre by mutableStateOf("")
     var textP by mutableStateOf("")
     var textS by mutableStateOf("")
-    var precio by mutableStateOf(0.0)
-    var stock by mutableStateOf(0)
+    var precio by mutableDoubleStateOf(0.0)
+    var stock by mutableIntStateOf(0)
     var categoria by mutableStateOf("")
     var nombreProvedor by mutableStateOf("")
     var ubicacionProveedor by mutableStateOf<LatLng?>(null)

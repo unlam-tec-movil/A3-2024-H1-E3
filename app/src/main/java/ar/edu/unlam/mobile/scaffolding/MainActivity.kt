@@ -29,7 +29,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
 import ar.edu.unlam.mobile.scaffolding.data.local.database.InventoryDatabase
 import ar.edu.unlam.mobile.scaffolding.data.repository.producto.OfflineProductoRepository
-import ar.edu.unlam.mobile.scaffolding.ui.components.usuario.viewmodel.ProductoViewModel
+import ar.edu.unlam.mobile.scaffolding.ui.components.producto.viewmodel.ProductoViewModel
 import ar.edu.unlam.mobile.scaffolding.ui.screens.DetalleProducto
 import ar.edu.unlam.mobile.scaffolding.ui.screens.HomeScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.addStock.AddStockScreen
