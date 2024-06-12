@@ -1,6 +1,7 @@
 package ar.edu.unlam.mobile.scaffolding.ui.screens
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,6 +19,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Share
@@ -34,6 +36,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
@@ -47,9 +51,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -182,6 +189,7 @@ fun Contenido(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BarraDeBusqueda(
     modifier: Modifier = Modifier,
@@ -189,10 +197,10 @@ fun BarraDeBusqueda(
     onSearchTextChange: (String) -> Unit,
 ) {
     TextField(
-        value = searchText,
+       value = searchText,
         onValueChange = { newText -> onSearchTextChange(newText) },
         placeholder = { Text("Buscar") },
-        modifier = modifier,
+        modifier = modifier.fillMaxWidth() .padding(vertical = 4.dp),
     )
 }
 
@@ -222,36 +230,36 @@ fun ProductoItem(
     Card(
         modifier =
             Modifier
+                .padding(10.dp)
                 .fillMaxSize()
                 .aspectRatio(1f)
-                .padding(8.dp)
                 .clickable { onClick() },
-        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
+        shape = RoundedCornerShape(5.dp)
     ) {
         Column(
-            modifier = Modifier.padding(10.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .background(Color(145,145,145))
+                .fillMaxSize()
         ) {
             AsyncImage(
-                modifier =
-                    Modifier
-                        .size(100.dp)
-                        .clip(RoundedCornerShape(16.dp)),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .size(100.dp),
+                contentScale = ContentScale.Crop,
                 model = producto.fotoUri,
                 contentDescription = null,
-                contentScale = ContentScale.Crop,
                 placeholder = painterResource(R.drawable.splashimg),
+
             )
-            Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = producto.nombre,
-                style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                fontSize = 14.sp,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp)
             )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = "Precio: ${producto.precio}")
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(text = "Stock: ${producto.stock}")
+
         }
     }
 }
