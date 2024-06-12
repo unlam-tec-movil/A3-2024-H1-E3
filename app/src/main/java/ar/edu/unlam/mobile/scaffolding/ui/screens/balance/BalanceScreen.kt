@@ -35,13 +35,13 @@ fun MyComponent() { // funcion para ordenar uno al lado del otro
         Text("<    Balance", fontSize = 20.sp)
         Spacer(modifier = Modifier.height(22.dp))
         Text(text = "General", fontSize = 20.sp)
-        Text(text = "$ " + general.toString(), fontSize = 50.sp)
+        Text(text = "$ $general", fontSize = 50.sp)
         Spacer(modifier = Modifier.height(22.dp))
         Text(text = "Compra", fontSize = 20.sp)
-        Text(text = "$ " + compra.toString(), fontSize = 50.sp, color = Color.Red)
+        Text(text = "$ $compra", fontSize = 50.sp, color = Color.Red)
         Spacer(modifier = Modifier.height(22.dp))
         Text(text = "Venta", fontSize = 20.sp)
-        Text(text = "$ " + venta.toString(), fontSize = 50.sp, color = Color.Green)
+        Text(text = "$ $venta", fontSize = 50.sp, color = Color.Green)
         Spacer(modifier = Modifier.height(22.dp))
         Text(text = "Historial", fontSize = 20.sp)
         Box(modifier = Modifier.width(500.dp)) {
@@ -59,7 +59,8 @@ fun MyComponent() { // funcion para ordenar uno al lado del otro
                 }
             }
         }
-    } }
+    }
+}
 
 @Preview(showSystemUi = true)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)

@@ -12,11 +12,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Share
@@ -44,15 +45,21 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import ar.edu.unlam.mobile.scaffolding.R
 import ar.edu.unlam.mobile.scaffolding.data.local.producto.entity.Producto
-import ar.edu.unlam.mobile.scaffolding.ui.components.usuario.viewmodel.ProductoViewModel
+import ar.edu.unlam.mobile.scaffolding.ui.components.producto.viewmodel.ProductoViewModel
+import coil.compose.AsyncImage
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -101,25 +108,29 @@ fun HomeScreen(
                         },
                         content = { paddingValues ->
                             Column(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(paddingValues),
+                                modifier =
+                                    Modifier
+                                        .fillMaxSize()
+                                        .padding(paddingValues),
                             ) {
                                 BarraDeBusqueda(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(16.dp),
+                                    modifier =
+                                        Modifier
+                                            .fillMaxWidth()
+                                            .padding(16.dp),
                                     searchText = searchText,
                                     onSearchTextChange = { newText ->
                                         searchText = newText
                                     },
                                 )
                                 // Filtrar productos según el texto de búsqueda
-                                val filteredProducts = productos.filter { producto ->
-                                    producto.nombre.contains(searchText, ignoreCase = true)
-                                }
+                                val filteredProducts =
+                                    productos.filter { producto ->
+                                        producto.nombre.contains(searchText, ignoreCase = true)
+                                    }
                                 Contenido(filteredProducts, onProductoClick = { producto ->
                                     // Maneja el clic del producto aquí
+                                    viewModelP.productoDetalleGuardar(producto)
                                     controller.navigate("detalle")
                                 })
                             }
@@ -136,18 +147,23 @@ fun HomeScreen(
 }
 
 @Composable
-fun Contenido(productoEntities: List<Producto>, onProductoClick: (Producto) -> Unit) {
+fun Contenido(
+    productoEntities: List<Producto>,
+    onProductoClick: (Producto) -> Unit,
+) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(16.dp),
     ) {
         if (productoEntities.isNotEmpty()) {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(8.dp),
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .padding(8.dp),
                 contentPadding = PaddingValues(8.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -180,19 +196,53 @@ fun BarraDeBusqueda(
     )
 }
 
+@Preview
 @Composable
-fun ProductoItem(producto: Producto, onClick: () -> Unit) {
+private fun itemPreview() {
+    val producto =
+        Producto(
+            nombre = "Prueba",
+            precio = 200.0,
+            stock = 10,
+            fotoUri = "file://prueba",
+            qr = "",
+            ubicacionProveedor = LatLng(1.0, 1.0),
+            nombreProvedor = "",
+            categoria = "",
+        )
+    val onClick = { print("Click") }
+    ProductoItem(producto = producto, onClick = onClick)
+}
+
+@Composable
+fun ProductoItem(
+    producto: Producto,
+    onClick: () -> Unit,
+) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .aspectRatio(1f)
-            .padding(8.dp)
-            .clickable { onClick() },
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .aspectRatio(1f)
+                .padding(8.dp)
+                .clickable { onClick() },
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
     ) {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(10.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            AsyncImage(
+                modifier =
+                    Modifier
+                        .size(100.dp)
+                        .clip(RoundedCornerShape(16.dp)),
+                model = producto.fotoUri,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                placeholder = painterResource(R.drawable.splashimg),
+            )
+            Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = producto.nombre,
                 style = MaterialTheme.typography.bodyLarge,
@@ -231,9 +281,10 @@ fun DrawerContent(
 ) {
     Surface(
         color = MaterialTheme.colorScheme.background,
-        modifier = Modifier
-            .fillMaxHeight()
-            .width(300.dp),
+        modifier =
+            Modifier
+                .fillMaxHeight()
+                .width(300.dp),
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
@@ -244,24 +295,26 @@ fun DrawerContent(
             )
             Divider(modifier = Modifier.padding(vertical = 8.dp))
 
-            val menuItems = listOf(
-                "Inicio" to "home",
-                "Agregar stock" to "agregarStock",
-                "Vender" to "vender",
-                "Balance" to "balance",
-                "Configuracion" to "configuracion",
-            )
+            val menuItems =
+                listOf(
+                    "Inicio" to "home",
+                    "Agregar stock" to "agregarStock",
+                    "Vender" to "vender",
+                    "Balance" to "balance",
+                    "Configuracion" to "configuracion",
+                )
 
             menuItems.forEach { (menuItem, route) ->
                 Text(
                     text = menuItem,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp)
-                        .clickable {
-                            navController.navigate(route)
-                            onMenuItemClick()
-                        },
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp)
+                            .clickable {
+                                navController.navigate(route)
+                                onMenuItemClick()
+                            },
                     style = MaterialTheme.typography.bodyLarge,
                 )
             }

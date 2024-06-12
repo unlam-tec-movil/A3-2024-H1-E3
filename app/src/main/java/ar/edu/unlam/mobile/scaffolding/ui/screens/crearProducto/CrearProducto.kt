@@ -1,5 +1,5 @@
-package ar.edu.unlam.mobile.scaffolding.ui.screens.CrearProducto // ktlint-disable package-name
-import android.widget.Toast
+package ar.edu.unlam.mobile.scaffolding.ui.screens.crearProducto
+
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -14,7 +14,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -25,14 +24,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -40,37 +34,34 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import ar.edu.unlam.mobile.scaffolding.ui.components.usuario.viewmodel.ProductoViewModel
+import ar.edu.unlam.mobile.scaffolding.ui.components.producto.viewmodel.ProductoViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun CrearProducto(controller: NavHostController, viewModel: ProductoViewModel) {
+fun CrearProducto(
+    controller: NavHostController,
+    viewModel: ProductoViewModel,
+) {
     val coroutineScope = rememberCoroutineScope()
-    var nombre by remember { mutableStateOf("") }
-    var textP by remember { mutableStateOf("") }
-    var textS by remember { mutableStateOf("") }
-    var precio by remember { mutableStateOf(0.0) }
-    var stock by remember { mutableStateOf(0) }
-    var categoria by remember { mutableStateOf("") }
-    var nombreProvedor by remember { mutableStateOf("") }
-    var qr by remember { mutableStateOf("") }
     Column(
-        modifier = Modifier
-            // .background(color = Color.White)
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
+        modifier =
+            Modifier
+                // .background(color = Color.White)
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
     ) {
         Card(
             // colors = CardDefaults.cardColors(containerColor = Color.White),
             // shape = RoundedCornerShape(0.dp),
-            modifier = Modifier
-                .fillMaxWidth(),
-
+            modifier =
+                Modifier
+                    .fillMaxWidth(),
             elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
         ) {
             IconButton(
-                modifier = Modifier
-                    .padding(5.dp),
+                modifier =
+                    Modifier
+                        .padding(5.dp),
                 onClick = {
                     controller.navigate(route = "home")
                 },
@@ -79,8 +70,9 @@ fun CrearProducto(controller: NavHostController, viewModel: ProductoViewModel) {
                     Icons.Filled.ArrowBack,
                     contentDescription = null,
                     // tint = Color.Black,
-                    modifier = Modifier
-                        .size(45.dp),
+                    modifier =
+                        Modifier
+                            .size(45.dp),
                 )
             }
         } // CIERRA CARD PARA ATRAS
@@ -115,12 +107,13 @@ fun CrearProducto(controller: NavHostController, viewModel: ProductoViewModel) {
                 modifier = Modifier.padding(10.dp),
             )
             TextField(
-                modifier = Modifier
-                    .padding(10.dp)
-                    .fillMaxWidth(),
+                modifier =
+                    Modifier
+                        .padding(10.dp)
+                        .fillMaxWidth(),
                 // .background(Color.White),
-                value = nombre,
-                onValueChange = { nombre = it },
+                value = viewModel.nombre,
+                onValueChange = { viewModel.nombre = it },
             )
             Spacer(modifier = Modifier.height(15.dp))
             Text(
@@ -131,27 +124,30 @@ fun CrearProducto(controller: NavHostController, viewModel: ProductoViewModel) {
                 modifier = Modifier.padding(10.dp),
             )
             TextField(
-                modifier = Modifier
-                    .padding(10.dp)
-                    .fillMaxWidth(),
+                modifier =
+                    Modifier
+                        .padding(10.dp)
+                        .fillMaxWidth(),
                 // .background(Color.White),
-                value = textP,
+                value = viewModel.textP,
                 onValueChange = {
-                    textP = it
-                    precio = it.toDoubleOrNull() ?: 0.0
+                    viewModel.textP = it
+                    viewModel.precio = it.toDoubleOrNull() ?: 0.0
                 },
-                keyboardOptions = KeyboardOptions.Default.copy(
-                    keyboardType = KeyboardType.Number,
-                ),
+                keyboardOptions =
+                    KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Number,
+                    ),
             )
             Spacer(modifier = Modifier.height(15.dp))
 
             Card(
                 // colors = CardDefaults.cardColors(containerColor = Color.White),
-                modifier = Modifier
-                    // .background(color = Color.White)
-                    .padding(10.dp)
-                    .fillMaxWidth(),
+                modifier =
+                    Modifier
+                        // .background(color = Color.White)
+                        .padding(10.dp)
+                        .fillMaxWidth(),
                 elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
             ) {
                 Spacer(modifier = Modifier.height(5.dp))
@@ -167,17 +163,19 @@ fun CrearProducto(controller: NavHostController, viewModel: ProductoViewModel) {
 
                     Spacer(modifier = Modifier.height(15.dp))
                     TextField(
-                        modifier = Modifier
-                            .fillMaxWidth(),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth(),
                         // .background(Color.White),
-                        value = textS,
+                        value = viewModel.textS,
                         onValueChange = {
-                            textS = it
-                            stock = it.toIntOrNull() ?: 0
+                            viewModel.textS = it
+                            viewModel.stock = it.toIntOrNull() ?: 0
                         },
-                        keyboardOptions = KeyboardOptions.Default.copy(
-                            keyboardType = KeyboardType.Number,
-                        ),
+                        keyboardOptions =
+                            KeyboardOptions.Default.copy(
+                                keyboardType = KeyboardType.Number,
+                            ),
                         placeholder = { Text(text = "Stock") },
                     )
 
@@ -185,22 +183,24 @@ fun CrearProducto(controller: NavHostController, viewModel: ProductoViewModel) {
                     Divider()
 
                     TextField(
-                        modifier = Modifier
-                            .fillMaxWidth(),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth(),
                         // .background(Color.White),
-                        value = categoria,
-                        onValueChange = { categoria = it },
+                        value = viewModel.categoria,
+                        onValueChange = { viewModel.categoria = it },
                         placeholder = { Text(text = "Categoria") },
                     )
 
                     Spacer(modifier = Modifier.height(15.dp))
                     Divider()
                     TextField(
-                        modifier = Modifier
-                            .fillMaxWidth(),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth(),
                         // .background(Color.White),
-                        value = nombreProvedor,
-                        onValueChange = { nombreProvedor = it },
+                        value = viewModel.nombreProvedor,
+                        onValueChange = { viewModel.nombreProvedor = it },
                         placeholder = { Text(text = "Nombre del Proovedor") },
                     )
                     Spacer(modifier = Modifier.height(15.dp))
@@ -210,35 +210,29 @@ fun CrearProducto(controller: NavHostController, viewModel: ProductoViewModel) {
 
             Card(
                 // colors = CardDefaults.cardColors(containerColor = Color.White),
-                modifier = Modifier
-                    // .background(color = Color.White)
-                    .padding(10.dp)
-                    .fillMaxWidth(),
+                modifier =
+                    Modifier
+                        // .background(color = Color.White)
+                        .padding(10.dp)
+                        .fillMaxWidth(),
                 elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
             ) {
                 TextField(
-                    modifier = Modifier
-                        .fillMaxWidth(),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth(),
                     //  .background(Color.White),
-                    value = qr,
-                    onValueChange = { qr = it },
+                    value = viewModel.qr,
+                    onValueChange = { viewModel.qr = it },
                     placeholder = { Text(text = "Generar GR") },
                 )
-                Icon(
-                    Icons.Filled.Refresh,
-                    contentDescription = null,
-                    // tint = Color.Black,
-                    modifier = Modifier
-                        .size(45.dp)
-                        .align(Alignment.CenterHorizontally),
-                )
-
                 Spacer(modifier = Modifier.height(5.dp))
             }
             Box(
-                modifier = Modifier
-                    .padding(5.dp)
-                    .fillMaxWidth(),
+                modifier =
+                    Modifier
+                        .padding(5.dp)
+                        .fillMaxWidth(),
                 contentAlignment = Alignment.Center,
             ) {
                 Button(
@@ -257,9 +251,10 @@ fun CrearProducto(controller: NavHostController, viewModel: ProductoViewModel) {
                 }
             }
             Box(
-                modifier = Modifier
-                    .padding(5.dp)
-                    .fillMaxWidth(),
+                modifier =
+                    Modifier
+                        .padding(5.dp)
+                        .fillMaxWidth(),
                 contentAlignment = Alignment.Center,
             ) {
                 Button(
@@ -278,31 +273,19 @@ fun CrearProducto(controller: NavHostController, viewModel: ProductoViewModel) {
                 }
             }
             Box(
-                modifier = Modifier
-                    .padding(5.dp)
-                    .fillMaxWidth(),
+                modifier =
+                    Modifier
+                        .padding(5.dp)
+                        .fillMaxWidth(),
                 contentAlignment = Alignment.Center,
             ) {
-                val context = LocalContext.current
                 Button(
                     shape = RoundedCornerShape(0.dp),
                     modifier = Modifier.fillMaxWidth(),
-                    // colors = ButtonDefaults.buttonColors(Color(39, 40, 41)),
                     onClick = {
                         coroutineScope.launch {
-                            if (nombre.equals("") || precio == 0.0 || stock == 0 || categoria.equals("") || nombreProvedor.equals("") || qr.equals("")) {
-                                Toast.makeText(context, "Campos vacios, llenarlos", Toast.LENGTH_SHORT).show()
-                            } else {
-                                viewModel.guardarProducto(
-                                    nombre = nombre,
-                                    precio = precio,
-                                    stock = stock,
-                                    categoria = categoria,
-                                    nombreProvedor = nombreProvedor,
-                                    qr = qr,
-                                )
-                                controller.navigate("home")
-                            }
+                            viewModel.guardarProducto()
+                            controller.navigate("home")
                         }
                     },
                 ) {

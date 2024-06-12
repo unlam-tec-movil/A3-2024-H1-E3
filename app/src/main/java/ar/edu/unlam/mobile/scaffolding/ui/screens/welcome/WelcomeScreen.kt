@@ -58,16 +58,16 @@ private fun WelcomeAnimated() {
     AnimatedVisibility(
         visible = visible,
         enter =
-        fadeIn(
-            // Overwrites the initial value of alpha to 0.4f for fade in, 0 by default
-            initialAlpha = 0.4f,
-            animationSpec = tween(durationMillis = 1000),
-        ),
+            fadeIn(
+                // Overwrites the initial value of alpha to 0.4f for fade in, 0 by default
+                initialAlpha = 0.4f,
+                animationSpec = tween(durationMillis = 1000),
+            ),
         exit =
-        fadeOut(
-            // Overwrites the default animation with tween
-            animationSpec = tween(durationMillis = 1000),
-        ),
+            fadeOut(
+                // Overwrites the default animation with tween
+                animationSpec = tween(durationMillis = 1000),
+            ),
     ) {
         Text(text = "Bienvenido!")
     }
@@ -93,16 +93,16 @@ private fun InputAnimated(
     AnimatedVisibility(
         visible = visible,
         enter =
-        fadeIn(
-            // Overwrites the initial value of alpha to 0.4f for fade in, 0 by default
-            initialAlpha = 0.4f,
-            animationSpec = tween(durationMillis = 1000),
-        ),
+            fadeIn(
+                // Overwrites the initial value of alpha to 0.4f for fade in, 0 by default
+                initialAlpha = 0.4f,
+                animationSpec = tween(durationMillis = 1000),
+            ),
         exit =
-        fadeOut(
-            // Overwrites the default animation with tween
-            animationSpec = tween(durationMillis = 1500),
-        ),
+            fadeOut(
+                // Overwrites the default animation with tween
+                animationSpec = tween(durationMillis = 1500),
+            ),
     ) {
         Crossfade(targetState = currentPage, label = "") { screen ->
             when (screen) {

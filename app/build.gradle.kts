@@ -54,20 +54,21 @@ android {
 }
 
 dependencies {
+    // Coil
+    implementation("io.coil-kt:coil-compose:2.6.0")
 
     // Camera X
     implementation("com.google.accompanist:accompanist-permissions:0.28.0")
 
-    val camerax_version = "1.3.0-rc01"
-    implementation("androidx.camera:camera-camera2:$camerax_version")
-    implementation("androidx.camera:camera-lifecycle:$camerax_version")
-    implementation("androidx.camera:camera-view:$camerax_version")
+    implementation("androidx.camera:camera-camera2:1.3.0-rc01")
+    implementation("androidx.camera:camera-lifecycle:1.3.0-rc01")
+    implementation("androidx.camera:camera-view:1.3.0-rc01")
 
     // Map
-    implementation("com.google.maps.android:maps-compose:2.11.4")
-    implementation("com.google.android.gms:play-services-maps:18.1.0")
+    implementation(libs.maps.compose)
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
     // Location
-    implementation("com.google.android.gms:play-services-location:18.0.0")
+    implementation("com.google.android.gms:play-services-location:21.3.0")
 
     // Viewmodel
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
@@ -80,10 +81,9 @@ dependencies {
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
 
     // Room
-    val room_version = "2.6.1"
-    implementation("androidx.room:room-runtime:$room_version")
-    implementation("androidx.room:room-ktx:$room_version")
-    ksp("androidx.room:room-compiler:$room_version")
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    ksp("androidx.room:room-compiler:2.6.1")
 
     // Base
     implementation(libs.androidx.core.ktx)

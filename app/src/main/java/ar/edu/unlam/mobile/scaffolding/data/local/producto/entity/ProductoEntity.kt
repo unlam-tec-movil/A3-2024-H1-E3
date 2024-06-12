@@ -12,5 +12,8 @@ data class ProductoEntity(
     val stock: Int,
     val categoria: String,
     val nombreProvedor: String,
+    val latitudProveedor: Double,
+    val longitudProveedor: Double,
     val qr: String,
+    val fotoUri: String,
 )

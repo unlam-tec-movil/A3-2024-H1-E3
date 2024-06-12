@@ -38,32 +38,35 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun Configuracion() {
     Column(
-        modifier = Modifier
-            .background(color = Color.White)
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
+        modifier =
+            Modifier
+                .background(color = Color.White)
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
     ) {
         Card(
             colors = CardDefaults.cardColors(containerColor = Color.White),
             shape = RoundedCornerShape(0.dp),
-            modifier = Modifier
-                .fillMaxWidth(),
-
+            modifier =
+                Modifier
+                    .fillMaxWidth(),
             elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
         ) {
             IconButton(
-                modifier = Modifier
-                    .padding(5.dp),
+                modifier =
+                    Modifier
+                        .padding(5.dp),
                 onClick = {
-                    /* navController.navigate(route = ScreenNav.Home.route)*/
+                    // navController.navigate(route = ScreenNav.Home.route)
                 },
             ) {
                 Icon(
                     Icons.Filled.ArrowBack,
                     contentDescription = null,
                     tint = Color.Black,
-                    modifier = Modifier
-                        .size(45.dp),
+                    modifier =
+                        Modifier
+                            .size(45.dp),
                 )
             }
         } // CIERRA CARD PARA ATRAS
@@ -98,10 +101,11 @@ fun Configuracion() {
                 modifier = Modifier.padding(10.dp),
             )
             TextField(
-                modifier = Modifier
-                    .padding(10.dp)
-                    .fillMaxWidth()
-                    .background(Color.White),
+                modifier =
+                    Modifier
+                        .padding(10.dp)
+                        .fillMaxWidth()
+                        .background(Color.White),
                 value = "",
                 onValueChange = {},
             )
@@ -114,10 +118,11 @@ fun Configuracion() {
                 modifier = Modifier.padding(10.dp),
             )
             TextField(
-                modifier = Modifier
-                    .padding(10.dp)
-                    .fillMaxWidth()
-                    .background(Color.White),
+                modifier =
+                    Modifier
+                        .padding(10.dp)
+                        .fillMaxWidth()
+                        .background(Color.White),
                 value = "",
                 onValueChange = {},
             )
@@ -125,10 +130,11 @@ fun Configuracion() {
 
             Card(
                 colors = CardDefaults.cardColors(containerColor = Color.White),
-                modifier = Modifier
-                    .background(color = Color.White)
-                    .padding(10.dp)
-                    .fillMaxWidth(),
+                modifier =
+                    Modifier
+                        .background(color = Color.White)
+                        .padding(10.dp)
+                        .fillMaxWidth(),
                 elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
             ) {
                 Spacer(modifier = Modifier.height(5.dp))
@@ -150,9 +156,10 @@ fun Configuracion() {
                         color = Color.Black,
                     )
                     TextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(Color.White),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .background(Color.White),
                         value = "",
                         onValueChange = {},
                         placeholder = { Text(text = "Unidades") },
@@ -161,9 +168,10 @@ fun Configuracion() {
             }
             Spacer(modifier = Modifier.height(15.dp))
             Box(
-                modifier = Modifier
-                    .padding(5.dp)
-                    .fillMaxWidth(),
+                modifier =
+                    Modifier
+                        .padding(5.dp)
+                        .fillMaxWidth(),
                 contentAlignment = Alignment.Center,
             ) {
                 Button(
@@ -171,7 +179,7 @@ fun Configuracion() {
                     modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(Color(39, 40, 41)),
                     onClick = {
-                        /* navController.navigate(route = ScreenNav.Home.route)*/
+                        // navController.navigate(route = ScreenNav.Home.route)
                     },
                 ) {
                     Text(

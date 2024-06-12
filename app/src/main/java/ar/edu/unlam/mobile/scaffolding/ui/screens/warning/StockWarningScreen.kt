@@ -1,4 +1,4 @@
-package ar.edu.unlam.mobile.scaffolding.ui.screens.Warning
+package ar.edu.unlam.mobile.scaffolding.ui.screens.warning
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
@@ -65,6 +65,6 @@ fun BodyContentWarning() { // (navController: NavController){
 
 @Preview
 @Composable
-fun warningPreview() {
+fun WarningPreview() {
     StockWarningScreen()
 }
