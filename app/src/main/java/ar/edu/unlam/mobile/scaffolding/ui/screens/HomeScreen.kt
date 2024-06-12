@@ -3,7 +3,6 @@ package ar.edu.unlam.mobile.scaffolding.ui.screens
 import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -236,9 +235,9 @@ fun ProductoItem(
         ) {
             AsyncImage(
                 modifier =
-                Modifier
-                    .size(100.dp)
-                    .clip(RoundedCornerShape(16.dp)),
+                    Modifier
+                        .size(100.dp)
+                        .clip(RoundedCornerShape(16.dp)),
                 model = producto.fotoUri,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
