@@ -27,21 +27,26 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import ar.edu.unlam.mobile.scaffolding.R
 import ar.edu.unlam.mobile.scaffolding.data.local.producto.entity.Producto
+import coil.compose.AsyncImage
 
 @Composable
 fun DetalleProducto(
     controller: NavHostController,
-    Producto: Producto?,
+    producto: Producto?,
 ) {
-    val ubicacionProveedor = Producto?.ubicacionProveedor
+    val ubicacionProveedor = producto?.ubicacionProveedor
 
     Column(
         modifier =
@@ -98,17 +103,20 @@ fun DetalleProducto(
             modifier =
                 Modifier
                     .padding(10.dp)
-                    .aspectRatio(3f),
+                    .aspectRatio(1f),
         ) {
-            Text(
-                text = "Imagen del producto",
+            AsyncImage(
                 modifier =
                     Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .padding(10.dp),
+                        .fillMaxSize()
+                        .clip(RoundedCornerShape(16.dp))
+                        .align(Alignment.CenterHorizontally),
+                model = producto!!.fotoUri,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                placeholder = painterResource(R.drawable.splashimg),
             )
         }
-
         Spacer(modifier = Modifier.height(5.dp))
         Column {
             Spacer(modifier = Modifier.height(15.dp))
@@ -128,10 +136,10 @@ fun DetalleProducto(
                         .fillMaxWidth(),
                 elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
             ) {
-                if (Producto != null) {
+                if (producto != null) {
                     Text(
                         color = Color.Black,
-                        text = "Nombre: ${Producto.nombre}" /*poner la variable adentro, Nombre:${} */,
+                        text = "Nombre: ${producto.nombre}" /*poner la variable adentro, Nombre:${} */,
                         style = MaterialTheme.typography.titleMedium,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
@@ -152,9 +160,9 @@ fun DetalleProducto(
             ) {
                 Spacer(modifier = Modifier.height(5.dp))
                 Column(modifier = Modifier.padding(10.dp)) {
-                    if (Producto != null) {
+                    if (producto != null) {
                         Text(
-                            text = "Precio: ${Producto.precio}",
+                            text = "Precio: ${producto.precio}",
                             style = MaterialTheme.typography.titleMedium,
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis,
@@ -166,9 +174,9 @@ fun DetalleProducto(
                     Spacer(modifier = Modifier.height(15.dp))
                     Divider()
 
-                    if (Producto != null) {
+                    if (producto != null) {
                         Text(
-                            text = "Stock: ${Producto.stock}",
+                            text = "Stock: ${producto.stock}",
                             style = MaterialTheme.typography.titleMedium,
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis,
@@ -180,9 +188,9 @@ fun DetalleProducto(
                     Spacer(modifier = Modifier.height(15.dp))
                     Divider()
 
-                    if (Producto != null) {
+                    if (producto != null) {
                         Text(
-                            text = "Categoria: ${Producto.categoria}",
+                            text = "Categoria: ${producto.categoria}",
                             style = MaterialTheme.typography.titleMedium,
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis,
@@ -193,9 +201,9 @@ fun DetalleProducto(
 
                     Spacer(modifier = Modifier.height(15.dp))
                     Divider()
-                    if (Producto != null) {
+                    if (producto != null) {
                         Text(
-                            text = "Nombre del Proovedor: ${Producto.nombreProvedor}",
+                            text = "Nombre del Proovedor: ${producto.nombreProvedor}",
                             style = MaterialTheme.typography.titleMedium,
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis,

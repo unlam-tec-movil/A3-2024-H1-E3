@@ -40,13 +40,11 @@ fun CameraScreen(
     viewModel: ProductoViewModel,
     navController: NavHostController,
 ) {
-    // val permissionState = rememberPermissionState(permission = Manifest.permission.CAMERA)
     val permissionState =
         rememberMultiplePermissionsState(permissions = listOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE))
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
-        // permissionState.launchPermissionRequest()
         permissionState.launchMultiplePermissionRequest()
     }
     if (permissionState.allPermissionsGranted) {
@@ -56,16 +54,6 @@ fun CameraScreen(
     } else {
         navController.popBackStack()
     }
-    /*
-    if (permissionState.status.isGranted) {
-        CameraBody(viewModel, navController)
-    } else if (permissionState.status.shouldShowRationale) {
-        MyRational(context)
-    } else {
-        navController.popBackStack()
-    }
-
-     */
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
