@@ -299,7 +299,7 @@ fun DrawerContent(
                 listOf(
                     "Inicio" to "home",
                     "Agregar stock" to "agregarStock",
-                    "Vender" to "vender",
+                    "Vender" to "listaVenta",
                     "Balance" to "balance",
                     "Configuracion" to "configuracion",
                 )

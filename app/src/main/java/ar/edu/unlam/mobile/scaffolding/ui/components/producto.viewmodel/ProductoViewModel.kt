@@ -27,6 +27,7 @@ class ProductoViewModel(private val productoRepository: OfflineProductoRepositor
     var ubicacionProveedor by mutableStateOf<LatLng?>(null)
     var qr by mutableStateOf("")
     var fotoUri by mutableStateOf("")
+
     var detalle: Producto? = null
 
     val productos: StateFlow<List<Producto>> =
@@ -79,5 +80,55 @@ class ProductoViewModel(private val productoRepository: OfflineProductoRepositor
         this.ubicacionProveedor = null
         this.qr = ""
         this.fotoUri = ""
+    }
+
+    var newStock by mutableIntStateOf(0)
+    var scanedQr by mutableStateOf("")
+
+    // Agregar stock
+    suspend fun agregarStock(
+        stock: Int = newStock,
+        qr: String = scanedQr,
+    ) {
+        productoRepository.actualizarStock(stock, qr)
+        newStock = 0
+    }
+
+    // Vender
+
+    suspend fun vender() {
+        mapVenta.map {
+            quitarStock(qr = it.key, stock = it.value)
+        }
+    }
+
+    private suspend fun quitarStock(
+        stock: Int,
+        qr: String,
+    ) {
+        // verificar que el stock a vender sea menor al actual
+        productoRepository.restarStock(stock, qr)
+    }
+
+    var listaVenta by mutableStateOf<List<Producto>>(listOf())
+    var mapVenta by mutableStateOf<Map<String, Int>>(mapOf())
+
+    suspend fun agregarProductoVenta(
+        qr: String = scanedQr,
+        stock: Int = newStock,
+    ) {
+        val lista: MutableList<Producto> = listaVenta.toMutableList()
+        val map: MutableMap<String, Int> = mapVenta.toMutableMap()
+        val p = getProductoPorQR(qr)
+
+        lista.add(p)
+        listaVenta = lista.toList()
+
+        map[qr] = stock
+        mapVenta = map.toMap()
+    }
+
+    private suspend fun getProductoPorQR(qr: String): Producto {
+        return productoRepository.getProductoPorQR(qr)
     }
 }

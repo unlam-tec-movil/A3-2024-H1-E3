@@ -1,4 +1,4 @@
-package ar.edu.unlam.mobile.scaffolding.ui.screens.addStock
+package ar.edu.unlam.mobile.scaffolding.ui.screens.venta
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
@@ -19,16 +19,17 @@ import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun AddStockScreen(
+fun AgregarProductoVenta(
     controller: NavHostController,
     viewModel: ProductoViewModel,
 ) {
     val coroutineScope = rememberCoroutineScope()
+
     Scaffold(
         topBar = {
             MyTopBar(
                 onNavigateBack = { controller.popBackStack() },
-                title = "Agregar stock",
+                title = "",
             )
         },
     ) { padding ->
@@ -43,19 +44,21 @@ fun AddStockScreen(
             TextField(
                 value = viewModel.newStock.toString(),
                 onValueChange = { viewModel.newStock = it.toInt() },
-                placeholder = { Text(text = "Cantidad de stock a agregar") },
+                placeholder = { Text(text = "Cantidad de stock a vender") },
                 keyboardOptions =
                     KeyboardOptions(
                         keyboardType = KeyboardType.Number,
                     ),
             )
-            Button(onClick = {
-                coroutineScope.launch {
-                    viewModel.agregarStock()
-                    controller.popBackStack()
-                }
-            }) {
-                Text(text = "Agregar stock")
+            Button(
+                onClick = {
+                    coroutineScope.launch {
+                        viewModel.agregarProductoVenta()
+                        controller.popBackStack()
+                    }
+                },
+            ) {
+                Text(text = "Agregar a la lista")
             }
         }
     }
