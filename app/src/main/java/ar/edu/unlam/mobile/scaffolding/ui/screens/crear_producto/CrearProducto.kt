@@ -65,8 +65,11 @@ fun CrearProducto(
 ) {
     val coroutineScope = rememberCoroutineScope()
     Scaffold(
-        topBar = { MyTopBar(onNavigateBack = { /*TODO*/ }, title = a) },
+        topBar = { MyTopBar(onNavigateBack = { controller.popBackStack() }, title = "Agregar item") },
     ) {
+        Column {
+//
+        }
     }
     Column(
         modifier =
