@@ -33,10 +33,42 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
+import ar.edu.unlam.mobile.scaffolding.ui.sensor.ConfigViewModel
+import ar.edu.unlam.mobile.scaffolding.ui.sensor.MeasurableSensor
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
 
-@Preview
+
+
 @Composable
 fun Configuracion() {
+
+    val viewModel = viewModel<ConfigViewModel>()
+    val isDark = viewModel.isDark
+    Box(
+        modifier = Modifier
+        .fillMaxSize()
+        .background(
+           if (isDark) Color.DarkGray else Color.White
+        ),
+        contentAlignment = Alignment.Center
+    ){
+        Text(
+            text = if(isDark){
+                "it´s dark outside"
+            } else{
+               "it s bright outside"
+            },
+            color = if (isDark) Color.White else Color.DarkGray
+
+        )
+    }
+}
+/*
+
     Column(
         modifier =
             Modifier
@@ -191,4 +223,4 @@ fun Configuracion() {
             }
         }
     } // CIERRA EL PRIMER COLUMN
-} // CIERRA LA FUNCION
+} // CIERRA LA FUNCION*/
