@@ -33,16 +33,16 @@ import ar.edu.unlam.mobile.scaffolding.ui.components.producto.viewmodel.Producto
 import ar.edu.unlam.mobile.scaffolding.ui.screens.DetalleProducto
 import ar.edu.unlam.mobile.scaffolding.ui.screens.HomeScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.addStock.AddStockScreen
-import ar.edu.unlam.mobile.scaffolding.ui.screens.agregarProductoVender.AgregarProductoVender
 import ar.edu.unlam.mobile.scaffolding.ui.screens.balance.BalanceScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.camera.CameraScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.configuracion.Configuracion
-import ar.edu.unlam.mobile.scaffolding.ui.screens.crearProducto.CrearProducto
-import ar.edu.unlam.mobile.scaffolding.ui.screens.emptySale.EmptySaleScreen
+import ar.edu.unlam.mobile.scaffolding.ui.screens.crearproducto.CrearProducto
 import ar.edu.unlam.mobile.scaffolding.ui.screens.map.MapProviderScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.map.MapScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.qrScanner.QRScannerScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.splash.SplashScreen
+import ar.edu.unlam.mobile.scaffolding.ui.screens.venta.AgregarProductoVenta
+import ar.edu.unlam.mobile.scaffolding.ui.screens.venta.ListaProductosVenta
 import ar.edu.unlam.mobile.scaffolding.ui.screens.welcome.WelcomeScreen
 import ar.edu.unlam.mobile.scaffolding.ui.theme.ScaffoldingV2Theme
 import dagger.hilt.android.AndroidEntryPoint
@@ -130,18 +130,12 @@ fun MainScreen(viewModel: ProductoViewModel) {
             }
         },
     ) { paddingValue ->
-        // NavHost es el componente que funciona como contenedor de los otros componentes que
-        // podrán ser destinos de navegación.
         NavHost(navController = controller, startDestination = "home") {
-            // composable es el componente que se usa para definir un destino de navegación.
-            // Por parámetro recibe la ruta que se utilizará para navegar a dicho destino.
             composable("home") {
-                // Home es el componente en sí que es el destino de navegación.
                 HomeScreen(modifier = Modifier.padding(paddingValue), viewModel, controller)
             }
             composable("add") {
-                // Home es el componente en sí que es el destino de navegación.
-                CrearProducto(controller, viewModel)
+                CrearProducto(controller = controller, viewModel = viewModel)
             }
             composable("detalle") {
                 DetalleProducto(controller, viewModel.productoDetalle())
@@ -165,10 +159,7 @@ fun MainScreen(viewModel: ProductoViewModel) {
                 )
             }
             composable("agregarStock") {
-                AddStockScreen(controller)
-            }
-            composable("vender") {
-                EmptySaleScreen(controller)
+                AddStockScreen(controller, viewModel)
             }
             composable("balance") {
                 BalanceScreen()
@@ -176,11 +167,14 @@ fun MainScreen(viewModel: ProductoViewModel) {
             composable("configuracion") {
                 Configuracion()
             }
-            composable("AgregarVenta") {
-                AgregarProductoVender(controller)
+            composable("listaVenta") {
+                ListaProductosVenta(controller = controller, viewModel = viewModel)
+            }
+            composable("agregarProductoVenta") {
+                AgregarProductoVenta(controller = controller, viewModel = viewModel)
             }
             composable("qr") {
-                QRScannerScreen()
+                QRScannerScreen(controller, viewModel)
             }
         }
     }

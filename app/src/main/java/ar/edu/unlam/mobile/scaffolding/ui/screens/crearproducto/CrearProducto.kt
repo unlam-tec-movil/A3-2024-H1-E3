@@ -1,4 +1,4 @@
-package ar.edu.unlam.mobile.scaffolding.ui.screens.crearProducto
+package ar.edu.unlam.mobile.scaffolding.ui.screens.crearproducto
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -46,13 +46,10 @@ fun CrearProducto(
     Column(
         modifier =
             Modifier
-                // .background(color = Color.White)
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
     ) {
         Card(
-            // colors = CardDefaults.cardColors(containerColor = Color.White),
-            // shape = RoundedCornerShape(0.dp),
             modifier =
                 Modifier
                     .fillMaxWidth(),
@@ -82,7 +79,6 @@ fun CrearProducto(
                 text = "Agregar Producto",
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
-                // color = Color(39, 40, 41),
                 fontSize = 22.sp,
                 fontFamily = FontFamily.Default,
                 fontWeight = FontWeight.Bold,
@@ -100,7 +96,6 @@ fun CrearProducto(
                 style = MaterialTheme.typography.labelLarge,
             )
             Text(
-                // color = Color.Black,
                 text = "Nombre:",
                 style = MaterialTheme.typography.titleMedium,
                 overflow = TextOverflow.Ellipsis,
@@ -111,13 +106,11 @@ fun CrearProducto(
                     Modifier
                         .padding(10.dp)
                         .fillMaxWidth(),
-                // .background(Color.White),
                 value = viewModel.nombre,
                 onValueChange = { viewModel.nombre = it },
             )
             Spacer(modifier = Modifier.height(15.dp))
             Text(
-                // color = Color.Black,
                 text = "Precio:",
                 style = MaterialTheme.typography.titleMedium,
                 overflow = TextOverflow.Ellipsis,
@@ -128,7 +121,6 @@ fun CrearProducto(
                     Modifier
                         .padding(10.dp)
                         .fillMaxWidth(),
-                // .background(Color.White),
                 value = viewModel.textP,
                 onValueChange = {
                     viewModel.textP = it
@@ -142,10 +134,8 @@ fun CrearProducto(
             Spacer(modifier = Modifier.height(15.dp))
 
             Card(
-                // colors = CardDefaults.cardColors(containerColor = Color.White),
                 modifier =
                     Modifier
-                        // .background(color = Color.White)
                         .padding(10.dp)
                         .fillMaxWidth(),
                 elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
@@ -158,7 +148,6 @@ fun CrearProducto(
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.padding(10.dp),
-                        // color = Color.Black,
                     )
 
                     Spacer(modifier = Modifier.height(15.dp))
@@ -166,7 +155,6 @@ fun CrearProducto(
                         modifier =
                             Modifier
                                 .fillMaxWidth(),
-                        // .background(Color.White),
                         value = viewModel.textS,
                         onValueChange = {
                             viewModel.textS = it
@@ -186,7 +174,6 @@ fun CrearProducto(
                         modifier =
                             Modifier
                                 .fillMaxWidth(),
-                        // .background(Color.White),
                         value = viewModel.categoria,
                         onValueChange = { viewModel.categoria = it },
                         placeholder = { Text(text = "Categoria") },
@@ -198,7 +185,6 @@ fun CrearProducto(
                         modifier =
                             Modifier
                                 .fillMaxWidth(),
-                        // .background(Color.White),
                         value = viewModel.nombreProvedor,
                         onValueChange = { viewModel.nombreProvedor = it },
                         placeholder = { Text(text = "Nombre del Proovedor") },
@@ -209,10 +195,8 @@ fun CrearProducto(
             }
 
             Card(
-                // colors = CardDefaults.cardColors(containerColor = Color.White),
                 modifier =
                     Modifier
-                        // .background(color = Color.White)
                         .padding(10.dp)
                         .fillMaxWidth(),
                 elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
@@ -221,7 +205,6 @@ fun CrearProducto(
                     modifier =
                         Modifier
                             .fillMaxWidth(),
-                    //  .background(Color.White),
                     value = viewModel.qr,
                     onValueChange = { viewModel.qr = it },
                     placeholder = { Text(text = "Generar GR") },
@@ -238,7 +221,6 @@ fun CrearProducto(
                 Button(
                     shape = RoundedCornerShape(0.dp),
                     modifier = Modifier.fillMaxWidth(),
-                    // colors = ButtonDefaults.buttonColors(Color(39, 40, 41)),
                     onClick = {
                         controller.navigate("indicarUbi")
                     },
@@ -246,7 +228,6 @@ fun CrearProducto(
                     Text(
                         "Indicar ubicación del proveedor",
                         fontSize = 17.sp,
-                        // color = Color.White,
                     )
                 }
             }
@@ -260,7 +241,6 @@ fun CrearProducto(
                 Button(
                     shape = RoundedCornerShape(0.dp),
                     modifier = Modifier.fillMaxWidth(),
-                    // colors = ButtonDefaults.buttonColors(Color(39, 40, 41)),
                     onClick = {
                         controller.navigate("Camara")
                     },
@@ -268,7 +248,6 @@ fun CrearProducto(
                     Text(
                         "Agregar foto",
                         fontSize = 17.sp,
-                        // color = Color.White,
                     )
                 }
             }
@@ -292,10 +271,9 @@ fun CrearProducto(
                     Text(
                         "AGREGAR",
                         fontSize = 17.sp,
-                        // color = Color.White,
                     )
                 }
             }
         }
-    } // CIERRA EL PRIMER COLUMN
-} // CIERRA LA FUNCION
+    }
+}

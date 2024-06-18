@@ -35,6 +35,32 @@ class OfflineProductoRepository(private val productoDao: ProductoDao) {
 
     suspend fun getCantidadProducto(): Int = productoDao.getCantidadProductos()
 
+    suspend fun getProductoPorQR(qr: String): Producto {
+        val entity = productoDao.getProductoPorQR(qr)
+        val p =
+            Producto(
+                nombre = entity.nombre,
+                precio = entity.precio,
+                stock = entity.stock,
+                categoria = entity.categoria,
+                nombreProvedor = entity.nombreProvedor,
+                ubicacionProveedor = LatLng(entity.latitudProveedor, entity.longitudProveedor),
+                qr = entity.qr,
+                fotoUri = entity.fotoUri,
+            )
+        return p
+    }
+
+    suspend fun actualizarStock(
+        newStock: Int,
+        scanedQR: String,
+    ) = productoDao.actualizarStock(newStock, scanedQR)
+
+    suspend fun restarStock(
+        newStock: Int,
+        scanedQR: String,
+    ) = productoDao.restarStock(newStock, scanedQR)
+
     fun getProductos(): Flow<List<Producto>> {
         return productoDao.getProductos().map { entities ->
             entities.map { entity ->
