@@ -1,4 +1,4 @@
-package ar.edu.unlam.mobile.scaffolding.ui.screens.crear_producto
+package ar.edu.unlam.mobile.scaffolding.ui.screens.crearproducto
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column

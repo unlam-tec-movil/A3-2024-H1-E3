@@ -36,7 +36,7 @@ import ar.edu.unlam.mobile.scaffolding.ui.screens.addStock.AddStockScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.balance.BalanceScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.camera.CameraScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.configuracion.Configuracion
-import ar.edu.unlam.mobile.scaffolding.ui.screens.crear_producto.CrearProducto
+import ar.edu.unlam.mobile.scaffolding.ui.screens.crearproducto.CrearProducto
 import ar.edu.unlam.mobile.scaffolding.ui.screens.map.MapProviderScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.map.MapScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.qrScanner.QRScannerScreen
