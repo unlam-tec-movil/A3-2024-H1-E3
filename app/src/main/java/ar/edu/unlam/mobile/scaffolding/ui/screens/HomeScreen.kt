@@ -5,12 +5,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -22,6 +20,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerValue
@@ -222,36 +221,33 @@ fun ProductoItem(
     Card(
         modifier =
             Modifier
-                .fillMaxSize()
-                .aspectRatio(1f)
                 .padding(8.dp)
+                .aspectRatio(1.0f)
                 .clickable { onClick() },
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+        shape = RoundedCornerShape(0.dp),
     ) {
         Column(
-            modifier = Modifier.padding(10.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(8.dp).fillMaxSize(),
         ) {
             AsyncImage(
                 modifier =
                     Modifier
                         .size(100.dp)
-                        .clip(RoundedCornerShape(16.dp)),
+                        .clip(RoundedCornerShape(0.dp))
+                        .align(Alignment.CenterHorizontally)
+                        .fillMaxSize(),
                 model = producto.fotoUri,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 placeholder = painterResource(R.drawable.splashimg),
             )
-            Spacer(modifier = Modifier.height(8.dp))
             Text(
+                modifier = Modifier.padding(top = 10.dp),
                 text = producto.nombre,
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Bold,
             )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = "Precio: ${producto.precio}")
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(text = "Stock: ${producto.stock}")
         }
     }
 }
