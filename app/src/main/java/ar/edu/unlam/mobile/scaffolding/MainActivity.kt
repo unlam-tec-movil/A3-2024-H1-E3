@@ -6,8 +6,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
@@ -21,7 +19,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -36,7 +33,7 @@ import ar.edu.unlam.mobile.scaffolding.ui.screens.addStock.AddStockScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.balance.BalanceScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.camera.CameraScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.configuracion.Configuracion
-import ar.edu.unlam.mobile.scaffolding.ui.screens.crear_producto.CrearProducto
+import ar.edu.unlam.mobile.scaffolding.ui.screens.crearproducto.CrearProducto
 import ar.edu.unlam.mobile.scaffolding.ui.screens.map.MapProviderScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.map.MapScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.qrScanner.QRScannerScreen
@@ -121,9 +118,8 @@ fun MainScreen(viewModel: ProductoViewModel) {
             if (currentRoute.value == "home") {
                 FloatingActionButton(
                     onClick = { controller.navigate("add") },
-                    modifier = Modifier.size(64.dp),
-                    shape = RoundedCornerShape(percent = 50),
                     containerColor = Color.DarkGray,
+                    contentColor = Color.White,
                 ) {
                     Icon(Icons.Filled.Add, contentDescription = "add")
                 }
