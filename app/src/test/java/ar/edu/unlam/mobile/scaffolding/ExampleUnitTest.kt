@@ -1,7 +1,9 @@
 package ar.edu.unlam.mobile.scaffolding
 
+import ar.edu.unlam.mobile.scaffolding.data.repository.usuario.OfflineUsuarioRepository
 import org.junit.Assert.*
 import org.junit.Test
+import org.mockito.Mockito.mock
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -10,7 +12,7 @@ import org.junit.Test
  */
 class ExampleUnitTest {
     @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+    fun que_se_guarde_un_usuario() {
+        val repo = mock(OfflineUsuarioRepository::class.java)
     }
 }

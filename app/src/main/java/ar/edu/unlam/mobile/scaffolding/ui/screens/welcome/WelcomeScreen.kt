@@ -50,7 +50,7 @@ fun WelcomeScreen(onNavigateToHomeScreen: () -> Unit) {
 }
 
 @Composable
-private fun WelcomeAnimated() {
+fun WelcomeAnimated() {
     var visible by remember { mutableStateOf(true) }
 
     LaunchedEffect(visible) {
@@ -77,7 +77,7 @@ private fun WelcomeAnimated() {
 }
 
 @Composable
-private fun InputAnimated(
+fun InputAnimated(
     coroutineScope: CoroutineScope,
     onNavigateToHomeScreen: () -> Unit,
     viewModel: UsuarioViewModel = viewModel(factory = UsuarioViewModelProvider.Factory),
