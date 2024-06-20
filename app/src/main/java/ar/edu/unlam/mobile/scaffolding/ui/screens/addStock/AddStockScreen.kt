@@ -14,6 +14,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,6 +32,7 @@ import ar.edu.unlam.mobile.scaffolding.data.local.database.InventoryDatabase
 import ar.edu.unlam.mobile.scaffolding.data.repository.producto.OfflineProductoRepository
 import ar.edu.unlam.mobile.scaffolding.ui.components.MyTopBar
 import ar.edu.unlam.mobile.scaffolding.ui.components.producto.viewmodel.ProductoViewModel
+import ar.edu.unlam.mobile.scaffolding.ui.components.sensorViewModel.Sensor
 import kotlinx.coroutines.launch
 
 @Preview
@@ -52,6 +55,22 @@ fun AddStockScreen(
     viewModel: ProductoViewModel,
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
+    val sensor =
+        remember {
+            Sensor(context) {
+                coroutineScope.launch {
+                    controller.navigate("qr")
+                }
+            }
+        }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            sensor.unregister()
+        }
+    }
+
     Scaffold(
         topBar = {
             MyTopBar(
