@@ -67,7 +67,7 @@ fun AddStockScreen(
 
     DisposableEffect(Unit) {
         onDispose {
-            sensor.unregister()
+            sensor.reiniciar()
         }
     }
 

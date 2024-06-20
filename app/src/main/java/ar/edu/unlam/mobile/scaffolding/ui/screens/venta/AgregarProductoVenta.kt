@@ -65,7 +65,7 @@ fun AgregarProductoVenta(
 
     DisposableEffect(Unit) {
         onDispose {
-            sensor.unregister()
+            sensor.reiniciar()
         }
     }
 

@@ -6,10 +6,10 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 
-class Sensor(context: Context, private val onShake: () -> Unit) : SensorEventListener {
+class Sensor(context: Context, private val onMovimiento: () -> Unit) : SensorEventListener {
     private val sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
     private val accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
-    private var lastShakeTime = 0L
+    private var ultimoMovimiento = 0L
 
     init {
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI)
@@ -17,7 +17,7 @@ class Sensor(context: Context, private val onShake: () -> Unit) : SensorEventLis
 
     override fun onSensorChanged(event: SensorEvent) {
         val now = System.currentTimeMillis()
-        if (now - lastShakeTime > 1000) { // Minimum 1 second between shakes
+        if (now - ultimoMovimiento > 1000) {
             val x = event.values[0]
             val y = event.values[1]
             val z = event.values[2]
@@ -26,12 +26,11 @@ class Sensor(context: Context, private val onShake: () -> Unit) : SensorEventLis
             val gY = y / SensorManager.GRAVITY_EARTH
             val gZ = z / SensorManager.GRAVITY_EARTH
 
-            // G-Force will be close to 1 when there is no movement.
-            val gForce = Math.sqrt((gX * gX + gY * gY + gZ * gZ).toDouble())
+            val gravedad = Math.sqrt((gX * gX + gY * gY + gZ * gZ).toDouble())
 
-            if (gForce > 2.5) { // Shake threshold
-                lastShakeTime = now
-                onShake()
+            if (gravedad > 2.5) {
+                ultimoMovimiento = now
+                onMovimiento()
             }
         }
     }
@@ -40,10 +39,9 @@ class Sensor(context: Context, private val onShake: () -> Unit) : SensorEventLis
         sensor: Sensor?,
         accuracy: Int,
     ) {
-        // No implementation needed
     }
 
-    fun unregister() {
+    fun reiniciar() {
         sensorManager.unregisterListener(this)
     }
 }
