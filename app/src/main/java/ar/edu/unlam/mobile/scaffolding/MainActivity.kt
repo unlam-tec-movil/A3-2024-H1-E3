@@ -161,7 +161,7 @@ fun MainScreen(viewModel: ProductoViewModel) {
                 BalanceScreen()
             }
             composable("configuracion") {
-                Configuracion()
+                Configuracion(controller)
             }
             composable("listaVenta") {
                 ListaProductosVenta(controller = controller, viewModel = viewModel)
