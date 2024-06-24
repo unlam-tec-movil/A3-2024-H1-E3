@@ -1,10 +1,17 @@
 package ar.edu.unlam.mobile.scaffolding
 
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
-import org.junit.Assert.*
+import ar.edu.unlam.mobile.scaffolding.ui.components.usuario.viewmodel.UsuarioViewModel
+import ar.edu.unlam.mobile.scaffolding.ui.screens.welcome.InputAnimated
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito.mock
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -13,10 +20,28 @@ import org.junit.runner.RunWith
  */
 @RunWith(AndroidJUnit4::class)
 class ExampleInstrumentedTest {
+    @get:Rule
+    val composeTestRule = createComposeRule()
+
     @Test
-    fun useAppContext() {
-        // Context of the app under test.
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("ar.edu.unlam.mobile.scaffolding", appContext.packageName)
+    fun welcomeScreenCambiaLuegoDePresionarBoton() {
+        val mockViewModel = mock(UsuarioViewModel::class.java)
+
+        composeTestRule.setContent {
+            InputAnimated(
+                coroutineScope = rememberCoroutineScope(),
+                onNavigateToHomeScreen = {},
+                viewModel = mockViewModel,
+            )
+        }
+
+        composeTestRule.onNodeWithText("Ingrese su nombre")
+            .assertIsDisplayed()
+
+        composeTestRule.onNodeWithText("Continuar")
+            .performClick()
+
+        composeTestRule.onNodeWithText("Por favor, ingrese el nombre de su negocio")
+            .assertIsDisplayed()
     }
 }

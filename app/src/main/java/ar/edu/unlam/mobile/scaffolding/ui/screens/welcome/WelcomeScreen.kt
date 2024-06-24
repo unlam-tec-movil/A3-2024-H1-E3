@@ -9,6 +9,8 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -22,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ar.edu.unlam.mobile.scaffolding.ui.components.usuario.viewmodel.UsuarioViewModel
 import ar.edu.unlam.mobile.scaffolding.ui.components.usuario.viewmodel.UsuarioViewModelProvider
@@ -47,7 +50,7 @@ fun WelcomeScreen(onNavigateToHomeScreen: () -> Unit) {
 }
 
 @Composable
-private fun WelcomeAnimated() {
+fun WelcomeAnimated() {
     var visible by remember { mutableStateOf(true) }
 
     LaunchedEffect(visible) {
@@ -74,7 +77,7 @@ private fun WelcomeAnimated() {
 }
 
 @Composable
-private fun InputAnimated(
+fun InputAnimated(
     coroutineScope: CoroutineScope,
     onNavigateToHomeScreen: () -> Unit,
     viewModel: UsuarioViewModel = viewModel(factory = UsuarioViewModelProvider.Factory),
@@ -119,9 +122,13 @@ private fun InputAnimated(
                                 nombre = it
                             },
                         )
-                        Button(onClick = {
-                            currentPage = "B"
-                        }) {
+                        Button(
+                            modifier = Modifier.padding(top = 10.dp),
+                            shape = RoundedCornerShape(0.dp),
+                            onClick = {
+                                currentPage = "B"
+                            },
+                        ) {
                             Text(text = "Continuar")
                         }
                     }
@@ -142,12 +149,16 @@ private fun InputAnimated(
                                 negocio = it
                             },
                         )
-                        Button(onClick = {
-                            coroutineScope.launch {
-                                viewModel.guardarUsuario(nombre = nombre.text, negocio = negocio.text)
-                                onNavigateToHomeScreen()
-                            }
-                        }) {
+                        Button(
+                            modifier = Modifier.padding(top = 10.dp),
+                            shape = RoundedCornerShape(0.dp),
+                            onClick = {
+                                coroutineScope.launch {
+                                    viewModel.guardarUsuario(nombre = nombre.text, negocio = negocio.text)
+                                    onNavigateToHomeScreen()
+                                }
+                            },
+                        ) {
                             Text(text = "Continuar")
                         }
                     }

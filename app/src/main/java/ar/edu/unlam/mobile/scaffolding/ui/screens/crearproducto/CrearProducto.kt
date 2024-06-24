@@ -1,41 +1,53 @@
 package ar.edu.unlam.mobile.scaffolding.ui.screens.crearproducto
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import androidx.room.Room
+import ar.edu.unlam.mobile.scaffolding.data.local.database.InventoryDatabase
+import ar.edu.unlam.mobile.scaffolding.data.repository.producto.OfflineProductoRepository
+import ar.edu.unlam.mobile.scaffolding.ui.components.MyTopBar
 import ar.edu.unlam.mobile.scaffolding.ui.components.producto.viewmodel.ProductoViewModel
 import kotlinx.coroutines.launch
+
+@Preview
+@Composable
+private fun MyPreview() {
+    val context = LocalContext.current
+    val db = Room.databaseBuilder(context, InventoryDatabase::class.java, "producto_db").build()
+    val dao = db.producotDao()
+    val repository = OfflineProductoRepository(dao)
+    val viewModel = ProductoViewModel(repository)
+    val navController: NavHostController = rememberNavController()
+
+    CrearProducto(navController, viewModel)
+}
 
 @Composable
 fun CrearProducto(
@@ -43,182 +55,136 @@ fun CrearProducto(
     viewModel: ProductoViewModel,
 ) {
     val coroutineScope = rememberCoroutineScope()
-    Column(
-        modifier =
-            Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
-    ) {
-        Card(
+    Scaffold(
+        topBar = { MyTopBar(onNavigateBack = { controller.popBackStack() }, title = "Agregar item") },
+    ) { paddingValues ->
+        Column(
             modifier =
                 Modifier
-                    .fillMaxWidth(),
-            elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+                    .padding(paddingValues)
+                    .padding(10.dp)
+                    .padding(end = 10.dp)
+                    .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            IconButton(
-                modifier =
-                    Modifier
-                        .padding(5.dp),
-                onClick = {
-                    controller.navigate(route = "home")
-                },
-            ) {
-                Icon(
-                    Icons.Filled.ArrowBack,
-                    contentDescription = null,
-                    // tint = Color.Black,
+            Column {
+                Text(
+                    text = "Nombre:",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                TextField(
                     modifier =
                         Modifier
-                            .size(45.dp),
+                            .fillMaxWidth(),
+                    value = viewModel.nombre,
+                    onValueChange = { viewModel.nombre = it },
                 )
-            }
-        } // CIERRA CARD PARA ATRAS
-
-        Column(modifier = Modifier) {
-            Text(
-                text = "Agregar Producto",
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-                fontSize = 22.sp,
-                fontFamily = FontFamily.Default,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(start = 15.dp, top = 10.dp, bottom = 1.dp),
-            )
-        }
-
-        Spacer(modifier = Modifier.height(5.dp))
-        Column {
-            Spacer(modifier = Modifier.height(15.dp))
-            Text(
-                text = "Especificaciones:",
-                fontSize = 20.sp,
-                modifier = Modifier.padding(10.dp),
-                style = MaterialTheme.typography.labelLarge,
-            )
-            Text(
-                text = "Nombre:",
-                style = MaterialTheme.typography.titleMedium,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.padding(10.dp),
-            )
-            TextField(
-                modifier =
-                    Modifier
-                        .padding(10.dp)
-                        .fillMaxWidth(),
-                value = viewModel.nombre,
-                onValueChange = { viewModel.nombre = it },
-            )
-            Spacer(modifier = Modifier.height(15.dp))
-            Text(
-                text = "Precio:",
-                style = MaterialTheme.typography.titleMedium,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.padding(10.dp),
-            )
-            TextField(
-                modifier =
-                    Modifier
-                        .padding(10.dp)
-                        .fillMaxWidth(),
-                value = viewModel.textP,
-                onValueChange = {
-                    viewModel.textP = it
-                    viewModel.precio = it.toDoubleOrNull() ?: 0.0
-                },
-                keyboardOptions =
-                    KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Number,
-                    ),
-            )
-            Spacer(modifier = Modifier.height(15.dp))
-
-            Card(
-                modifier =
-                    Modifier
-                        .padding(10.dp)
-                        .fillMaxWidth(),
-                elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
-            ) {
-                Spacer(modifier = Modifier.height(5.dp))
-                Column(modifier = Modifier.padding(10.dp)) {
-                    Text(
-                        text = "Adicional",
-                        style = MaterialTheme.typography.titleMedium,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.padding(10.dp),
-                    )
-
-                    Spacer(modifier = Modifier.height(15.dp))
-                    TextField(
-                        modifier =
-                            Modifier
-                                .fillMaxWidth(),
-                        value = viewModel.textS,
-                        onValueChange = {
-                            viewModel.textS = it
-                            viewModel.stock = it.toIntOrNull() ?: 0
-                        },
-                        keyboardOptions =
-                            KeyboardOptions.Default.copy(
-                                keyboardType = KeyboardType.Number,
-                            ),
-                        placeholder = { Text(text = "Stock") },
-                    )
-
-                    Spacer(modifier = Modifier.height(15.dp))
-                    Divider()
-
-                    TextField(
-                        modifier =
-                            Modifier
-                                .fillMaxWidth(),
-                        value = viewModel.categoria,
-                        onValueChange = { viewModel.categoria = it },
-                        placeholder = { Text(text = "Categoria") },
-                    )
-
-                    Spacer(modifier = Modifier.height(15.dp))
-                    Divider()
-                    TextField(
-                        modifier =
-                            Modifier
-                                .fillMaxWidth(),
-                        value = viewModel.nombreProvedor,
-                        onValueChange = { viewModel.nombreProvedor = it },
-                        placeholder = { Text(text = "Nombre del Proovedor") },
-                    )
-                    Spacer(modifier = Modifier.height(15.dp))
-                    Divider()
-                }
-            }
-
-            Card(
-                modifier =
-                    Modifier
-                        .padding(10.dp)
-                        .fillMaxWidth(),
-                elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
-            ) {
+                Text(
+                    text = "Precio:",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                TextField(
+                    modifier =
+                        Modifier
+                            .fillMaxWidth(),
+                    value = viewModel.textP,
+                    onValueChange = {
+                        viewModel.textP = it
+                        viewModel.precio = it.toDoubleOrNull() ?: 0.0
+                    },
+                    keyboardOptions =
+                        KeyboardOptions.Default.copy(
+                            keyboardType = KeyboardType.Number,
+                        ),
+                )
+                Text(
+                    text = "Adicional",
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.titleMedium,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                Text(
+                    text = "Stock",
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.titleMedium,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                TextField(
+                    modifier =
+                        Modifier
+                            .fillMaxWidth(),
+                    value = viewModel.textS,
+                    onValueChange = {
+                        viewModel.textS = it
+                        viewModel.stock = it.toIntOrNull() ?: 0
+                    },
+                    keyboardOptions =
+                        KeyboardOptions.Default.copy(
+                            keyboardType = KeyboardType.Number,
+                        ),
+                    placeholder = { Text(text = "Stock") },
+                )
+                Text(
+                    text = "Categoria",
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.titleMedium,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                TextField(
+                    modifier =
+                        Modifier
+                            .fillMaxWidth(),
+                    value = viewModel.categoria,
+                    onValueChange = { viewModel.categoria = it },
+                    placeholder = { Text(text = "Categoria") },
+                )
+                Text(
+                    text = "Codigo QR",
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.titleMedium,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                )
                 TextField(
                     modifier =
                         Modifier
                             .fillMaxWidth(),
                     value = viewModel.qr,
                     onValueChange = { viewModel.qr = it },
-                    placeholder = { Text(text = "Generar GR") },
+                    placeholder = { Text(text = "Codigo") },
                 )
-                Spacer(modifier = Modifier.height(5.dp))
-            }
-            Box(
-                modifier =
-                    Modifier
-                        .padding(5.dp)
-                        .fillMaxWidth(),
-                contentAlignment = Alignment.Center,
-            ) {
+                Text(
+                    text = "Proveedor",
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.titleMedium,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                TextField(
+                    modifier =
+                        Modifier
+                            .fillMaxWidth(),
+                    value = viewModel.nombreProvedor,
+                    onValueChange = { viewModel.nombreProvedor = it },
+                    placeholder = { Text(text = "Nombre del Proovedor") },
+                )
+
                 Button(
+                    colors =
+                        ButtonColors(
+                            containerColor = Color.DarkGray,
+                            contentColor = Color.White,
+                            disabledContainerColor = Color.Transparent,
+                            disabledContentColor = Color.Transparent,
+                        ),
                     shape = RoundedCornerShape(0.dp),
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
@@ -230,15 +196,21 @@ fun CrearProducto(
                         fontSize = 17.sp,
                     )
                 }
-            }
-            Box(
-                modifier =
-                    Modifier
-                        .padding(5.dp)
-                        .fillMaxWidth(),
-                contentAlignment = Alignment.Center,
-            ) {
+                Text(
+                    text = "Foto",
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.titleMedium,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                )
                 Button(
+                    colors =
+                        ButtonColors(
+                            containerColor = Color.DarkGray,
+                            contentColor = Color.White,
+                            disabledContainerColor = Color.Transparent,
+                            disabledContentColor = Color.Transparent,
+                        ),
                     shape = RoundedCornerShape(0.dp),
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
@@ -250,28 +222,29 @@ fun CrearProducto(
                         fontSize = 17.sp,
                     )
                 }
-            }
-            Box(
-                modifier =
-                    Modifier
-                        .padding(5.dp)
-                        .fillMaxWidth(),
-                contentAlignment = Alignment.Center,
-            ) {
-                Button(
-                    shape = RoundedCornerShape(0.dp),
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = {
-                        coroutineScope.launch {
-                            viewModel.guardarProducto()
-                            controller.navigate("home")
-                        }
-                    },
-                ) {
-                    Text(
-                        "AGREGAR",
-                        fontSize = 17.sp,
-                    )
+                Box(contentAlignment = Alignment.BottomCenter) {
+                    Button(
+                        colors =
+                            ButtonColors(
+                                containerColor = Color.DarkGray,
+                                contentColor = Color.White,
+                                disabledContainerColor = Color.Transparent,
+                                disabledContentColor = Color.Transparent,
+                            ),
+                        shape = RoundedCornerShape(0.dp),
+                        modifier = Modifier.fillMaxWidth(),
+                        onClick = {
+                            coroutineScope.launch {
+                                viewModel.guardarProducto()
+                                controller.navigate("home")
+                            }
+                        },
+                    ) {
+                        Text(
+                            "AGREGAR",
+                            fontSize = 17.sp,
+                        )
+                    }
                 }
             }
         }
