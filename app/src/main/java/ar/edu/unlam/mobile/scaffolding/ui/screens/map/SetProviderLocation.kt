@@ -1,5 +1,6 @@
 package ar.edu.unlam.mobile.scaffolding.ui.screens.map
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.foundation.layout.Box
@@ -11,8 +12,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -44,19 +47,30 @@ fun MapScreen(
         rememberMultiplePermissionsState(
             permissions =
                 listOf(
-                    android.Manifest.permission.ACCESS_FINE_LOCATION,
-                    android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
                 ),
         )
+
     LaunchedEffect(Unit) {
         permissionState.launchMultiplePermissionRequest()
     }
-    if (permissionState.allPermissionsGranted) {
-        MapBody(context, lifecycleOwner, viewModel, navController)
-    } else if (permissionState.shouldShowRationale) {
-        MyRational(context)
-    } else {
-        navController.popBackStack()
+
+    val allPermissionsGranted = permissionState.allPermissionsGranted
+    val shouldShowRationale = permissionState.shouldShowRationale
+
+    when {
+        allPermissionsGranted -> {
+            MapBody(context, lifecycleOwner, viewModel, navController)
+        }
+        shouldShowRationale -> {
+            MyRational(context)
+        }
+        else -> {
+            LaunchedEffect(Unit) {
+                navController.popBackStack()
+            }
+        }
     }
 }
 
@@ -70,7 +84,6 @@ fun MapBody(
 ) {
     val buttonEnabled = mutableStateOf(false)
     val locationState = remember { mutableStateOf<LatLng?>(null) }
-    val providerLocation = remember { mutableStateOf<LatLng?>(null) }
     LaunchedEffect(Unit) {
         getLocation(context, lifecycleOwner) { location ->
             locationState.value = location
@@ -84,7 +97,9 @@ fun MapBody(
             )
         },
         bottomBar = {
-            MyMapBotomBar(buttonEnabled.value, navigateBack)
+            MyMapBottomBar(buttonEnabled.value) {
+                navigateBack.popBackStack()
+            }
         },
     ) {
         locationState.value?.let { location ->
@@ -107,7 +122,8 @@ fun Map(
             position = CameraPosition.fromLatLngZoom(location, 15f)
         }
     val mapClicked = mutableStateOf(false)
-    lateinit var providerLatLng: LatLng
+    var providerLatLng by remember { mutableStateOf<LatLng?>(null) }
+
     GoogleMap(
         modifier = Modifier.fillMaxSize(),
         cameraPositionState = cameraPositionState,
@@ -121,19 +137,19 @@ fun Map(
         Marker(
             state = MarkerState(position = location),
         )
-        if (mapClicked.value) {
-            cameraPositionState.position = CameraPosition.fromLatLngZoom(providerLatLng, 20f)
+        providerLatLng?.let {
             Marker(
-                state = MarkerState(position = providerLatLng),
+                state = MarkerState(position = it),
             )
+            cameraPositionState.position = CameraPosition.fromLatLngZoom(it, 20f)
         }
     }
 }
 
 @Composable
-private fun MyMapBotomBar(
+private fun MyMapBottomBar(
     buttonEnabled: Boolean,
-    navigateBack: NavHostController,
+    onButtonClick: () -> Unit,
 ) {
     Box(
         contentAlignment = Alignment.BottomCenter,
@@ -144,9 +160,7 @@ private fun MyMapBotomBar(
     ) {
         Button(
             enabled = buttonEnabled,
-            onClick = {
-                navigateBack.popBackStack()
-            },
+            onClick = onButtonClick,
         ) {
             Text(text = "Continuar")
         }
