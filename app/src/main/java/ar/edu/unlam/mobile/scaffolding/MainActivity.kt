@@ -25,7 +25,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import ar.edu.unlam.mobile.scaffolding.ui.components.producto.viewmodel.ProductoViewModel
-import ar.edu.unlam.mobile.scaffolding.ui.components.stockViewModel.AgregarStockViewModel
 import ar.edu.unlam.mobile.scaffolding.ui.screens.DetalleProducto
 import ar.edu.unlam.mobile.scaffolding.ui.screens.HomeScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.addStock.AddStockScreen
@@ -151,8 +150,7 @@ fun MainScreen(viewModel: ProductoViewModel) {
                 )
             }
             composable("agregarStock") {
-                val agregarStockViewModel: AgregarStockViewModel = hiltViewModel()
-                AddStockScreen(controller, agregarStockViewModel)
+                AddStockScreen(controller, viewModel)
             }
             composable("balance") {
                 BalanceScreen()

@@ -1,5 +1,7 @@
 package ar.edu.unlam.mobile.scaffolding.ui.components.producto.viewmodel
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableIntStateOf
@@ -15,7 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -52,46 +54,67 @@ class ProductoViewModel
             detalle = producto
         }
 
-        fun guardarProducto(
+        suspend fun guardarProducto(
+            context: Context,
             nombre: String = this.nombre,
             precio: Double = this.precio,
             stock: Int = this.stock,
             categoria: String = this.categoria,
             nombreProvedor: String = this.nombreProvedor,
-            ubicacionProveedor: LatLng = this.ubicacionProveedor!!,
+            ubicacionProveedor: LatLng? = this.ubicacionProveedor,
             qr: String = this.qr,
-            fotoUri: String = this.fotoUri!!,
-        ) {
-            viewModelScope.launch(Dispatchers.IO) {
+            fotoUri: String = this.fotoUri,
+        ): Boolean =
+            withContext(Dispatchers.IO) {
                 try {
-                    productoRepository.guardarProducto(
-                        nombre = nombre,
-                        precio = precio,
-                        stock = stock,
-                        categoria = categoria,
-                        nombreProvedor = nombreProvedor,
-                        ubicacionProveedor = ubicacionProveedor,
-                        qr = qr,
-                        fotoUri = fotoUri,
-                    )
+                    if (nombre.isNotEmpty() &&
+                        precio != 0.0 &&
+                        stock != 0 &&
+                        categoria.isNotEmpty() &&
+                        nombreProvedor.isNotEmpty() &&
+                        ubicacionProveedor != null &&
+                        qr.isNotEmpty()
+                    ) {
+                        ubicacionProveedor.let {
+                            productoRepository.guardarProducto(
+                                nombre = nombre,
+                                precio = precio,
+                                stock = stock,
+                                categoria = categoria,
+                                nombreProvedor = nombreProvedor,
+                                ubicacionProveedor = it,
+                                qr = qr,
+                                fotoUri = fotoUri,
+                            )
+                        }
+                        limpiarCampos()
+                        true
+                    } else {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(context, "Campos Vacios", Toast.LENGTH_LONG).show()
+                        }
+                        false
+                    }
                 } catch (e: Exception) {
                     System.out.println("NO ANDA")
+                    false
                 }
             }
-            this.nombre = ""
-            this.precio = 0.0
-            this.stock = 0
-            this.categoria = ""
-            this.nombreProvedor = ""
-            this.ubicacionProveedor = null
-            this.qr = ""
-            this.fotoUri = ""
+
+        private fun limpiarCampos() {
+            nombre = ""
+            precio = 0.0
+            stock = 0
+            categoria = ""
+            nombreProvedor = ""
+            ubicacionProveedor = null
+            qr = ""
+            fotoUri = ""
         }
 
         var newStock by mutableIntStateOf(0)
         var scanedQr by mutableStateOf("")
 
-        // Agregar stock
         suspend fun agregarStock(
             stock: Int = newStock,
             qr: String = scanedQr,
@@ -99,8 +122,6 @@ class ProductoViewModel
             productoRepository.actualizarStock(stock, qr)
             newStock = 0
         }
-
-        // Vender
 
         suspend fun vender() {
             mapVenta.map {
@@ -112,7 +133,6 @@ class ProductoViewModel
             stock: Int,
             qr: String,
         ) {
-            // verificar que el stock a vender sea menor al actual
             productoRepository.restarStock(stock, qr)
         }
 

@@ -54,6 +54,7 @@ fun CrearProducto(
     controller: NavHostController,
     viewModel: ProductoViewModel,
 ) {
+    val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     Scaffold(
         topBar = { MyTopBar(onNavigateBack = { controller.popBackStack() }, title = "Agregar item") },
@@ -235,8 +236,10 @@ fun CrearProducto(
                         modifier = Modifier.fillMaxWidth(),
                         onClick = {
                             coroutineScope.launch {
-                                viewModel.guardarProducto()
-                                controller.navigate("home")
+                                val success = viewModel.guardarProducto(context)
+                                if (success) {
+                                    controller.navigate("home")
+                                }
                             }
                         },
                     ) {

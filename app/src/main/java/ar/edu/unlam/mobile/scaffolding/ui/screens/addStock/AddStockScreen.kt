@@ -23,30 +23,18 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import ar.edu.unlam.mobile.scaffolding.ui.components.MyTopBar
+import ar.edu.unlam.mobile.scaffolding.ui.components.producto.viewmodel.ProductoViewModel
 import ar.edu.unlam.mobile.scaffolding.ui.components.sensorViewModel.Sensor
-import ar.edu.unlam.mobile.scaffolding.ui.components.stockViewModel.AgregarStockViewModel
 import kotlinx.coroutines.launch
-
-@Preview
-@Composable
-private fun MyPreview() {
-    val agregarStockViewModel: AgregarStockViewModel = hiltViewModel()
-    val navController: NavHostController = rememberNavController()
-
-    AddStockScreen(navController, agregarStockViewModel)
-}
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun AddStockScreen(
     controller: NavHostController,
-    viewModel: AgregarStockViewModel,
+    viewModel: ProductoViewModel,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
