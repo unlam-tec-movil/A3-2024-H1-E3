@@ -28,9 +28,7 @@ import ar.edu.unlam.mobile.scaffolding.ui.components.producto.viewmodel.Producto
 import ar.edu.unlam.mobile.scaffolding.ui.screens.DetalleProducto
 import ar.edu.unlam.mobile.scaffolding.ui.screens.HomeScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.addStock.AddStockScreen
-import ar.edu.unlam.mobile.scaffolding.ui.screens.balance.BalanceScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.camera.CameraScreen
-import ar.edu.unlam.mobile.scaffolding.ui.screens.configuracion.Configuracion
 import ar.edu.unlam.mobile.scaffolding.ui.screens.crearproducto.CrearProducto
 import ar.edu.unlam.mobile.scaffolding.ui.screens.map.MapProviderScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.map.MapScreen
@@ -151,12 +149,6 @@ fun MainScreen(viewModel: ProductoViewModel) {
             }
             composable("agregarStock") {
                 AddStockScreen(controller, viewModel)
-            }
-            composable("balance") {
-                BalanceScreen()
-            }
-            composable("configuracion") {
-                Configuracion(controller)
             }
             composable("listaVenta") {
                 ListaProductosVenta(controller = controller, viewModel = viewModel)

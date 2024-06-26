@@ -1,5 +1,6 @@
 package ar.edu.unlam.mobile.scaffolding.ui.screens.crearproducto
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,7 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -111,7 +112,7 @@ fun CrearProducto(
                     overflow = TextOverflow.Ellipsis,
                 )
                 Text(
-                    text = "Stock",
+                    text = "Stock (min. 10)",
                     fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.titleMedium,
                     maxLines = 2,
@@ -124,7 +125,10 @@ fun CrearProducto(
                     value = viewModel.textS,
                     onValueChange = {
                         viewModel.textS = it
-                        viewModel.stock = it.toIntOrNull() ?: 0
+                        val stockValue = it.toIntOrNull() ?: 0
+                        if (stockValue >= 10) {
+                            viewModel.stock = stockValue
+                        }
                     },
                     keyboardOptions =
                         KeyboardOptions.Default.copy(
@@ -180,7 +184,7 @@ fun CrearProducto(
 
                 Button(
                     colors =
-                        ButtonColors(
+                        ButtonDefaults.buttonColors(
                             containerColor = Color.DarkGray,
                             contentColor = Color.White,
                             disabledContainerColor = Color.Transparent,
@@ -206,7 +210,7 @@ fun CrearProducto(
                 )
                 Button(
                     colors =
-                        ButtonColors(
+                        ButtonDefaults.buttonColors(
                             containerColor = Color.DarkGray,
                             contentColor = Color.White,
                             disabledContainerColor = Color.Transparent,
@@ -226,7 +230,7 @@ fun CrearProducto(
                 Box(contentAlignment = Alignment.BottomCenter) {
                     Button(
                         colors =
-                            ButtonColors(
+                            ButtonDefaults.buttonColors(
                                 containerColor = Color.DarkGray,
                                 contentColor = Color.White,
                                 disabledContainerColor = Color.Transparent,
@@ -236,9 +240,13 @@ fun CrearProducto(
                         modifier = Modifier.fillMaxWidth(),
                         onClick = {
                             coroutineScope.launch {
-                                val success = viewModel.guardarProducto(context)
-                                if (success) {
-                                    controller.navigate("home")
+                                if (viewModel.stock >= 10) {
+                                    val success = viewModel.guardarProducto(context)
+                                    if (success) {
+                                        controller.navigate("home")
+                                    }
+                                } else {
+                                    Toast.makeText(context, "El stock debe ser al menos 10", Toast.LENGTH_LONG).show()
                                 }
                             }
                         },
