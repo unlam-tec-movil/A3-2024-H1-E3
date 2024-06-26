@@ -5,12 +5,13 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -18,7 +19,6 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
@@ -48,6 +48,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -167,7 +168,11 @@ fun Contenido(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 items(productoEntities) { producto ->
-                    ProductoItem(producto = producto, onClick = { onProductoClick(producto) })
+                    ProductoItem(
+                        producto = producto,
+                        onClick = { onProductoClick(producto) },
+                        isLowStock = producto.stock in 5..10,
+                    )
                 }
             }
         } else {
@@ -216,6 +221,7 @@ private fun itemPreview() {
 fun ProductoItem(
     producto: Producto,
     onClick: () -> Unit,
+    isLowStock: Boolean = false,
 ) {
     Card(
         modifier =
@@ -227,26 +233,37 @@ fun ProductoItem(
         shape = RoundedCornerShape(0.dp),
     ) {
         Column(
-            modifier = Modifier.padding(8.dp).fillMaxSize(),
+            modifier = Modifier.padding(8.dp),
         ) {
             AsyncImage(
                 modifier =
                     Modifier
-                        .size(100.dp)
-                        .clip(RoundedCornerShape(0.dp))
-                        .align(Alignment.CenterHorizontally)
-                        .fillMaxSize(),
+                        .height(95.dp)
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(0.dp)),
                 model = producto.fotoUri,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 placeholder = painterResource(R.drawable.splashimg),
             )
+            Spacer(modifier = Modifier.height(8.dp))
             Text(
-                modifier = Modifier.padding(top = 10.dp),
                 text = producto.nombre,
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Bold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
             )
+            if (isLowStock) {
+                Text(
+                    text = "Stock bajo: ${producto.stock}",
+                    color = Color.Red,
+                    style = MaterialTheme.typography.bodySmall,
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
         }
     }
 }
@@ -256,11 +273,6 @@ fun ProductoItem(
 fun TopBar(onMenuClick: () -> Unit) {
     TopAppBar(
         title = { Text(text = "") },
-        actions = {
-            IconButton(onClick = { /* Acción al hacer clic */ }) {
-                Icon(Icons.Filled.Share, contentDescription = "Share")
-            }
-        },
         navigationIcon = {
             IconButton(onClick = onMenuClick) {
                 Icon(Icons.Filled.Menu, contentDescription = "Menu")
@@ -295,8 +307,6 @@ fun DrawerContent(
                     "Inicio" to "home",
                     "Agregar stock" to "agregarStock",
                     "Vender" to "listaVenta",
-                    "Balance" to "balance",
-                    "Configuracion" to "configuracion",
                 )
 
             menuItems.forEach { (menuItem, route) ->

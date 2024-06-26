@@ -2,6 +2,7 @@ package ar.edu.unlam.mobile.scaffolding.ui.screens.camera
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.net.Uri
 import android.os.Environment
 import android.view.ViewGroup
 import androidx.camera.core.ImageCapture
@@ -40,18 +41,33 @@ fun CameraScreen(
     navController: NavHostController,
 ) {
     val permissionState =
-        rememberMultiplePermissionsState(permissions = listOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE))
+        rememberMultiplePermissionsState(
+            permissions = listOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE),
+        )
     val context = LocalContext.current
 
+    // Lanza la solicitud de permisos
     LaunchedEffect(Unit) {
         permissionState.launchMultiplePermissionRequest()
     }
-    if (permissionState.allPermissionsGranted) {
-        CameraBody(viewModel, navController)
-    } else if (permissionState.shouldShowRationale) {
-        MyRational(context)
-    } else {
-        navController.popBackStack()
+
+    // Observa cambios en el estado de los permisos
+    val allPermissionsGranted = permissionState.allPermissionsGranted
+    val shouldShowRationale = permissionState.shouldShowRationale
+
+    // Renderiza la UI basada en el estado de los permisos
+    when {
+        allPermissionsGranted -> {
+            CameraBody(viewModel, navController)
+        }
+        shouldShowRationale -> {
+            MyRational(context)
+        }
+        else -> {
+            LaunchedEffect(Unit) {
+                navController.popBackStack()
+            }
+        }
     }
 }
 
@@ -62,20 +78,20 @@ fun CameraBody(
     navController: NavHostController,
 ) {
     val context = LocalContext.current
-    val cameraController =
-        remember {
-            LifecycleCameraController(context)
-        }
+    val cameraController = remember { LifecycleCameraController(context) }
     val lifecycle = LocalLifecycleOwner.current
 
-    Scaffold(modifier = Modifier.fillMaxSize(), floatingActionButton = {
-        FloatingActionButton(onClick = {
-            val executor = ContextCompat.getMainExecutor(context)
-            takePicture(viewModel, navController, cameraController, executor)
-        }) {
-            Text(text = "Tomar Foto")
-        }
-    }) {
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        floatingActionButton = {
+            FloatingActionButton(onClick = {
+                val executor = ContextCompat.getMainExecutor(context)
+                takePicture(viewModel, navController, cameraController, executor)
+            }) {
+                Text(text = "Tomar Foto")
+            }
+        },
+    ) {
         Camera(
             cameraController = cameraController,
             lifecycle = lifecycle,
@@ -111,19 +127,16 @@ private fun takePicture(
     cameraController: LifecycleCameraController,
     executor: Executor,
 ) {
-    // TODO("La función crea un archivo temporal, hay que hacer que ese archivo se guarde
-    //  y se muestre como la imagen del producto/item)
     val picturesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
     val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
     val file = File(picturesDir, "IMG_$timeStamp.jpg")
-    // val file = File.createTempFile("imagetest", ".jpg")
     val outputDirectory = ImageCapture.OutputFileOptions.Builder(file).build()
     cameraController.takePicture(
         outputDirectory,
         executor,
         object : ImageCapture.OnImageSavedCallback {
             override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                val savedUri = outputFileResults.savedUri
+                val savedUri = outputFileResults.savedUri ?: Uri.fromFile(file)
                 viewModel.fotoUri = savedUri.toString()
                 navController.popBackStack()
             }

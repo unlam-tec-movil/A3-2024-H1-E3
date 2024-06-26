@@ -19,6 +19,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -63,6 +65,8 @@ fun ListaProductosVenta(
     viewModel: ProductoViewModel,
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val listaVenta by viewModel.listaVenta.collectAsState()
+
     Scaffold(
         topBar = {
             MyTopBar(
@@ -88,7 +92,7 @@ fun ListaProductosVenta(
                     .padding(end = 10.dp)
                     .fillMaxSize(),
         ) {
-            if (viewModel.listaVenta.isEmpty()) {
+            if (listaVenta.isEmpty()) {
                 Text(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
                     text = "Lista vacia",
@@ -98,7 +102,7 @@ fun ListaProductosVenta(
                 )
             } else {
                 LazyColumn {
-                    items(items = viewModel.listaVenta) {
+                    items(items = listaVenta) {
                         ListaDeVentaItem(it)
                     }
                 }
@@ -106,7 +110,7 @@ fun ListaProductosVenta(
             Button(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(0.dp),
-                enabled = viewModel.listaVenta.isNotEmpty(),
+                enabled = listaVenta.isNotEmpty(),
                 onClick = {
                     coroutineScope.launch {
                         viewModel.vender()

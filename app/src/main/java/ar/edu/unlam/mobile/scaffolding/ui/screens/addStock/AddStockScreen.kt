@@ -23,30 +23,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import androidx.room.Room
-import ar.edu.unlam.mobile.scaffolding.data.local.database.InventoryDatabase
-import ar.edu.unlam.mobile.scaffolding.data.repository.producto.OfflineProductoRepository
 import ar.edu.unlam.mobile.scaffolding.ui.components.MyTopBar
 import ar.edu.unlam.mobile.scaffolding.ui.components.producto.viewmodel.ProductoViewModel
 import ar.edu.unlam.mobile.scaffolding.ui.components.sensorViewModel.Sensor
 import kotlinx.coroutines.launch
-
-@Preview
-@Composable
-private fun MyPreview() {
-    val context = LocalContext.current
-    val db = Room.databaseBuilder(context, InventoryDatabase::class.java, "producto_db").build()
-    val dao = db.producotDao()
-    val repository = OfflineProductoRepository(dao)
-    val viewModel = ProductoViewModel(repository)
-    val navController: NavHostController = rememberNavController()
-
-    AddStockScreen(navController, viewModel)
-}
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable

@@ -19,20 +19,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.room.Room
-import ar.edu.unlam.mobile.scaffolding.data.local.database.InventoryDatabase
-import ar.edu.unlam.mobile.scaffolding.data.repository.producto.OfflineProductoRepository
 import ar.edu.unlam.mobile.scaffolding.ui.components.producto.viewmodel.ProductoViewModel
 import ar.edu.unlam.mobile.scaffolding.ui.screens.DetalleProducto
 import ar.edu.unlam.mobile.scaffolding.ui.screens.HomeScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.addStock.AddStockScreen
-import ar.edu.unlam.mobile.scaffolding.ui.screens.balance.BalanceScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.camera.CameraScreen
-import ar.edu.unlam.mobile.scaffolding.ui.screens.configuracion.Configuracion
 import ar.edu.unlam.mobile.scaffolding.ui.screens.crearproducto.CrearProducto
 import ar.edu.unlam.mobile.scaffolding.ui.screens.map.MapProviderScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.map.MapScreen
@@ -48,10 +44,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val db = Room.databaseBuilder(this, InventoryDatabase::class.java, "producto_db").build()
-        val dao = db.producotDao()
-        val repository = OfflineProductoRepository(dao)
-        val viewModel = ProductoViewModel(repository)
         setContent {
             ScaffoldingV2Theme {
                 // A surface container using the 'background' color from the theme
@@ -59,6 +51,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,
                 ) {
+                    val viewModel: ProductoViewModel = hiltViewModel()
                     val startDestination = "splash-screen"
                     MyAppNavHost(startDestination = startDestination, viewModel)
                 }
@@ -156,12 +149,6 @@ fun MainScreen(viewModel: ProductoViewModel) {
             }
             composable("agregarStock") {
                 AddStockScreen(controller, viewModel)
-            }
-            composable("balance") {
-                BalanceScreen()
-            }
-            composable("configuracion") {
-                Configuracion(controller)
             }
             composable("listaVenta") {
                 ListaProductosVenta(controller = controller, viewModel = viewModel)

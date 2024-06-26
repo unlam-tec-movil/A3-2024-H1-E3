@@ -19,7 +19,7 @@ class ExampleUnitTest {
     private val repo = OfflineUsuarioRepository(dao)
 
     @Test
-    fun que_se_guarde_la_sesion() =
+    fun queSeGuardeLaSesion() =
         runTest {
             val viewModel = UsuarioViewModel(repo)
 
