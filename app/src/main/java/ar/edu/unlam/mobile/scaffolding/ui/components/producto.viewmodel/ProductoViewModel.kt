@@ -14,6 +14,7 @@ import ar.edu.unlam.mobile.scaffolding.data.repository.producto.OfflineProductoR
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
@@ -47,6 +48,8 @@ class ProductoViewModel
                     started = SharingStarted.WhileSubscribed(5000),
                     initialValue = emptyList(),
                 )
+        private val _listaVenta = MutableStateFlow<List<Producto>>(emptyList())
+        val listaVenta: StateFlow<List<Producto>> get() = _listaVenta
 
         fun productoDetalle(): Producto? = detalle
 
@@ -127,6 +130,12 @@ class ProductoViewModel
             mapVenta.map {
                 quitarStock(qr = it.key, stock = it.value)
             }
+            limpiarListaVenta()
+        }
+
+        private fun limpiarListaVenta() {
+            _listaVenta.value = listOf()
+            mapVenta = mapOf()
         }
 
         private suspend fun quitarStock(
@@ -136,19 +145,18 @@ class ProductoViewModel
             productoRepository.restarStock(stock, qr)
         }
 
-        var listaVenta by mutableStateOf<List<Producto>>(listOf())
         var mapVenta by mutableStateOf<Map<String, Int>>(mapOf())
 
         suspend fun agregarProductoVenta(
             qr: String = scanedQr,
             stock: Int = newStock,
         ) {
-            val lista: MutableList<Producto> = listaVenta.toMutableList()
+            val lista: MutableList<Producto> = listaVenta.value.toMutableList()
             val map: MutableMap<String, Int> = mapVenta.toMutableMap()
             val p = getProductoPorQR(qr)
 
             lista.add(p)
-            listaVenta = lista.toList()
+            _listaVenta.value = lista.toList()
 
             map[qr] = stock
             mapVenta = map.toMap()
