@@ -56,7 +56,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import ar.edu.unlam.mobile.scaffolding.R
 import ar.edu.unlam.mobile.scaffolding.data.local.producto.entity.Producto
-import ar.edu.unlam.mobile.scaffolding.ui.components.producto.viewmodel.ProductoViewModel
+import ar.edu.unlam.mobile.scaffolding.ui.components.viewmodels.myHome.MyHomeViewModel
 import coil.compose.AsyncImage
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.launch
@@ -65,14 +65,14 @@ import kotlinx.coroutines.launch
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    viewModelP: ProductoViewModel,
+    homeViewModel: MyHomeViewModel,
     controller: NavHostController,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
 
-    val productos by viewModelP.productos.collectAsState()
+    val productos by homeViewModel.productos.collectAsState()
     val uiState: HomeUIState by viewModel.uiState.collectAsState()
     var searchText by remember { mutableStateOf("") }
 
@@ -129,7 +129,7 @@ fun HomeScreen(
                                     }
                                 Contenido(filteredProducts, onProductoClick = { producto ->
                                     // Maneja el clic del producto aquí
-                                    viewModelP.productoDetalleGuardar(producto)
+                                    homeViewModel.seleccionarProducto(producto)
                                     controller.navigate("detalle")
                                 })
                             }

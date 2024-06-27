@@ -1,7 +1,6 @@
 package ar.edu.unlam.mobile.scaffolding.ui.screens.splash
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.scaleIn
@@ -22,10 +21,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import ar.edu.unlam.mobile.scaffolding.R
-import ar.edu.unlam.mobile.scaffolding.ui.components.usuario.viewmodel.UsuarioViewModel
-import ar.edu.unlam.mobile.scaffolding.ui.components.usuario.viewmodel.UsuarioViewModelProvider
+import ar.edu.unlam.mobile.scaffolding.ui.components.viewmodels.SplashViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -34,21 +31,19 @@ import kotlinx.coroutines.launch
 fun SplashScreen(
     onNavigateToWelcomeScreen: () -> Unit,
     onNavigateToHomeScreen: () -> Unit,
-    viewModel: UsuarioViewModel = viewModel(factory = UsuarioViewModelProvider.Factory),
+    splashViewModel: SplashViewModel,
 ) {
     val coroutineScope = rememberCoroutineScope()
 
-    var cantidadUsuarios = 0
-    LaunchedEffect(cantidadUsuarios) {
+    LaunchedEffect(true) {
         coroutineScope.launch {
-            cantidadUsuarios = viewModel.getCantidadUsuarios()
+            splashViewModel.getCantidadUsuarios()
         }
     }
 
-    LaunchedEffect(key1 = true) {
+    LaunchedEffect(true) {
         delay(1000)
-        Log.i("Cantidad usuarios", "$cantidadUsuarios")
-        if (cantidadUsuarios == 0) {
+        if (splashViewModel.cantidadUsuarios == 0) {
             onNavigateToWelcomeScreen()
         } else {
             onNavigateToHomeScreen()

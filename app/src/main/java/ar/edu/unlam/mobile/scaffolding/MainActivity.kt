@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -19,12 +20,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import ar.edu.unlam.mobile.scaffolding.ui.components.producto.viewmodel.ProductoViewModel
+import ar.edu.unlam.mobile.scaffolding.ui.components.viewmodels.SplashViewModel
+import ar.edu.unlam.mobile.scaffolding.ui.components.viewmodels.WelcomeViewModel
+import ar.edu.unlam.mobile.scaffolding.ui.components.viewmodels.crearProducto.CrearProductoViewModel
+import ar.edu.unlam.mobile.scaffolding.ui.components.viewmodels.myHome.MyHomeViewModel
+import ar.edu.unlam.mobile.scaffolding.ui.components.viewmodels.stock.AgregarStockViewModel
+import ar.edu.unlam.mobile.scaffolding.ui.components.viewmodels.stock.VenderProductosViewModel
 import ar.edu.unlam.mobile.scaffolding.ui.screens.DetalleProducto
 import ar.edu.unlam.mobile.scaffolding.ui.screens.HomeScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.addStock.AddStockScreen
@@ -44,6 +49,13 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val splashViewModel by viewModels<SplashViewModel>()
+        val welcomeViewModel by viewModels<WelcomeViewModel>()
+        val myHomeViewModel by viewModels<MyHomeViewModel>()
+        val crearProductoViewModel by viewModels<CrearProductoViewModel>()
+        val agregarStockViewModel by viewModels<AgregarStockViewModel>()
+        val venderProductosViewModel by viewModels<VenderProductosViewModel>()
+
         setContent {
             ScaffoldingV2Theme {
                 // A surface container using the 'background' color from the theme
@@ -51,9 +63,16 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,
                 ) {
-                    val viewModel: ProductoViewModel = hiltViewModel()
                     val startDestination = "splash-screen"
-                    MyAppNavHost(startDestination = startDestination, viewModel)
+                    MyAppNavHost(
+                        startDestination = startDestination,
+                        splashViewModel = splashViewModel,
+                        welcomeViewModel = welcomeViewModel,
+                        myHomeViewModel = myHomeViewModel,
+                        crearProductoViewModel = crearProductoViewModel,
+                        agregarStockViewModel = agregarStockViewModel,
+                        venderProductosViewModel = venderProductosViewModel,
+                    )
                 }
             }
         }
@@ -63,7 +82,12 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MyAppNavHost(
     startDestination: String,
-    viewModel: ProductoViewModel,
+    splashViewModel: SplashViewModel,
+    welcomeViewModel: WelcomeViewModel,
+    myHomeViewModel: MyHomeViewModel,
+    crearProductoViewModel: CrearProductoViewModel,
+    agregarStockViewModel: AgregarStockViewModel,
+    venderProductosViewModel: VenderProductosViewModel,
     navController: NavHostController = rememberNavController(),
 ) {
     NavHost(navController = navController, startDestination = startDestination) {
@@ -75,6 +99,7 @@ fun MyAppNavHost(
                 onNavigateToHomeScreen = {
                     navController.navigate("main-screen")
                 },
+                splashViewModel = splashViewModel,
             )
         }
         composable("welcome-screen") {
@@ -82,24 +107,31 @@ fun MyAppNavHost(
                 onNavigateToHomeScreen = {
                     navController.navigate("main-screen")
                 },
+                welcomeViewModel = welcomeViewModel,
             )
         }
-        composable("main-screen") { MainScreen(viewModel) }
+        composable("main-screen") {
+            MainScreen(
+                myHomeViewModel,
+                crearProductoViewModel,
+                agregarStockViewModel,
+                venderProductosViewModel,
+            )
+        }
     }
 }
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-fun MainScreen(viewModel: ProductoViewModel) {
-    // Controller es el elemento que nos permite navegar entre pantallas. Tiene las acciones
-    // para navegar como naviegate y también la información de en dónde se "encuentra" el usuario
-    // a través del back stack
-
+fun MainScreen(
+    myHomeViewModel: MyHomeViewModel,
+    crearProductoViewModel: CrearProductoViewModel,
+    agregarStockViewModel: AgregarStockViewModel,
+    venderProductosViewModel: VenderProductosViewModel,
+) {
     val controller = rememberNavController()
-    // State to keep track of the current route
     val currentRoute = remember { mutableStateOf("home") }
 
-    // Setup a listener to update the current route
     LaunchedEffect(controller) {
         controller.addOnDestinationChangedListener { _, destination, _ ->
             currentRoute.value = destination.route ?: "home"
@@ -121,43 +153,43 @@ fun MainScreen(viewModel: ProductoViewModel) {
     ) { paddingValue ->
         NavHost(navController = controller, startDestination = "home") {
             composable("home") {
-                HomeScreen(modifier = Modifier.padding(paddingValue), viewModel, controller)
+                HomeScreen(modifier = Modifier.padding(paddingValue), myHomeViewModel, controller)
             }
             composable("add") {
-                CrearProducto(controller = controller, viewModel = viewModel)
+                CrearProducto(controller = controller, crearProductoViewModel)
             }
             composable("detalle") {
-                DetalleProducto(controller, viewModel.productoDetalle())
+                DetalleProducto(controller, myHomeViewModel.producto)
             }
             composable("Camara") {
                 CameraScreen(
-                    viewModel = viewModel,
+                    viewModel = crearProductoViewModel,
                     navController = controller,
                 )
             }
             composable("indicarUbi") {
                 MapScreen(
-                    viewModel = viewModel,
+                    viewModel = crearProductoViewModel,
                     navController = controller,
                 )
             }
             composable("mostrarUbicacion") {
                 MapProviderScreen(
-                    viewModel = viewModel,
+                    myHomeViewModel.producto!!.ubicacionProveedor,
                     navController = controller,
                 )
             }
             composable("agregarStock") {
-                AddStockScreen(controller, viewModel)
+                AddStockScreen(controller, agregarStockViewModel)
             }
             composable("listaVenta") {
-                ListaProductosVenta(controller = controller, viewModel = viewModel)
+                ListaProductosVenta(controller = controller, venderProductosViewModel)
             }
             composable("agregarProductoVenta") {
-                AgregarProductoVenta(controller = controller, viewModel = viewModel)
+                AgregarProductoVenta(controller = controller, venderProductosViewModel)
             }
             composable("qr") {
-                QRScannerScreen(controller, viewModel)
+                QRScannerScreen(controller, agregarStockViewModel, venderProductosViewModel)
             }
         }
     }

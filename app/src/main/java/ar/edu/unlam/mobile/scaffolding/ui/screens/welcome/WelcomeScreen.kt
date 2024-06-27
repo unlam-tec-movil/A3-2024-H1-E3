@@ -23,18 +23,18 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import ar.edu.unlam.mobile.scaffolding.ui.components.usuario.viewmodel.UsuarioViewModel
-import ar.edu.unlam.mobile.scaffolding.ui.components.usuario.viewmodel.UsuarioViewModelProvider
+import ar.edu.unlam.mobile.scaffolding.ui.components.viewmodels.WelcomeViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun WelcomeScreen(onNavigateToHomeScreen: () -> Unit) {
+fun WelcomeScreen(
+    onNavigateToHomeScreen: () -> Unit,
+    welcomeViewModel: WelcomeViewModel,
+) {
     val coroutineScope = rememberCoroutineScope()
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -45,6 +45,7 @@ fun WelcomeScreen(onNavigateToHomeScreen: () -> Unit) {
         InputAnimated(
             coroutineScope = coroutineScope,
             onNavigateToHomeScreen = { onNavigateToHomeScreen() },
+            welcomeViewModel = welcomeViewModel,
         )
     }
 }
@@ -80,13 +81,10 @@ fun WelcomeAnimated() {
 fun InputAnimated(
     coroutineScope: CoroutineScope,
     onNavigateToHomeScreen: () -> Unit,
-    viewModel: UsuarioViewModel = viewModel(factory = UsuarioViewModelProvider.Factory),
+    welcomeViewModel: WelcomeViewModel,
 ) {
     var currentPage by remember { mutableStateOf("A") }
     var visible by remember { mutableStateOf(false) }
-
-    var nombre by remember { mutableStateOf(TextFieldValue("")) }
-    var negocio by remember { mutableStateOf(TextFieldValue("")) }
 
     LaunchedEffect(visible) {
         delay(4000)
@@ -117,9 +115,9 @@ fun InputAnimated(
                     ) {
                         Text(text = "Ingrese su nombre")
                         TextField(
-                            value = nombre,
+                            value = welcomeViewModel.nombre,
                             onValueChange = {
-                                nombre = it
+                                welcomeViewModel.nombre = it
                             },
                         )
                         Button(
@@ -135,7 +133,7 @@ fun InputAnimated(
                 }
                 "B" -> {
                     val texto =
-                        "Hola ${nombre.text}!\n" +
+                        "Hola ${welcomeViewModel.nombre}!\n" +
                             "Por favor, ingrese el nombre de su negocio"
                     Column(
                         modifier = Modifier.fillMaxSize(),
@@ -144,9 +142,9 @@ fun InputAnimated(
                     ) {
                         Text(text = texto)
                         TextField(
-                            value = negocio,
+                            value = welcomeViewModel.negocio,
                             onValueChange = {
-                                negocio = it
+                                welcomeViewModel.negocio = it
                             },
                         )
                         Button(
@@ -154,7 +152,7 @@ fun InputAnimated(
                             shape = RoundedCornerShape(0.dp),
                             onClick = {
                                 coroutineScope.launch {
-                                    viewModel.guardarUsuario(nombre = nombre.text, negocio = negocio.text)
+                                    welcomeViewModel.guardarUsuario()
                                     onNavigateToHomeScreen()
                                 }
                             },

@@ -7,7 +7,6 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.navigation.NavHostController
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import ar.edu.unlam.mobile.scaffolding.ui.components.producto.viewmodel.ProductoViewModel
 import ar.edu.unlam.mobile.scaffolding.ui.screens.crearproducto.CrearProducto
 import org.junit.Rule
 import org.junit.Test

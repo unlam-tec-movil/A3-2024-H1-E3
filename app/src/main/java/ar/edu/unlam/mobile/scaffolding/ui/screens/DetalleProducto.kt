@@ -1,5 +1,6 @@
 package ar.edu.unlam.mobile.scaffolding.ui.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -55,7 +57,7 @@ fun DetalleProducto(
     controller: NavHostController,
     producto: Producto?,
 ) {
-    val ubicacionProveedor = producto?.ubicacionProveedor
+    val context = LocalContext.current
 
     Scaffold(
         topBar = {
@@ -166,7 +168,11 @@ fun DetalleProducto(
                 shape = RoundedCornerShape(0.dp),
                 modifier = Modifier.fillMaxWidth().padding(top = 10.dp),
                 onClick = {
-                    controller.navigate("mostrarUbicacion")
+                    if (producto.ubicacionProveedor == LatLng(0.0, 0.0)) {
+                        Toast.makeText(context, "No se proveyó una ubicación para el proveedor", Toast.LENGTH_LONG).show()
+                    } else {
+                        controller.navigate("mostrarUbicacion")
+                    }
                 },
             ) {
                 Text(

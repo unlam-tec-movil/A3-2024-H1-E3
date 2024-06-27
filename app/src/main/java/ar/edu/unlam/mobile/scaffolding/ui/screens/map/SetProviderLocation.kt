@@ -25,7 +25,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavHostController
 import ar.edu.unlam.mobile.scaffolding.ui.components.MyRational
 import ar.edu.unlam.mobile.scaffolding.ui.components.MyTopBar
-import ar.edu.unlam.mobile.scaffolding.ui.components.producto.viewmodel.ProductoViewModel
+import ar.edu.unlam.mobile.scaffolding.ui.components.viewmodels.crearProducto.CrearProductoViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.android.gms.maps.model.CameraPosition
@@ -38,7 +38,7 @@ import com.google.maps.android.compose.rememberCameraPositionState
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun MapScreen(
-    viewModel: ProductoViewModel,
+    viewModel: CrearProductoViewModel,
     navController: NavHostController,
 ) {
     val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
@@ -79,7 +79,7 @@ fun MapScreen(
 fun MapBody(
     context: Context,
     lifecycleOwner: LifecycleOwner,
-    viewModel: ProductoViewModel,
+    viewModel: CrearProductoViewModel,
     navigateBack: NavHostController,
 ) {
     val buttonEnabled = mutableStateOf(false)
@@ -114,7 +114,7 @@ fun MapBody(
 @Composable
 fun Map(
     location: LatLng,
-    viewModel: ProductoViewModel,
+    viewModel: CrearProductoViewModel,
     callback: (Boolean) -> Unit,
 ) {
     val cameraPositionState =
@@ -122,7 +122,7 @@ fun Map(
             position = CameraPosition.fromLatLngZoom(location, 15f)
         }
     val mapClicked = mutableStateOf(false)
-    var providerLatLng by remember { mutableStateOf<LatLng?>(null) }
+    var providerLatLng by remember { mutableStateOf(LatLng(0.0,0.0)) }
 
     GoogleMap(
         modifier = Modifier.fillMaxSize(),
@@ -137,7 +137,7 @@ fun Map(
         Marker(
             state = MarkerState(position = location),
         )
-        providerLatLng?.let {
+        providerLatLng.let {
             Marker(
                 state = MarkerState(position = it),
             )

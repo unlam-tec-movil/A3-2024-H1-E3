@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ProductoDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun guardarProducto(productoEntity: ProductoEntity)
+    suspend fun guardarProducto(productoEntity: ProductoEntity)
 
     @Query("UPDATE producto SET stock = stock + :newStock WHERE qr = :scanedQR")
     suspend fun actualizarStock(
