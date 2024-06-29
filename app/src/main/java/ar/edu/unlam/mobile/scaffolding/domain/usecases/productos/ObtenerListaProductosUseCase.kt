@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.Flow
 class ObtenerListaProductosUseCase(
     val repository: OfflineProductoRepository,
 ) {
-
     fun obtenerListaProductos(): Flow<List<Producto>> {
         return repository.getProductos()
     }
