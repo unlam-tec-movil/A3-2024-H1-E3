@@ -29,7 +29,7 @@ class VenderProductosViewModel
 
         suspend fun vender() {
             mapVenta.map {
-                restarStock()
+                restarStock(it.key, it.value)
             }
             limpiarLista()
         }
@@ -58,7 +58,10 @@ class VenderProductosViewModel
             mapVenta = mapOf()
         }
 
-        suspend fun restarStock() {
+        suspend fun restarStock(
+            qr: String,
+            stock: Int,
+        ) {
             venderProductosUseCase.restarStock(
                 stock,
                 qr,

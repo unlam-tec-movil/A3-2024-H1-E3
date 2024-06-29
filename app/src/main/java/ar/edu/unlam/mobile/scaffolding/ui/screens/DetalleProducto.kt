@@ -85,7 +85,7 @@ fun DetalleProducto(
                         .align(Alignment.CenterHorizontally),
                 model = producto!!.fotoUri,
                 contentDescription = null,
-                placeholder = painterResource(R.drawable.splashimg),
+                placeholder = painterResource(R.drawable.noimage),
             )
             Text(
                 text = "Nombre:",

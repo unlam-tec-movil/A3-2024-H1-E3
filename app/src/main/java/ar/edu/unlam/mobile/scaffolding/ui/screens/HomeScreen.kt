@@ -244,7 +244,7 @@ fun ProductoItem(
                 model = producto.fotoUri,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
-                placeholder = painterResource(R.drawable.splashimg),
+                placeholder = painterResource(R.drawable.noimage),
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(

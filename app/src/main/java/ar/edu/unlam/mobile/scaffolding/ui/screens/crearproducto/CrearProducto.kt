@@ -40,7 +40,12 @@ fun CrearProducto(
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     Scaffold(
-        topBar = { MyTopBar(onNavigateBack = { controller.popBackStack() }, title = "Agregar item") },
+        topBar = {
+            MyTopBar(onNavigateBack = {
+                controller.popBackStack()
+                crearProductoViewModel.reestablecerValores()
+            }, title = "Agregar item")
+        },
     ) { paddingValues ->
         Column(
             modifier =
@@ -105,10 +110,8 @@ fun CrearProducto(
                             .fillMaxWidth(),
                     value = crearProductoViewModel.stock.toString(),
                     onValueChange = {
-                        crearProductoViewModel.stock = it.toInt()
-                        if (crearProductoViewModel.stock >= 10) {
-                            crearProductoViewModel.stock = it.toInt()
-                        }
+                        val newValue = it.ifBlank { "0" }
+                        crearProductoViewModel.stock = newValue.toInt()
                     },
                     keyboardOptions =
                         KeyboardOptions.Default.copy(

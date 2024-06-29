@@ -122,7 +122,7 @@ fun Map(
             position = CameraPosition.fromLatLngZoom(location, 15f)
         }
     val mapClicked = mutableStateOf(false)
-    var providerLatLng by remember { mutableStateOf(LatLng(0.0,0.0)) }
+    var providerLatLng by remember { mutableStateOf(LatLng(0.0, 0.0)) }
 
     GoogleMap(
         modifier = Modifier.fillMaxSize(),
@@ -137,11 +137,13 @@ fun Map(
         Marker(
             state = MarkerState(position = location),
         )
-        providerLatLng.let {
-            Marker(
-                state = MarkerState(position = it),
-            )
-            cameraPositionState.position = CameraPosition.fromLatLngZoom(it, 20f)
+        if (mapClicked.value) {
+            providerLatLng.let {
+                Marker(
+                    state = MarkerState(position = it),
+                )
+                cameraPositionState.position = CameraPosition.fromLatLngZoom(it, 20f)
+            }
         }
     }
 }

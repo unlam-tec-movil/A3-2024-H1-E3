@@ -6,7 +6,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import ar.edu.unlam.mobile.scaffolding.ui.components.usuario.viewmodel.InicioViewModel
+import ar.edu.unlam.mobile.scaffolding.ui.components.viewmodels.WelcomeViewModel
 import ar.edu.unlam.mobile.scaffolding.ui.screens.welcome.InputAnimated
 import org.junit.Rule
 import org.junit.Test
@@ -25,13 +25,13 @@ class ExampleInstrumentedTest {
 
     @Test
     fun welcomeScreenCambiaLuegoDePresionarBoton() {
-        val mockViewModel = mock(InicioViewModel::class.java)
+        val mockViewModel = mock(WelcomeViewModel::class.java)
 
         composeTestRule.setContent {
             InputAnimated(
                 coroutineScope = rememberCoroutineScope(),
                 onNavigateToHomeScreen = {},
-                viewModel = mockViewModel,
+                mockViewModel,
             )
         }
 

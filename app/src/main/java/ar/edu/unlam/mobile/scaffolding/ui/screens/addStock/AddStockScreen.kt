@@ -93,7 +93,8 @@ fun AddStockScreen(
                 modifier = Modifier.fillMaxWidth(),
                 value = agregarStockViewModel.stock.toString(),
                 onValueChange = {
-                    agregarStockViewModel.stock = it.toInt()
+                    val newValue = it.ifBlank { "0" }
+                    agregarStockViewModel.stock = newValue.toInt()
                 },
                 placeholder = { Text(text = "Cantidad de stock a agregar") },
                 keyboardOptions =

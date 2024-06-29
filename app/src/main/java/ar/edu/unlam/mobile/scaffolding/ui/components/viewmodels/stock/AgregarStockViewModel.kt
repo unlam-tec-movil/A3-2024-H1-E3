@@ -23,5 +23,11 @@ class AgregarStockViewModel
                 this.stock,
                 this.qr,
             )
+            reestablecerValores()
+        }
+
+        private fun reestablecerValores() {
+            this.stock = 0
+            this.qr = ""
         }
     }

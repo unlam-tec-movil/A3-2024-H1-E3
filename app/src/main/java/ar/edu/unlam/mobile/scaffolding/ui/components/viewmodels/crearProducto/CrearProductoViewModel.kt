@@ -43,7 +43,7 @@ class CrearProductoViewModel
             reestablecerValores()
         }
 
-        private fun reestablecerValores() {
+        fun reestablecerValores() {
             nombre = ""
             precio = 0.0
             stock = 0

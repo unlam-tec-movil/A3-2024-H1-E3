@@ -2,7 +2,6 @@ package ar.edu.unlam.mobile.scaffolding.ui.screens.map
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Looper
 import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.gms.location.LocationCallback
@@ -46,9 +45,12 @@ fun getLocation(
             }
         }
 
+    /*
     fusedLocationClient.requestLocationUpdates(
+
         locationRequest,
         locationCallBack,
         Looper.getMainLooper(),
     )
+     */
 }

@@ -85,8 +85,8 @@ fun AgregarProductoVenta(
                 modifier = Modifier.fillMaxWidth(),
                 value = viewModel.stock.toString(),
                 onValueChange = {
-                    viewModel.stock = it.toInt()
-                    viewModel.stock = it.toIntOrNull() ?: 0
+                    val newValue = it.ifBlank { "0" }
+                    viewModel.stock = newValue.toInt()
                 },
                 placeholder = { Text(text = "Cantidad de stock a vender") },
                 keyboardOptions =

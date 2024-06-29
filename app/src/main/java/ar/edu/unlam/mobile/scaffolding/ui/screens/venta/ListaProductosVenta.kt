@@ -120,7 +120,7 @@ private fun ListaDeVentaItem(item: Producto) {
                 model = item.fotoUri,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
-                placeholder = painterResource(R.drawable.splashimg),
+                placeholder = painterResource(R.drawable.noimage),
             )
             Column(
                 modifier = Modifier.padding(top = 15.dp, start = 10.dp),

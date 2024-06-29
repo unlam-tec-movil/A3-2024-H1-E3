@@ -7,6 +7,7 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.navigation.NavHostController
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import ar.edu.unlam.mobile.scaffolding.ui.components.viewmodels.crearProducto.CrearProductoViewModel
 import ar.edu.unlam.mobile.scaffolding.ui.screens.crearproducto.CrearProducto
 import org.junit.Rule
 import org.junit.Test
@@ -20,11 +21,11 @@ class CrearProductoTest {
 
     @Test
     fun crearProductoPantallaFuncionaCorrectamente() {
-        val mockViewModel = mock(ProductoViewModel::class.java)
+        val mockViewModel = mock(CrearProductoViewModel::class.java)
         val navController = mock(NavHostController::class.java)
 
         composeTestRule.setContent {
-            CrearProducto(controller = navController, viewModel = mockViewModel)
+            CrearProducto(controller = navController, mockViewModel)
         }
 
         // Verificar que los campos se muestren
