@@ -25,7 +25,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavHostController
 import ar.edu.unlam.mobile.scaffolding.ui.components.MyRational
-import ar.edu.unlam.mobile.scaffolding.ui.components.producto.viewmodel.ProductoViewModel
+import ar.edu.unlam.mobile.scaffolding.ui.components.viewmodels.crearProducto.CrearProductoViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import java.io.File
@@ -37,7 +37,7 @@ import java.util.concurrent.Executor
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun CameraScreen(
-    viewModel: ProductoViewModel,
+    viewModel: CrearProductoViewModel,
     navController: NavHostController,
 ) {
     val permissionState =
@@ -74,7 +74,7 @@ fun CameraScreen(
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun CameraBody(
-    viewModel: ProductoViewModel,
+    viewModel: CrearProductoViewModel,
     navController: NavHostController,
 ) {
     val context = LocalContext.current
@@ -122,7 +122,7 @@ fun Camera(
 }
 
 private fun takePicture(
-    viewModel: ProductoViewModel,
+    viewModel: CrearProductoViewModel,
     navController: NavHostController,
     cameraController: LifecycleCameraController,
     executor: Executor,

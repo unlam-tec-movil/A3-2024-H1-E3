@@ -1,4 +1,4 @@
-package ar.edu.unlam.mobile.scaffolding.ui.components.sensorViewModel
+package ar.edu.unlam.mobile.scaffolding.domain.services
 
 import android.content.Context
 import android.hardware.Sensor

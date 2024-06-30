@@ -7,14 +7,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
-import ar.edu.unlam.mobile.scaffolding.ui.components.producto.viewmodel.ProductoViewModel
+import ar.edu.unlam.mobile.scaffolding.ui.components.viewmodels.stock.AgregarStockViewModel
+import ar.edu.unlam.mobile.scaffolding.ui.components.viewmodels.stock.VenderProductosViewModel
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
 
 @Composable
 fun QRScannerScreen(
     controller: NavHostController,
-    viewModel: ProductoViewModel,
+    agregarStockViewModel: AgregarStockViewModel,
+    venderProductosViewModel: VenderProductosViewModel,
 ) {
     val context = LocalContext.current
     val launcher: ActivityResultLauncher<ScanOptions> =
@@ -26,7 +28,8 @@ fun QRScannerScreen(
                     controller.popBackStack()
                 } else {
                     Toast.makeText(context, "Scanned: " + it.contents, Toast.LENGTH_LONG).show()
-                    viewModel.scanedQr = it.contents
+                    agregarStockViewModel.qr = it.contents
+                    venderProductosViewModel.qr = it.contents
                     controller.popBackStack()
                 }
             },

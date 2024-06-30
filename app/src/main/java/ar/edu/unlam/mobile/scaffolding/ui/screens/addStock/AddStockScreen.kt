@@ -1,6 +1,7 @@
 package ar.edu.unlam.mobile.scaffolding.ui.screens.addStock
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,16 +26,16 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import ar.edu.unlam.mobile.scaffolding.domain.services.Sensor
 import ar.edu.unlam.mobile.scaffolding.ui.components.MyTopBar
-import ar.edu.unlam.mobile.scaffolding.ui.components.producto.viewmodel.ProductoViewModel
-import ar.edu.unlam.mobile.scaffolding.ui.components.sensorViewModel.Sensor
+import ar.edu.unlam.mobile.scaffolding.ui.components.viewmodels.stock.AgregarStockViewModel
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun AddStockScreen(
     controller: NavHostController,
-    viewModel: ProductoViewModel,
+    agregarStockViewModel: AgregarStockViewModel,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
@@ -90,10 +91,10 @@ fun AddStockScreen(
             )
             TextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = viewModel.newStock.toString(),
+                value = agregarStockViewModel.stock.toString(),
                 onValueChange = {
-                    viewModel.newStock = it.toInt()
-                    viewModel.newStock = it.toIntOrNull() ?: 0
+                    val newValue = it.ifBlank { "0" }
+                    agregarStockViewModel.stock = newValue.toInt()
                 },
                 placeholder = { Text(text = "Cantidad de stock a agregar") },
                 keyboardOptions =
@@ -109,9 +110,15 @@ fun AddStockScreen(
                             .padding(top = 10.dp),
                     shape = RoundedCornerShape(0.dp),
                     onClick = {
-                        coroutineScope.launch {
-                            viewModel.agregarStock()
-                            controller.popBackStack()
+                        if (agregarStockViewModel.qr.isEmpty()) {
+                            Toast.makeText(context, "No se escaneó ningun producto", Toast.LENGTH_LONG).show()
+                        } else if (agregarStockViewModel.stock < 1) {
+                            Toast.makeText(context, "Ingrese un valor mayor a cero", Toast.LENGTH_LONG).show()
+                        } else {
+                            coroutineScope.launch {
+                                agregarStockViewModel.agregarStock()
+                                controller.popBackStack()
+                            }
                         }
                     },
                 ) {

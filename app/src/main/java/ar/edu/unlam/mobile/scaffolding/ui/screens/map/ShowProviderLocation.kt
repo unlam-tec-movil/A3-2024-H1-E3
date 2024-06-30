@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavHostController
 import ar.edu.unlam.mobile.scaffolding.ui.components.MyTopBar
-import ar.edu.unlam.mobile.scaffolding.ui.components.producto.viewmodel.ProductoViewModel
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
@@ -34,25 +33,18 @@ import com.google.maps.android.compose.rememberCameraPositionState
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MapProviderScreen(
-    viewModel: ProductoViewModel,
+    proveedor: LatLng,
     navController: NavHostController,
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    val providerLocation = viewModel.productoDetalle()?.ubicacionProveedor
-
-    if (providerLocation != null) {
-        MapProviderBody(
-            context = context,
-            lifecycleOwner = lifecycleOwner,
-            viewModel = viewModel,
-            providerLocation = providerLocation,
-            navigateBack = navController,
-        )
-    } else {
-        Text("Ubicación del proveedor no disponible")
-    }
+    MapProviderBody(
+        context = context,
+        lifecycleOwner = lifecycleOwner,
+        providerLocation = proveedor,
+        navigateBack = navController,
+    )
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnrememberedMutableState")
@@ -60,7 +52,6 @@ fun MapProviderScreen(
 fun MapProviderBody(
     context: Context,
     lifecycleOwner: LifecycleOwner,
-    viewModel: ProductoViewModel,
     providerLocation: LatLng,
     navigateBack: NavHostController,
 ) {

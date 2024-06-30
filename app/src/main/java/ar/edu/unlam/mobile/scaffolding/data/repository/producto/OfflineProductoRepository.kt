@@ -8,32 +8,21 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class OfflineProductoRepository(private val productoDao: ProductoDao) {
-    fun guardarProducto(
-        nombre: String,
-        precio: Double,
-        stock: Int,
-        categoria: String,
-        nombreProvedor: String,
-        ubicacionProveedor: LatLng,
-        qr: String,
-        fotoUri: String,
-    ) {
+    suspend fun guardarProducto(producto: Producto) {
         val u =
             ProductoEntity(
-                nombre = nombre,
-                precio = precio,
-                stock = stock,
-                categoria = categoria,
-                nombreProvedor = nombreProvedor,
-                latitudProveedor = ubicacionProveedor.latitude,
-                longitudProveedor = ubicacionProveedor.longitude,
-                qr = qr,
-                fotoUri = fotoUri,
+                nombre = producto.nombre,
+                precio = producto.precio,
+                stock = producto.stock,
+                categoria = producto.categoria,
+                nombreProvedor = producto.nombreProvedor,
+                latitudProveedor = producto.ubicacionProveedor.latitude,
+                longitudProveedor = producto.ubicacionProveedor.longitude,
+                qr = producto.qr,
+                fotoUri = producto.fotoUri,
             )
         productoDao.guardarProducto(u)
     }
-
-    suspend fun getCantidadProducto(): Int = productoDao.getCantidadProductos()
 
     suspend fun getProductoPorQR(qr: String): Producto {
         val entity = productoDao.getProductoPorQR(qr)

@@ -25,40 +25,27 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import androidx.room.Room
-import ar.edu.unlam.mobile.scaffolding.data.local.database.InventoryDatabase
-import ar.edu.unlam.mobile.scaffolding.data.repository.producto.OfflineProductoRepository
 import ar.edu.unlam.mobile.scaffolding.ui.components.MyTopBar
-import ar.edu.unlam.mobile.scaffolding.ui.components.producto.viewmodel.ProductoViewModel
+import ar.edu.unlam.mobile.scaffolding.ui.components.viewmodels.crearProducto.CrearProductoViewModel
 import kotlinx.coroutines.launch
-
-@Preview
-@Composable
-private fun MyPreview() {
-    val context = LocalContext.current
-    val db = Room.databaseBuilder(context, InventoryDatabase::class.java, "producto_db").build()
-    val dao = db.producotDao()
-    val repository = OfflineProductoRepository(dao)
-    val viewModel = ProductoViewModel(repository)
-    val navController: NavHostController = rememberNavController()
-
-    CrearProducto(navController, viewModel)
-}
 
 @Composable
 fun CrearProducto(
     controller: NavHostController,
-    viewModel: ProductoViewModel,
+    crearProductoViewModel: CrearProductoViewModel,
 ) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     Scaffold(
-        topBar = { MyTopBar(onNavigateBack = { controller.popBackStack() }, title = "Agregar item") },
+        topBar = {
+            MyTopBar(onNavigateBack = {
+                controller.popBackStack()
+                crearProductoViewModel.reestablecerValores()
+            }, title = "Agregar item")
+        },
     ) { paddingValues ->
         Column(
             modifier =
@@ -81,8 +68,8 @@ fun CrearProducto(
                     modifier =
                         Modifier
                             .fillMaxWidth(),
-                    value = viewModel.nombre,
-                    onValueChange = { viewModel.nombre = it },
+                    value = crearProductoViewModel.nombre,
+                    onValueChange = { crearProductoViewModel.nombre = it },
                 )
                 Text(
                     text = "Precio:",
@@ -94,10 +81,9 @@ fun CrearProducto(
                     modifier =
                         Modifier
                             .fillMaxWidth(),
-                    value = viewModel.textP,
+                    value = crearProductoViewModel.precio.toString(),
                     onValueChange = {
-                        viewModel.textP = it
-                        viewModel.precio = it.toDoubleOrNull() ?: 0.0
+                        crearProductoViewModel.precio = it.toDouble()
                     },
                     keyboardOptions =
                         KeyboardOptions.Default.copy(
@@ -122,13 +108,10 @@ fun CrearProducto(
                     modifier =
                         Modifier
                             .fillMaxWidth(),
-                    value = viewModel.textS,
+                    value = crearProductoViewModel.stock.toString(),
                     onValueChange = {
-                        viewModel.textS = it
-                        val stockValue = it.toIntOrNull() ?: 0
-                        if (stockValue >= 10) {
-                            viewModel.stock = stockValue
-                        }
+                        val newValue = it.ifBlank { "0" }
+                        crearProductoViewModel.stock = newValue.toInt()
                     },
                     keyboardOptions =
                         KeyboardOptions.Default.copy(
@@ -147,8 +130,8 @@ fun CrearProducto(
                     modifier =
                         Modifier
                             .fillMaxWidth(),
-                    value = viewModel.categoria,
-                    onValueChange = { viewModel.categoria = it },
+                    value = crearProductoViewModel.categoria,
+                    onValueChange = { crearProductoViewModel.categoria = it },
                     placeholder = { Text(text = "Categoria") },
                 )
                 Text(
@@ -162,8 +145,8 @@ fun CrearProducto(
                     modifier =
                         Modifier
                             .fillMaxWidth(),
-                    value = viewModel.qr,
-                    onValueChange = { viewModel.qr = it },
+                    value = crearProductoViewModel.qr,
+                    onValueChange = { crearProductoViewModel.qr = it },
                     placeholder = { Text(text = "Codigo") },
                 )
                 Text(
@@ -177,8 +160,8 @@ fun CrearProducto(
                     modifier =
                         Modifier
                             .fillMaxWidth(),
-                    value = viewModel.nombreProvedor,
-                    onValueChange = { viewModel.nombreProvedor = it },
+                    value = crearProductoViewModel.nombreProvedor,
+                    onValueChange = { crearProductoViewModel.nombreProvedor = it },
                     placeholder = { Text(text = "Nombre del Proovedor") },
                 )
 
@@ -238,15 +221,25 @@ fun CrearProducto(
                             ),
                         shape = RoundedCornerShape(0.dp),
                         modifier = Modifier.fillMaxWidth(),
+                        enabled =
+                            if (
+                                crearProductoViewModel.nombre.isEmpty() ||
+                                crearProductoViewModel.precio == 0.0 ||
+                                crearProductoViewModel.categoria.isEmpty() ||
+                                crearProductoViewModel.nombreProvedor.isEmpty() ||
+                                crearProductoViewModel.qr.isEmpty()
+                            ) {
+                                false
+                            } else {
+                                true
+                            },
                         onClick = {
-                            coroutineScope.launch {
-                                if (viewModel.stock >= 10) {
-                                    val success = viewModel.guardarProducto(context)
-                                    if (success) {
-                                        controller.navigate("home")
-                                    }
-                                } else {
-                                    Toast.makeText(context, "El stock debe ser al menos 10", Toast.LENGTH_LONG).show()
+                            if (crearProductoViewModel.stock < 10) {
+                                Toast.makeText(context, "El stock debe ser al menos 10", Toast.LENGTH_LONG).show()
+                            } else {
+                                coroutineScope.launch {
+                                    crearProductoViewModel.guardarProducto()
+                                    controller.navigate("home")
                                 }
                             }
                         },

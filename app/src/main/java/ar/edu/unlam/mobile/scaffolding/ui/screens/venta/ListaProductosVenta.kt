@@ -27,42 +27,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import androidx.room.Room
 import ar.edu.unlam.mobile.scaffolding.R
-import ar.edu.unlam.mobile.scaffolding.data.local.database.InventoryDatabase
 import ar.edu.unlam.mobile.scaffolding.data.local.producto.entity.Producto
-import ar.edu.unlam.mobile.scaffolding.data.repository.producto.OfflineProductoRepository
 import ar.edu.unlam.mobile.scaffolding.ui.components.MyTopBar
-import ar.edu.unlam.mobile.scaffolding.ui.components.producto.viewmodel.ProductoViewModel
+import ar.edu.unlam.mobile.scaffolding.ui.components.viewmodels.stock.VenderProductosViewModel
 import coil.compose.AsyncImage
 import kotlinx.coroutines.launch
-
-@Preview
-@Composable
-private fun MyPreview() {
-    val context = LocalContext.current
-    val db = Room.databaseBuilder(context, InventoryDatabase::class.java, "producto_db").build()
-    val dao = db.producotDao()
-    val repository = OfflineProductoRepository(dao)
-    val viewModel = ProductoViewModel(repository)
-    val navController: NavHostController = rememberNavController()
-
-    ListaProductosVenta(navController, viewModel)
-}
 
 @Composable
 fun ListaProductosVenta(
     controller: NavHostController,
-    viewModel: ProductoViewModel,
+    viewModel: VenderProductosViewModel,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val listaVenta by viewModel.listaVenta.collectAsState()
@@ -139,7 +120,7 @@ private fun ListaDeVentaItem(item: Producto) {
                 model = item.fotoUri,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
-                placeholder = painterResource(R.drawable.splashimg),
+                placeholder = painterResource(R.drawable.noimage),
             )
             Column(
                 modifier = Modifier.padding(top = 15.dp, start = 10.dp),
